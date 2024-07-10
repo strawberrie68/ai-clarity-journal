@@ -1,4 +1,5 @@
-import { OpenAI } from "langchain/llms/openai";
+// import { OpenAI } from "langchain/llms/openai";
+import { OpenAI } from "@langchain/openai";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { PromptTemplate } from "langchain/prompts";
 import { z } from "zod";
@@ -15,11 +16,7 @@ const parser = StructuredOutputParser.fromZodSchema(
         "the subject of the journal entry. Summarize the entry in one sentence. The title should be a concise summary of the entry. The first character of the title should contain an emoji that represents the mood of the entry."
       )
       .optional(),
-    // entries: z
-    //   .array(z.string())
-    //   .describe(
-    //     "the journal entry that the user input, each time the user writes additional text to the entry, it should be added to the entries array."
-    //   ),
+
     aiSummary: z
       .string()
       .describe(
@@ -36,6 +33,12 @@ const parser = StructuredOutputParser.fromZodSchema(
       .number()
       .describe(
         "sentiment of the text and rated on a scale of -10 to 10 is extremely negative, 0 is neutral, and 10 is extremely positive."
+      )
+      .optional(),
+    keyInsight: z
+      .number()
+      .describe(
+        "describe the key insight or takeaway from the journal entry. This could be a lesson learned, a realization, or a piece of advice that the person who wrote the journal entry wants to remember or share. Make it a concise sentence that is impactful. Make it sound like a lesson."
       )
       .optional(),
   })
@@ -58,45 +61,6 @@ async function getPrompt(content) {
   return input;
 }
 
-// async function summarizeEntry(content) {
-//   const model = new OpenAI({
-//     modelName: "gpt-3.5-turbo",
-//   });
-//   const prompt = `Summarize the following entry in fewer words:\n\n${content}`;
-//   const settings = {
-//     temperature: 0,
-//     max_tokens: 100,
-//   };
-//   const response = await model.call(prompt, settings);
-//   return response;
-// }
-
-// async function assistUser(content) {
-//   const summarizedEntry = await summarizeEntry(content);
-//   const format_instructions =
-//     "Act as a objective friend or therapist that responds with empathy, validation, and insightful advice, start by recognizing and identifying the user's emotions, such as mixed feelings of gratitude, frustration, and disappointment. Validate the user's experience by affirming that it is understandable to feel conflicted and that their emotions are valid. Provide insight by highlighting the user's self-awareness and maturity in decision-making, acknowledging their careful consideration of opportunities and their impacts. Offer thoughtful suggestions that encourage the user to focus on what brings them joy and fulfillment, and suggest evaluating if certain relationships align with their values. Emphasize the importance of trusting instincts and prioritizing well-being, and reassure the user by reinforcing the idea that they deserve uplifting and supportive relationship";
-//   const input = await getPrompt(summarizedEntry, format_instructions);
-//   const model = new OpenAI({
-//     temperature: 0,
-//     modelName: "gpt-3.5-turbo",
-//   });
-//   const assistance = await model.call(input);
-//   return assistance;
-// }
-
-// async function conversation(content) {
-//   const summarizedEntry = await summarizeEntry(content);
-//   const format_instructions =
-//     "Act as a objective friend or therapist that responds with empathy, validation, and insightful advice, start by recognizing and identifying the user's emotions, such as mixed feelings of gratitude, frustration, and disappointment. Validate the user's experience by affirming that it is understandable to feel conflicted and that their emotions are valid. Provide insight by highlighting the user's self-awareness and maturity in decision-making, acknowledging their careful consideration of opportunities and their impacts. Offer thoughtful suggestions that encourage the user to focus on what brings them joy and fulfillment, and suggest evaluating if certain relationships align with their values. Emphasize the importance of trusting instincts and prioritizing well-being, and reassure the user by reinforcing the idea that they deserve uplifting and supportive relationship";
-//   const input = await getPrompt(summarizedEntry, format_instructions);
-//   const model = new OpenAI({
-//     temperature: 0,
-//     modelName: "gpt-3.5-turbo",
-//   });
-//   const assistance = await model.call(input);
-//   return assistance;
-// }
-
 export async function analyze(entries) {
   console.log(entries);
 
@@ -104,6 +68,7 @@ export async function analyze(entries) {
   const model = new OpenAI({
     temperature: 0,
     modelName: "gpt-3.5-turbo",
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   });
   const result = await model.call(input);
 

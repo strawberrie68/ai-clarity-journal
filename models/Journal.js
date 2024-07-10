@@ -35,6 +35,9 @@ const journalSchema = new Schema({
   highlight: {
     type: String,
   },
+  keyInsight: {
+    type: String,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

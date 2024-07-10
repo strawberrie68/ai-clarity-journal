@@ -5,12 +5,10 @@ import { analyze } from "../../../../../../lib/ai";
 async function updateJournalEntry(journalId) {
   try {
     const journal = await Journal.findById(journalId);
-    console.log(journal.conversationSummary);
 
     const aiResponse = await analyze(journal.conversationSummary);
     console.log(aiResponse);
 
-    // Assuming aiResponse contains the fields `aiSummary`, `sentiment`, `mood`, and `highlight`
     const updatedJournal = await Journal.findOneAndUpdate(
       { _id: journalId },
       {
@@ -19,6 +17,8 @@ async function updateJournalEntry(journalId) {
           sentiment: aiResponse.sentiment,
           mood: aiResponse.mood,
           highlight: aiResponse.highlight,
+          title: aiResponse.title,
+          keyInsight: aiResponse.keyInsight,
         },
       },
       { new: true }
@@ -29,7 +29,6 @@ async function updateJournalEntry(journalId) {
       return null;
     }
 
-    console.log("Journal updated successfully:", updatedJournal);
     return updatedJournal;
   } catch (error) {
     console.error("Error updating journal:", error);
@@ -51,7 +50,9 @@ async function finalizeJournal(req, res) {
     }
 
     const updatedData = await updateJournalEntry(journalId);
-    console.log(updatedData);
+    return res
+      .status(200)
+      .json({ message: "Journal updated successfully", data: updatedData });
   } catch (error) {
     console.error("Error in finalizeJournal:", error);
     res.status(500).json({ error: "Internal server error" });
