@@ -1,10 +1,12 @@
-import Header from "@/components/common/Header";
-import "../../../../styles/global.css";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+
+import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
 import TabComponent from "@/components/common/TabComponent";
-import { useParams } from "next/navigation";
 
+import "../../../../styles/global.css";
 const Summary = () => {
   const [journal, setJournal] = useState({});
   const haiku =
@@ -16,20 +18,28 @@ const Summary = () => {
       <br />
     </p>
   ));
-  const { journalId } = useParams();
+  const router = useRouter();
+  const { journalId } = router.query;
+
+  const fetchJournal = async (journalId) => {
+    const response = await fetch(
+      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
+    );
+    const data = await response.json();
+    setJournal(data[0]);
+  };
 
   useEffect(() => {
-    const fetchJournal = async () => {
-      const response = await fetch(
-        `/api/users/6689d71d5b6990ef9ab9b498journal/entries/668c265d8e7b33974ea62c14`
-      );
-      const data = await response.json();
-      setJournal(data[0]);
-    };
-    fetchJournal();
-  }, []);
-  console.log(journal);
+    if (journalId) {
+      fetchJournal(journalId);
+    }
+  }, [journalId]);
 
+  useEffect(() => {
+    if (journal) {
+      setHaiku(journal.haiku);
+    }
+  }, [journal]);
   const tabs = [
     {
       key: "keyPoints",
@@ -123,9 +133,11 @@ const Summary = () => {
         <h3 className="text-xl font-bold">Highlights</h3>
         <TabComponent tabs={tabs} />
       </div>
-      <div className="mt-14">
-        <Button buttonText="Next" isPrimary={true} />
-      </div>
+      <Link href={`/`}>
+        <div className="mt-14">
+          <Button buttonText="Done" isPrimary={true} />
+        </div>
+      </Link>
     </section>
   );
 };
