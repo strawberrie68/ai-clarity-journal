@@ -7,14 +7,19 @@ async function getUserJournals(req, res) {
   try {
     await connectDB();
     const oneUser = await User.find({ _id: userId }).populate("journals");
+
+    if (!oneUser.length) {
+      return res.status(404).json({ error: "User not found" });
+    }
     res.status(200).json(oneUser[0].journals);
   } catch (error) {
+    console.error("Error fetching user journals:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
 export default async function handler(req, res) {
-  await connectDB();
+  console.log("Handling request to get journals");
 
   switch (req.method) {
     case "GET":
