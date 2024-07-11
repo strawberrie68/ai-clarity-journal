@@ -4,7 +4,7 @@ import "../../../styles/global.css";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-const Entry = ({ date, journalId }) => {
+const Entry = ({ date, journalId, journal }) => {
   const formatDate = (date) => {
     const options = { weekday: "short", month: "short", day: "numeric" };
     const dateObj = new Date(date);
@@ -16,18 +16,19 @@ const Entry = ({ date, journalId }) => {
 
   return (
     <Link href={`/journal/${journalId}`}>
-      <div className="flex gap-8">
-        <div className={`bg-amber-100 w-16 h-16 rounded-lg ${flexCenter}`}>
-          {/*TODO: need to get the emoji */}
-          <p className="text-2xl">🏃‍♀️</p>
+      <div className="flex gap-8 h-20">
+        <div
+          className={`min-w-10 min-h-10 rounded-lg aspect-square basis-18 ${flexCenter}`}
+          style={{ backgroundColor: journal.color }}
+        >
+          <p className="text-2xl">{journal && journal.emoji}</p>
         </div>
-        <div className="">
-          <p className="text-stone-200 font-semibold text-sm">
+        <div className="flex-grow">
+          <p className="text-stone-200 font-semibold text-sm ">
             {formattedDate}
           </p>
-          <p className="clamp-1 mt-2">
-            {/* TODO: need to get journal title */}
-            Today is the best day ever I got ice cream
+          <p className="clamp-1 mt-4 text-sm text-stone-700">
+            {journal && journal.title}
           </p>
         </div>
       </div>
@@ -44,7 +45,14 @@ const Entries = () => {
         `/api/users/6689d71d5b6990ef9ab9b498/journals`
       );
       const data = await response.json();
-      setJournals(data);
+      if (data.length > 0) {
+        const sortedJournals = data
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .slice(0, 7);
+        setJournals(sortedJournals);
+      } else {
+        setJournals([]);
+      }
     };
     fetchJournals();
   }, []);
@@ -57,12 +65,14 @@ const Entries = () => {
       <section>
         <h2 className="font-semibold">This week</h2>
         <section className="mt-4 flex flex-col gap-4">
+          {journals.length === 0 && <p>No entries yet</p>}
           {journals &&
             journals.map((journal) => (
               <Entry
-                key={journal.id}
+                key={journal._id}
                 date={journal.date}
                 journalId={journal._id}
+                journal={journal}
               />
             ))}
         </section>
