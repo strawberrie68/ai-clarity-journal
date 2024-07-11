@@ -19,8 +19,6 @@ async function getUserJournals(req, res) {
 }
 
 export default async function handler(req, res) {
-  console.log("Handling request to get journals");
-
   switch (req.method) {
     case "GET":
       await getUserJournals(req, res);

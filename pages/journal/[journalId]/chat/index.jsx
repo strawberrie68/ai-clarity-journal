@@ -32,7 +32,6 @@ const Chat = () => {
   }, [journalId]);
 
   const handleInputChange = (e) => {
-
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -41,7 +40,6 @@ const Chat = () => {
   };
 
   const finalizeJournal = async (entry, journalId) => {
-    console.log("entry", entry);
     const response = await fetch(
       `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}/finalize`,
       {
@@ -54,7 +52,7 @@ const Chat = () => {
     );
 
     return response.json();
-  }
+  };
 
   const handleFinalize = async (e) => {
     e.preventDefault();

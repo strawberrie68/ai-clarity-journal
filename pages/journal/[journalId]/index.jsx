@@ -31,7 +31,6 @@ const PastEntry = () => {
     };
     fetchJournal();
   }, [journalId]);
-  console.log(journal);
 
   const tabs = [
     {

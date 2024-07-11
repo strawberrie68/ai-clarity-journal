@@ -14,7 +14,6 @@ const questions = [
 ];
 
 const Add = () => {
-  const flexCenter = "flex justify-center items-center";
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({
     question1: "",
@@ -43,8 +42,6 @@ const Add = () => {
 
       try {
         const response = await createJournalEntry(entriesString);
-        console.log("response for createJournalEntry", response);
-
         if (response && response.journalId) {
           push(`/journal/${response.journalId}/chat`);
         } else {
@@ -95,7 +92,7 @@ const Add = () => {
       const jsonResponse = await response.json();
       return jsonResponse;
     } catch (err) {
-      console.log("error", err);
+      console.error("error", err);
     }
   };
 
@@ -103,9 +100,6 @@ const Add = () => {
     updateEntriesAsString(entries);
   }, [entries]);
 
-  console.log(entriesAsString);
-
-  console.log(answers);
   return (
     <div className="mx-6 mt-10 pb-8">
       <Header />

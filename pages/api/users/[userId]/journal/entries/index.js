@@ -62,18 +62,14 @@ async function summaryEntry(content) {
 
 async function createEntryAndJournal(userId, content) {
   const summary = await summaryEntry(content);
-  console.log("summary:", summary);
   const response = await digDeeperEntry(content);
-  console.log("response:", response);
 
   const newEntry = new Entry({
     content,
     aiResponse: response,
   });
-  console.log("newEntry:", newEntry)
 
   const entryData = await newEntry.save();
-  console.log("entryData:", entryData)
 
   const newJournal = new Journal({
     entries: [entryData.id],
@@ -91,24 +87,23 @@ async function createEntryAndJournal(userId, content) {
 }
 
 async function createJournal(req, res) {
-
   const { userId } = req.query;
   const { content } = req.body;
-  console.log("BE content:",content)
-
-
 
   if (!userId || !content) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
-    console.log("trying to add entry");
     const { entryData, journalData } = await createEntryAndJournal(
       userId,
       content
     );
-    res.status(201).json({  entryData:entryData ,journal: journalData, journalId:journalData._id });
+    res.status(201).json({
+      entryData: entryData,
+      journal: journalData,
+      journalId: journalData._id,
+    });
   } catch (error) {
     console.error("Error creating journal entry:", error);
     res.status(500).json({ error: "Internal Server Error" });
