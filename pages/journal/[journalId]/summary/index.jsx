@@ -7,12 +7,12 @@ import Button from "@/components/common/Button";
 import TabComponent from "@/components/common/TabComponent";
 
 import "../../../../styles/global.css";
+
 const Summary = () => {
   const [journal, setJournal] = useState({});
-  const haiku =
-    "Gratitude and strain, Balance joy, release the pain — Choose paths that sustain.";
+  const [haiku, setHaiku] = useState("");
 
-  const formattedHaiku = haiku.split(",").map((part, index) => (
+  const formattedHaiku = haiku?.split(",").map((part, index) => (
     <p key={index}>
       {part.trim()}
       <br />
@@ -40,6 +40,8 @@ const Summary = () => {
       setHaiku(journal.haiku);
     }
   }, [journal]);
+
+
   const tabs = [
     {
       key: "keyPoints",
@@ -52,11 +54,7 @@ const Summary = () => {
             <h3 className="font-semibold text-sm text-neutral-400">
               ⭐️ Key Insight:
             </h3>
-            <p className="mt-2 max-w-prose">
-              Prioritize relationships and activities that bring joy and
-              fulfillment, balancing gratitude and excitement with the need to
-              address draining commitments.
-            </p>
+            <p className="mt-2 max-w-prose">{journal && journal.keyInsight}</p>
           </div>
           <div
             className={`border rounded-xl px-4 py-2 flex flex-col justify-center`}
@@ -64,9 +62,7 @@ const Summary = () => {
             <h3 className="font-semibold text-sm text-neutral-300">
               💭 Quote:
             </h3>
-            <p className="mt-2 max-w-prose">
-              "Surround yourself with people who lift you higher."
-            </p>
+            <p className="mt-2 max-w-prose">{journal && journal.quote}</p>
           </div>
           <div
             className={`border rounded-xl px-4 py-2 flex flex-col justify-center`}
@@ -126,7 +122,7 @@ const Summary = () => {
       <Header />
       <h1 className="text-3xl font-bold mt-11">Summary</h1>
       <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-        <h2 className="text-lg font-semibold max-w-prose">Overview</h2>
+        <h2 className="text-lg font-semibold max-w-prose">{journal && journal.title}</h2>
         <p>{journal && journal.aiSummary}</p>
       </section>
       <div className="mt-8">
