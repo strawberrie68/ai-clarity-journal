@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import "../styles/global.css";
+import "../../styles/global.css";
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
