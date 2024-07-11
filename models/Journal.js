@@ -38,6 +38,12 @@ const journalSchema = new Schema({
   keyInsight: {
     type: String,
   },
+  quote: {
+    type: String,
+  },
+  haiku: {
+    type: String,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

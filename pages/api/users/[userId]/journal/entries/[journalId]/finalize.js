@@ -19,6 +19,8 @@ async function updateJournalEntry(journalId) {
           highlight: aiResponse.highlight,
           title: aiResponse.title,
           keyInsight: aiResponse.keyInsight,
+          quote: aiResponse.quote,
+          haiku: aiResponse.haiku,
         },
       },
       { new: true }
