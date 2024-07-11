@@ -11,25 +11,28 @@ const initialValues = {
 
 const Chat = () => {
   const [values, setValues] = useState(initialValues);
-  const [error, setError] = useState(null);
-
   const [journal, setJournal] = useState({});
   const router = useRouter();
+  const { push } = useRouter();
   const { journalId } = router.query;
 
-  useEffect(() => {
-    const fetchJournal = async () => {
-      const response = await fetch(
-        `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
-      );
+  const fetchJournal = async () => {
+    const response = await fetch(
+      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
+    );
 
-      const data = await response.json();
-      setJournal(data[0]);
-    };
-    fetchJournal();
+    const data = await response.json();
+    setJournal(data[0]);
+  };
+
+  useEffect(() => {
+    if (journalId) {
+      fetchJournal();
+    }
   }, [journalId]);
 
   const handleInputChange = (e) => {
+
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -38,6 +41,7 @@ const Chat = () => {
   };
 
   const finalizeJournal = async (entry, journalId) => {
+    console.log("entry", entry);
     const response = await fetch(
       `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}/finalize`,
       {
@@ -72,7 +76,7 @@ const Chat = () => {
     <div className="mx-6 mt-10 pb-8">
       <Header />
       <DateTitle />
-      <form className=" flex flex-col gap-4" >
+      <form className=" flex flex-col gap-4">
         <div className="w-full  px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
           <h2 className="text-lg font-semibold">Response</h2>
           <p className="max-w-prose">
@@ -90,7 +94,11 @@ const Chat = () => {
         </div>
         <div className="flex justify-between mt-4">
           <Button buttonText="Dig Deeper" isPrimary={false} />
-          <Button buttonText="Finish" isPrimary={true} onClick={handleFinalize}/>
+          <Button
+            buttonText="Finish"
+            isPrimary={true}
+            handleClick={handleFinalize}
+          />
         </div>
       </form>
     </div>
