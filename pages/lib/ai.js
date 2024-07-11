@@ -58,11 +58,12 @@ const parser = StructuredOutputParser.fromZodSchema(
         "pick a emoji that represents the mood of the journal entry. This emoji should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose an emoji that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. The emoji should be appropriate and relevant to the content of the journal entry. If there is any highlights, pick an emoji representing that or important change they must do."
       )
       .optional(),
-    color:z
-    .string()
-    .describe(
-      "pick a hex color with low saturation and not too bold. It should represents the mood of the journal entry. This color should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose a color that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. I should match it the emoji. Cant be too bright or too dark."
-    ).optional()
+    color: z
+      .string()
+      .describe(
+        "pick a hex color with low saturation and not too bold, more on the pastel colors. It should represents the mood of the journal entry. This color should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose a color that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. I should match it the emoji. Cant be too bright or too dark."
+      )
+      .optional(),
   })
 );
 
@@ -84,8 +85,6 @@ async function getPrompt(content) {
 }
 
 export async function analyze(entries) {
-  console.log(entries);
-
   const input = await getPrompt(entries, parser.getFormatInstructions());
   const model = new OpenAI({
     temperature: 0,
