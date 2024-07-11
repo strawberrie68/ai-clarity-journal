@@ -29,7 +29,7 @@ export default function Home() {
       </div>
       <NavBar />
       <div className="mt-10 flex gap-4 overflow-scroll">
-        <Link href="/add">
+        <Link href="/journal/add">
           <Card
             text="Enter Your Daily Journal"
             icon="/book-white.svg"

@@ -14,7 +14,7 @@ const BottomNav = () => {
   const NavLinks = [
     { id: 1, name: "Inbox", icon: `/calendar-dots`, path: "/home" },
     { id: 2, name: "Explore", icon: `/explore`, path: "/explore" },
-    { id: 3, name: "Add", icon: `/book`, path: "/add" },
+    { id: 3, name: "Add", icon: `/book`, path: "/journal/add" },
     { id: 4, name: "Entries", icon: `/books`, path: "/journal/entries" },
     { id: 5, name: "Review", icon: `/review`, path: "/reviews" },
   ];
