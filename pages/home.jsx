@@ -5,6 +5,7 @@ import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
 import InboxList from "@/components/common/InboxList";
 import BottomNav from "@/components/common/BottomNav";
+import Link from "next/link";
 
 export default function Home() {
   const flexCenter = "flex justify-center items-center";
@@ -28,13 +29,15 @@ export default function Home() {
       </div>
       <NavBar />
       <div className="mt-10 flex gap-4 overflow-scroll">
-        <Card
-          text="Enter Your Daily Journal"
-          icon="/book-white.svg"
-          secondaryBackground="bg-[#D3AC1E]"
-          background="bg-[#F0E2AE]"
-          textBackground="bg-white/50"
-        />
+        <Link href="/add">
+          <Card
+            text="Enter Your Daily Journal"
+            icon="/book-white.svg"
+            secondaryBackground="bg-[#D3AC1E]"
+            background="bg-[#F0E2AE]"
+            textBackground="bg-white/50"
+          />
+        </Link>
         <Card
           text="Tips: Everyday is a good day to start"
           icon="/lightbulb.svg"
