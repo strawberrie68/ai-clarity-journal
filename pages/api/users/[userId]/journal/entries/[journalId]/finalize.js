@@ -21,6 +21,8 @@ async function updateJournalEntry(journalId) {
           keyInsight: aiResponse.keyInsight,
           quote: aiResponse.quote,
           haiku: aiResponse.haiku,
+          emoji: aiResponse.emoji,
+          color: aiResponse.color
         },
       },
       { new: true }
@@ -39,6 +41,7 @@ async function updateJournalEntry(journalId) {
 }
 
 async function finalizeJournal(req, res) {
+  console.log("Handling request to finalize journal");
   try {
     const { journalId, userId } = req.query;
 
@@ -47,11 +50,13 @@ async function finalizeJournal(req, res) {
     }
 
     const journal = await Journal.findOne({ _id: journalId });
+    console.log("journal", journal);
     if (!journal) {
       return res.status(404).json({ error: "Journal not found" });
     }
 
     const updatedData = await updateJournalEntry(journalId);
+    console.log("updatedData", updatedData);
     return res
       .status(200)
       .json({ message: "Journal updated successfully", data: updatedData });

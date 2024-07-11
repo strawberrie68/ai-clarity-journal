@@ -35,7 +35,7 @@ const parser = StructuredOutputParser.fromZodSchema(
       )
       .optional(),
     keyInsight: z
-      .number()
+      .string()
       .describe(
         "describe the key insight or takeaway from the journal entry. This could be a lesson learned, a realization, or a piece of advice that the person who wrote the journal entry wants to remember or share. Make it a concise sentence that is impactful. Make it sound like a lesson."
       )
@@ -52,6 +52,17 @@ const parser = StructuredOutputParser.fromZodSchema(
         "write a haiku that captures the essence of the journal entry. A haiku is a form of Japanese poetry that consists of three lines with a 5-7-5 syllable structure. The haiku should be a reflection of the mood, theme, or message of the journal entry. It should be concise and evocative, using vivid imagery and sensory details to create a sense of atmosphere or emotion."
       )
       .optional(),
+    emoji: z
+      .string()
+      .describe(
+        "pick a emoji that represents the mood of the journal entry. This emoji should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose an emoji that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. The emoji should be appropriate and relevant to the content of the journal entry. If there is any highlights, pick an emoji representing that or important change they must do."
+      )
+      .optional(),
+    color:z
+    .string()
+    .describe(
+      "pick a hex color with low saturation and not too bold. It should represents the mood of the journal entry. This color should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose a color that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. I should match it the emoji. Cant be too bright or too dark."
+    ).optional()
   })
 );
 
