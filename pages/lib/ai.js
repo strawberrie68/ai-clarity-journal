@@ -13,7 +13,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     title: z
       .string()
       .describe(
-        "the subject of the journal entry. Summarize the entry in one sentence. The title should be a concise summary of the entry. The first character of the title should contain an emoji that represents the mood of the entry."
+        "the subject of the journal entry. Summarize the entry in one sentence. The title should be a concise summary of the entry. It should capture the main theme or message of the entry and give the reader an idea of what to expect. The title should be engaging and intriguing, drawing the reader in and making them want to read more. It should be descriptive and informative, giving the reader a clear idea of what the entry is about. The title should be interesting and attention-grabbing, making the reader curious to learn more about the entry."
       )
       .optional(),
     aiSummary: z

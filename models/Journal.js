@@ -44,6 +44,12 @@ const journalSchema = new Schema({
   haiku: {
     type: String,
   },
+  emoji: {
+    type: String,
+  },
+  color: {
+    type: String,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
