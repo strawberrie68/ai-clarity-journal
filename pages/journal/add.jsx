@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
@@ -141,7 +142,12 @@ const Add = () => {
                     value="happy"
                     onChange={handleInputChange}
                   />
-                  <img src="/smiley.svg" alt="happy" />
+                  <Image
+                    src="/smiley.svg"
+                    alt="happy emoji"
+                    width={32}
+                    height={32}
+                  />
                 </label>
                 <label>
                   <input
@@ -150,7 +156,12 @@ const Add = () => {
                     value="meh"
                     onChange={handleInputChange}
                   />
-                  <img src="/smiley-meh.svg" alt="meh" />
+                  <Image
+                    src="/smiley-meh.svg"
+                    alt="meh emoji"
+                    width={32}
+                    height={32}
+                  />
                 </label>
                 <label>
                   <input
@@ -159,7 +170,12 @@ const Add = () => {
                     value="blank"
                     onChange={handleInputChange}
                   />
-                  <img src="/smiley-blank.svg" alt="blank" />
+                  <Image
+                    src="/smiley-blank.svg"
+                    alt="blank emoji"
+                    width={32}
+                    height={32}
+                  />
                 </label>
                 <label>
                   <input
@@ -168,7 +184,12 @@ const Add = () => {
                     value="sad"
                     onChange={handleInputChange}
                   />
-                  <img src="/smiley-sad.svg" alt="sad" />
+                  <Image
+                    src="/smiley-sad.svg"
+                    alt="sad emoji"
+                    width={32}
+                    height={32}
+                  />
                 </label>
                 <label>
                   <input
@@ -177,7 +198,12 @@ const Add = () => {
                     value="nervous"
                     onChange={handleInputChange}
                   />
-                  <img src="/smiley-nervous.svg" alt="nervous" />
+                  <Image
+                    src="/smiley-nervous.svg"
+                    alt="nervous emoji"
+                    width={32}
+                    height={32}
+                  />
                 </label>
               </div>
             </>

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const BottomNav = () => {
   const flexCenter = "flex justify-center items-center";
@@ -34,13 +35,15 @@ const BottomNav = () => {
                     isActive(link.path) ? activeTabStyle : inactiveTabStyle
                   }
                 >
-                  <img
+                  <Image
                     src={
                       isActive(link.path)
                         ? link.icon + ".svg"
                         : link.icon + "-white.svg"
                     }
                     alt={link.name}
+                    width={20}
+                    height={20}
                   />
                   <p
                     className={

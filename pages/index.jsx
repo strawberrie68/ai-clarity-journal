@@ -1,5 +1,7 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+
 import NavBar from "@/components/common/NavBar";
 import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
@@ -54,7 +56,7 @@ export default function Home() {
           <button
             className={`bg-zinc-100 h-16 w-16 rounded-full ${flexCenter}`}
           >
-            <img src="/list.svg" alt="nav-bar" />
+            <Image src="/list.svg" alt="nav-bar" width={28} height={28} />
           </button>
           <div className="mt-16">
             <p className="text-6xl font-bold">Hello,</p>
@@ -62,7 +64,12 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <img src="/user-profile.png" />
+          <Image
+            src="/user-profile.png"
+            alt="user profile"
+            width={66}
+            height={66}
+          />
         </div>
       </div>
       <div className="lg:max-w-screen-lg lg:mx-auto">

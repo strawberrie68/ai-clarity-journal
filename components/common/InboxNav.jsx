@@ -1,7 +1,8 @@
+import Image from "next/image";
 const NavItem = ({ src, text }) => (
   <li>
     <div className="flex items-center gap-2">
-      <img src={src} alt={text} />
+      <Image src={src} alt={text} width={24} height={24} />
       <p>{text}</p>
     </div>
   </li>
