@@ -8,7 +8,7 @@ const Card = ({
   const flexCenter = "flex justify-center items-center";
   return (
     <div
-      className={`card min-h-44 min-w-40 ${background} rounded-2xl relative`}
+      className={`card h-44 min-w-40 ${background} rounded-2xl relative`}
     >
       <div
         className={`${textBackground} rounded-2xl absolute bottom-0 h-1/2 w-full z-10`}

@@ -41,7 +41,6 @@ const Summary = () => {
     }
   }, [journal]);
 
-
   const tabs = [
     {
       key: "keyPoints",
@@ -118,12 +117,14 @@ const Summary = () => {
   ];
 
   return (
-    <section className="mx-6 mt-10 pb-8">
+    <section className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
       <Header />
       <h1 className="text-3xl font-bold mt-11">Summary</h1>
-      <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-        <h2 className="text-lg font-semibold max-w-prose">{journal && journal.title}</h2>
-        <p>{journal && journal.aiSummary}</p>
+      <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
+        <h2 className="text-lg font-semibold max-w-prose">{`${
+          journal && journal.emoji
+        } ${journal && journal.title}`}</h2>
+        <p className="mt-2">{journal && journal.aiSummary}</p>
       </section>
       <div className="mt-8">
         <h3 className="text-xl font-bold">Highlights</h3>

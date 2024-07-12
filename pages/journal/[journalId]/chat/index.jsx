@@ -71,7 +71,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="mx-6 mt-10 pb-8">
+    <div className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
       <Header />
       <DateTitle />
       <form className=" flex flex-col gap-4">
@@ -90,7 +90,7 @@ const Chat = () => {
             value={values.entry}
           ></textarea>
         </div>
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
           <Button buttonText="Dig Deeper" isPrimary={false} />
           <Button
             buttonText="Finish"

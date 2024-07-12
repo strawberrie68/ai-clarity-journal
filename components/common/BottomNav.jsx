@@ -8,8 +8,8 @@ const BottomNav = () => {
   const activeTabStyle = `flex bg-white rounded-full px-4 items-center gap-2 flex-col h-16 w-16 ${flexCenter}`;
   const inactiveTabStyle = `flex items-center gap-2 flex-col`;
 
-  const activeTextStyle = "text-black text-sm";
-  const inactiveTextStyle = "text-white text-sm";
+  const activeTextStyle = "text-black text-xs";
+  const inactiveTextStyle = "text-white text-xs";
 
   const NavLinks = [
     { id: 1, name: "Inbox", icon: `/calendar-dots`, path: "/" },
@@ -23,7 +23,7 @@ const BottomNav = () => {
   const isActive = (path) => path === pathname;
 
   return (
-    <div className="bottom-nav sticky mx-auto bottom-4 rounded-full h-20 bg-black  max-w-screen-sm sm:w-10/12 sm:px-12 px-10 content-center">
+    <div className="bottom-nav sticky mx-auto bottom-4 rounded-full h-20 bg-black  max-w-screen-sm sm:w-10/12 sm:px-12 px-8 content-center">
       <ul className="flex justify-between items-center">
         {NavLinks.map((link) => {
           return (

@@ -36,16 +36,10 @@ const InboxList = () => {
         background="bg-green-100"
       />
       <InboxItem
-        icon="🥦"
-        text="Eat veggies for 1 week"
+        icon="☕️"
+        text="Drink only 3 cups of coffee"
         status="In progress"
-        background="bg-green-100"
-      />
-      <InboxItem
-        icon="🥦"
-        text="Eat veggies for 1 week"
-        status="In progress"
-        background="bg-green-100"
+        background="bg-yellow-50"
       />
     </ul>
   );

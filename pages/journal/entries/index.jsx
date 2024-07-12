@@ -57,14 +57,13 @@ const Entries = () => {
     fetchJournals();
   }, []);
 
-  console.log(journals);
   return (
-    <section className="mx-6 mt-10 ">
+    <section className="mx-6 mt-10 lg:max-w-screen-md lg:mx-auto">
       <Header />
-      <h1 className="text-3xl font-bold my-11">Journal Entries</h1>
+      <h1 className="text-3xl font-bold mt-11">Journal Entries</h1>
       <section>
         <h2 className="font-semibold">This week</h2>
-        <section className="mt-4 flex flex-col gap-4">
+        <section className="mt-4 flex flex-col gap-4 min-h-48">
           {journals.length === 0 && <p>No entries yet</p>}
           {journals &&
             journals.map((journal) => (
@@ -92,7 +91,9 @@ const Entries = () => {
           </div>
         </section>
       </section>
-      <BottomNav />
+      <div className="sticky bottom-2 w-full">
+        <BottomNav />
+      </div>
     </section>
   );
 };
