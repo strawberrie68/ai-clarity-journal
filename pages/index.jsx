@@ -6,9 +6,31 @@ import InboxNav from "@/components/common/InboxNav";
 import InboxList from "@/components/common/InboxList";
 import BottomNav from "@/components/common/BottomNav";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const flexCenter = "flex justify-center items-center";
+  const [journal, setJournal] = useState([]);
+
+  const fetchLatestJournal = async () => {
+    const response = await fetch(
+      `/api/users/6689d71d5b6990ef9ab9b498/journals`
+    );
+    const data = await response.json();
+    if (data.length > 0) {
+      const sortedJournals = data
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 7);
+      setJournal(sortedJournals[0]);
+    } else {
+      setJournal([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestJournal();
+  }, []);
+
   const formatQuote = (quote) => {
     if (!quote) return null;
 
