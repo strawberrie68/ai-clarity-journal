@@ -3,7 +3,7 @@ const NavBar = () => {
   const primaryButton = "bg-black text-white rounded-full h-11 px-12";
   const secondaryButton = " text-black h-11 px-12";
   return (
-    <div className="w-full flex mt-6 ">
+    <div className="w-full flex mt-6">
       <div>
         <div className={`${primaryButton} ${flexCenter} `}>Today</div>
       </div>
