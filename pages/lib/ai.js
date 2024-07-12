@@ -61,7 +61,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     color: z
       .string()
       .describe(
-        "pick a hex color with low saturation and not too bold, more on the pastel colors. It should represents the mood of the journal entry. This color should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose a color that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. I should match it the emoji. Cant be too bright or too dark."
+        "pick a pastel hexcode. Pastel colored hexcodes typically follow a pattern where the RGB values are high (close to 255). It should also represents the mood of the journal entry."
       )
       .optional(),
   })
