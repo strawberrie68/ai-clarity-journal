@@ -1,17 +1,26 @@
 "use client";
-import React from "react";
-import "../../styles/global.css";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+
+import "../../styles/global.css";
 
 const questions = [
-  "✨ What's your highest priority today?",
-  "💭 Is there anything worrying you about the day ahead?",
-  "🌝 What are you looking forward to today?",
+  "What's your highest priority today?",
+  "Is there anything worrying you about the day ahead?",
+  "What are you looking forward to today?",
 ];
+
+const backgroundColors = [
+  "bg-gradient-to-r from-lime-50 to-teal-50 ",
+  "bg-gradient-to-r from-indigo-100 to-yellow-100",
+  "bg-gradient-to-r from-violet-100 to-pink-100",
+];
+
+const emojis = ["✨", "💭", "🥳"];
 
 const Add = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -96,68 +105,83 @@ const Add = () => {
     }
   };
 
+  const handleBack = (e) => {
+    e.preventDefault();
+    push("/");
+  };
+
   useEffect(() => {
     updateEntriesAsString(entries);
   }, [entries]);
 
   return (
-    <div className="mx-6 mt-10 pb-8">
+    <div className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
       <Header />
       <DateTitle />
-      <form className=" flex flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="w-full h-36 px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-          <h2 className="text-lg font-semibold">Question</h2>
-          <p>{questions[currentQuestionIndex]}</p>
+      <form className="flex flex-col gap-4">
+        <div
+          className={`w-full px-4 pt-4 pb-8 flex flex-col rounded-lg my-6 ${backgroundColors[currentQuestionIndex]}`}
+        >
+          <h2 className="text-lg text-gray-500 font-medium">
+            {emojis[currentQuestionIndex]} Question
+          </h2>
+          <p className="text-xl font-semibold mt-2">
+            {questions[currentQuestionIndex]}
+          </p>
         </div>
         <div>
-          <h3 className="font-semibold">Mood</h3>
-          <div className="mood__inputs flex justify-between px-2 mt-2 mb-2">
-            <label>
-              <input
-                type="radio"
-                name="mood"
-                value="happy"
-                onChange={handleInputChange}
-              />
-              <img src="/smiley.svg" alt="happy" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="mood"
-                value="meh"
-                onChange={handleInputChange}
-              />
-              <img src="/smiley-meh.svg" alt="meh" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="mood"
-                value="blank"
-                onChange={handleInputChange}
-              />
-              <img src="/smiley-blank.svg" alt="blank" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="mood"
-                value="sad"
-                onChange={handleInputChange}
-              />
-              <img src="/smiley-sad.svg" alt="sad" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="mood"
-                value="nervous"
-                onChange={handleInputChange}
-              />
-              <img src="/smiley-nervous.svg" alt="nervous" />
-            </label>
-          </div>
+          {currentQuestionIndex === 0 && (
+            <>
+              <h3 className="font-semibold">Mood</h3>
+              <div className="mood__inputs flex justify-between px-2 mt-2 mb-2">
+                <label>
+                  <input
+                    type="radio"
+                    name="mood"
+                    value="happy"
+                    onChange={handleInputChange}
+                  />
+                  <img src="/smiley.svg" alt="happy" />
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="mood"
+                    value="meh"
+                    onChange={handleInputChange}
+                  />
+                  <img src="/smiley-meh.svg" alt="meh" />
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="mood"
+                    value="blank"
+                    onChange={handleInputChange}
+                  />
+                  <img src="/smiley-blank.svg" alt="blank" />
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="mood"
+                    value="sad"
+                    onChange={handleInputChange}
+                  />
+                  <img src="/smiley-sad.svg" alt="sad" />
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="mood"
+                    value="nervous"
+                    onChange={handleInputChange}
+                  />
+                  <img src="/smiley-nervous.svg" alt="nervous" />
+                </label>
+              </div>
+            </>
+          )}
         </div>
         <div>
           <h3 className="font-semibold">Journal</h3>
@@ -166,12 +190,19 @@ const Add = () => {
             placeholder="Write something here..."
             value={answers[`question${currentQuestionIndex + 1}`]}
             onChange={handleInputChange}
-            // name="entry"
           ></textarea>
         </div>
-        <div className="flex justify-between mt-4">
-          <Button buttonText="Cancel" isPrimary={false} />
-          <Button buttonText="Next" isPrimary={true} />
+        <div className="flex justify-between mt-4 absolute bottom-6 w-full -left-6 lg:max-w-screen-md lg:bottom-4 lg:relative lg:mx-auto">
+          <Button
+            buttonText="Cancel"
+            isPrimary={false}
+            handleClick={handleBack}
+          />
+          <Button
+            buttonText="Next"
+            isPrimary={true}
+            handleClick={handleSubmit}
+          />
         </div>
       </form>
     </div>
