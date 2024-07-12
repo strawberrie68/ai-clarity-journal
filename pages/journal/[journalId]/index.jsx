@@ -7,15 +7,15 @@ import BottomNav from "@/components/common/BottomNav";
 
 import "../../../styles/global.css";
 
-const haiku =
-  "Gratitude and strain, Balance joy, release the pain — Choose paths that sustain.";
 const PastEntry = () => {
-  const formattedHaiku = haiku.split(",").map((part, index) => (
-    <p key={index}>
-      {part.trim()}
-      <br />
-    </p>
-  ));
+  const formattedHaiku = (haiku) => {
+    return haiku.split(",").map((part, index) => (
+      <p key={index}>
+        {part.trim()}
+        <br />
+      </p>
+    ));
+  };
 
   const [journal, setJournal] = useState({});
   const router = useRouter();
@@ -39,7 +39,7 @@ const PastEntry = () => {
       content: (
         <div>
           <h2 className="text-xl mt-4 font-bold">Summary</h2>
-          <section className="w-full min-h-16 px-4 pt-2 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
+          <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
             <h2 className="text-lg font-semibold max-w-prose">Overview</h2>
             <p>{journal && journal.aiSummary}</p>
           </section>
@@ -53,9 +53,7 @@ const PastEntry = () => {
                 ⭐️ Key Insight:
               </h3>
               <p className="mt-2 max-w-prose">
-                Prioritize relationships and activities that bring joy and
-                fulfillment, balancing gratitude and excitement with the need to
-                address draining commitments.
+                {journal && journal.keyInsight}
               </p>
             </div>
             <div
@@ -73,9 +71,7 @@ const PastEntry = () => {
               <h3 className="font-semibold text-sm text-neutral-300">
                 💭 Quote:
               </h3>
-              <p className="mt-2 max-w-prose">
-                "Surround yourself with people who lift you higher."
-              </p>
+              <p className="mt-2 max-w-prose">{journal && journal.quote}</p>
             </div>
             <div
               className={`border rounded-xl px-4 py-2 flex flex-col justify-center`}
@@ -91,7 +87,7 @@ const PastEntry = () => {
               <h3 className="font-semibold text-sm text-neutral-300">
                 🎨 Haiku:
               </h3>
-              <div className="mt-2">{formattedHaiku}</div>
+              <div className="mt-2">{formattedHaiku(journal.haiku)}</div>
             </div>
           </section>
         </div>
@@ -101,16 +97,16 @@ const PastEntry = () => {
       key: "entry",
       label: "Entry",
       content: (
-        <div>
-          <h2 className="text-xl mt-4 font-bold">Title of entry</h2>
+        <div className="min-h-[580px] mt-8">
+          <h2 className="text-xl mt-4 font-bold px-2">
+            {`${journal && journal.emoji} 
+              ${journal && journal.title}`}
+          </h2>
           <div>
             {journal &&
-              journal.entries?.map((entry) => (
+              journal.entries?.map((entry, i) => (
                 <div>
                   <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-                    <h2 className="text-lg font-semibold max-w-prose">
-                      Overview
-                    </h2>
                     <p>{entry.content}</p>
                   </section>
                   <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg border">
@@ -125,10 +121,14 @@ const PastEntry = () => {
   ];
 
   return (
-    <section className="mx-6 mt-10 pb-8">
+    <section className="mx-6 mt-10 pb-4 lg:max-w-screen-md lg:mx-auto">
       <Header />
-      <TabComponent tabs={tabs} />
-      <BottomNav />
+      <div className="pt-6">
+        <TabComponent tabs={tabs} />
+      </div>
+      <div className="">
+        <BottomNav />
+      </div>
     </section>
   );
 };
