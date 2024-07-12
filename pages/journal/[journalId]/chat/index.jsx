@@ -12,6 +12,7 @@ const initialValues = {
 const Chat = () => {
   const [values, setValues] = useState(initialValues);
   const [journal, setJournal] = useState({});
+  const [entryIndex, setEntryIndex] = useState(0);
   const router = useRouter();
   const { push } = useRouter();
   const { journalId } = router.query;
@@ -20,9 +21,9 @@ const Chat = () => {
     const response = await fetch(
       `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
     );
-
     const data = await response.json();
     setJournal(data[0]);
+    setEntryIndex(data[0].entries.length - 1);
   };
 
   useEffect(() => {
@@ -78,7 +79,7 @@ const Chat = () => {
         <div className="w-full  px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
           <h2 className="text-lg font-semibold">Response</h2>
           <p className="max-w-prose">
-            {journal?.entries && journal.entries[0].aiResponse}
+            {journal?.entries && journal.entries[entryIndex].aiResponse}
           </p>
         </div>
         <div>
@@ -87,7 +88,8 @@ const Chat = () => {
             className="border border-inherit rounded-lg h-64 w-full mt-2 px-4 py-2 max-w-prose"
             placeholder="Write something here..."
             onChange={handleInputChange}
-            value={values.entry}
+            value={values.content}
+            name="content"
           ></textarea>
         </div>
         <div className="flex justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
