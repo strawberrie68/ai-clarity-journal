@@ -1,4 +1,5 @@
 # Clarity
+![Clarity](https://github.com/user-attachments/assets/86d34cf9-65cb-4574-a1c9-5dfd5adb2df9)
 
 ## Overview
 
