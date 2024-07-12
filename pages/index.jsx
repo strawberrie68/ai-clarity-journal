@@ -88,7 +88,11 @@ export default function Home() {
               textBackground="bg-white/70"
             />
             <Card
-              text="Tips: Everyday is a good day to start"
+              text={
+                journal
+                  ? journal.keyInsight
+                  : "Tips: Everyday is a good day to start"
+              }
               icon="/lightbulb.svg"
               secondaryBackground="bg-[#D3AC1E]"
               background="bg-lime-100"
