@@ -40,6 +40,29 @@ const Chat = () => {
     });
   };
 
+  const handleDigDeeper = async (e) => {
+    e.preventDefault();
+    const response = await fetch(
+      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}/update`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: values.content }),
+      }
+    );
+
+    if (response) {
+      const data = await response.json();
+      setJournal(data);
+      setValues(initialValues);
+      fetchJournal();
+    } else {
+      console.error("Invalid response from createJournalEntry:", response);
+    }
+  };
+
   const finalizeJournal = async (entry, journalId) => {
     const response = await fetch(
       `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}/finalize`,
@@ -93,7 +116,11 @@ const Chat = () => {
           ></textarea>
         </div>
         <div className="flex justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
-          <Button buttonText="Dig Deeper" isPrimary={false} />
+          <Button
+            buttonText="Dig Deeper"
+            isPrimary={false}
+            handleClick={handleDigDeeper}
+          />
           <Button
             buttonText="Finish"
             isPrimary={true}
