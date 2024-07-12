@@ -1,6 +1,7 @@
 import Image from "next/image";
+
 const NavItem = ({ src, text }) => (
-  <li>
+  <li className="basis-1/3">
     <div className="flex items-center gap-2">
       <Image src={src} alt={text} width={24} height={24} />
       <p>{text}</p>
@@ -16,8 +17,10 @@ const InboxNav = () => {
         <NavItem src="/calendar-dots.svg" text="Upcoming" />
         <NavItem src="/arrow-circle-right.svg" text="Next Actions" />
       </ul>
-      <div className="border mt-4 flex w-auto h- relative">
-        <div className="border-2 w-1/3 border-slate-950 absolute top-0 left-0"></div>
+      <div className="mt-4 flex w-auto relative">
+        <div className="border-2 w-1/4 border-slate-950"></div>
+        <div className="border h-0 w-1/3 "></div>
+        <div className="border h-0 w-1/3 "></div>
       </div>
     </nav>
   );
