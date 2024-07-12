@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Clarity
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Clarity is an AI journal that helps users clear their minds and help them.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Problem
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Clarity is for journalers who find traditional ones insufficient for clearing their minds. It is powered by a custom AI agent whose directive is to be a friend and therapist, offering helpful feedback while revealing underlying issues, and helping to create actionable healthy habits.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### User Profile
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+**Journal users:**
 
-## Learn More
+- Looking for a private therapist and friend to talk with.
+- Wanting a way to create healthier habits tailored to their goals.
 
-To learn more about Next.js, take a look at the following resources:
+### Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- As a user, I want to have a place to write my journal entries.
+- As a user, I want to have a look back at my past journal entries.
+- As a user, I want to talk to an empathetic friend who talks objectively, helping me gain clarity.
+- As a user, I want a summarized entry that affirms my issues.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Implementation
 
-## Deploy on Vercel
+### Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Data store:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- MongoDB
+
+**Backend:**
+
+- Next.js
+
+**Frontend:**
+
+- React
+
+**API:**
+
+- OpenAI (3.5 Turbo)
+
+### Sitemap
+
+- Dashboard (Home)
+- Journal entry - Entry prompt
+- Journal entry - Conversation with Clarity
+- Journal entry - Entry summarization
+- Archive of past journal entries
+
+### Mockups
+
+|                                                             Dashboard                                                             |                                                               Start                                                               |                                                            Converstion                                                            |                                                              Summary                                                              |                                                              Archive                                                              |
+| :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/bc99cb71-a7ee-419f-8458-e8193fe7fdba" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/bb501feb-a4ad-42f3-925f-fc34a809629d" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/f8fc89a3-cd66-4a8a-883d-118ab185586c" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/a79fc2db-8296-4c88-b4eb-19dc84f6764a" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/0da06e06-8065-4a72-9d7c-1badf8ec4860" width="200"/> |
+
+## Roadmap
+
+**Create client**
+
+- Setup React boilerplate.
+
+**Create server**
+
+- Setup Express boilerplate.
+
+Set up OpenAI.
+
+Create a Dashboard.
+
+Create a journal entry prompt screen.
+
+- Implement a journal prompt area for users to submit.
+
+Create a conversation screen.
+
+- Implement OpenAI questions and prompts to help user clarify their mind.
+- Implement a text area for users to continue digging deeper.
+
+Create an entry summarization screen.
+
+- Implement OpenAI finalized journal entry, that summarizes users' entry
+- Implement a title that summarizes users' journal
+- Implement task or habit suggestion.
+
+Create a past journal entry screen.
+
+- Implement a view of past journal entries in descending or ascending order.
+
+## Nice-to-haves
+
+-The journal has inspirational quotes on the dashboard.
+
+- As a user, I want suggestions on how I can face such issue(s).
+- User can accept a habit/task/project suggestion as a trackable goal.
+- The user can authenticate, making the journal secure.
