@@ -104,8 +104,8 @@ const PastEntry = () => {
           </h2>
           <div>
             {journal &&
-              journal.entries?.map((entry, i) => (
-                <div>
+              journal.entries?.map((entry) => (
+                <div key={entry._id}>
                   <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
                     <p>{entry.content}</p>
                   </section>
