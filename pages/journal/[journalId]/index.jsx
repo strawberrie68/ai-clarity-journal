@@ -17,6 +17,12 @@ const PastEntry = () => {
     ));
   };
 
+  const formatDate = (date) => {
+    const options = { weekday: "short", month: "short", day: "numeric" };
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString("en-US", options);
+  };
+
   const [journal, setJournal] = useState({});
   const router = useRouter();
   const { journalId } = router.query;
@@ -38,13 +44,17 @@ const PastEntry = () => {
       label: "Summary",
       content: (
         <div>
-          <h2 className="text-xl mt-4 font-bold">Summary</h2>
-          <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-            <h2 className="text-lg font-semibold max-w-prose">Overview</h2>
-            <p>{journal && journal.aiSummary}</p>
+          <h2 className="text-md mt-10 font-bold mb-2 text-gray-500">
+            {journal && formatDate(journal.date)}
+          </h2>
+          <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100">
+            <h2 className="text-lg font-semibold max-w-prose">
+              {`${journal && journal.emoji} ${journal && journal.title}`}
+            </h2>
+            <p className="max-w-prose mt-2">{journal && journal.aiSummary}</p>
           </section>
-          <section className="mt-10 flex flex-col gap-4">
-            <h3 className="text-xl font-bold">Highlights</h3>
+          <section className="mt-8 flex flex-col gap-4">
+            <h3 className="text-md font-semibold text-gray-500">Highlights</h3>
 
             <div
               className={`border rounded-xl px-4 py-4 flex flex-col justify-center bg-zinc-100`}
@@ -100,7 +110,7 @@ const PastEntry = () => {
       label: "Entry",
       content: (
         <div className="min-h-[580px] mt-8">
-          <h2 className="text-xl mt-4 font-bold px-2">
+          <h2 className="text-lg mt-12 font-bold px-2 text-gray-500">
             {`${journal && journal.emoji} 
               ${journal && journal.title}`}
           </h2>
@@ -108,11 +118,11 @@ const PastEntry = () => {
             {journal &&
               journal.entries?.map((entry) => (
                 <div key={entry._id}>
-                  <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-                    <p>{entry.content}</p>
+                  <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
+                    <p className="max-w-prose ">{entry.content}</p>
                   </section>
                   <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg border">
-                    <p>{entry.aiResponse}</p>
+                    <p className="max-w-prose ">{entry.aiResponse}</p>
                   </section>
                 </div>
               ))}

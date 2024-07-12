@@ -9,9 +9,9 @@ import Button from "@/components/common/Button";
 import "../../styles/global.css";
 
 const questions = [
-  "What's your highest priority today?",
-  "Is there anything worrying you about the day ahead?",
-  "What are you looking forward to today?",
+  "✨ What's your highest priority today?",
+  "💭 Is there anything worrying you about the day ahead?",
+  "🥳 What are you looking forward to today?",
 ];
 
 const backgroundColors = [
@@ -126,7 +126,7 @@ const Add = () => {
             {emojis[currentQuestionIndex]} Question
           </h2>
           <p className="text-xl font-semibold mt-2">
-            {questions[currentQuestionIndex]}
+            {[...questions[currentQuestionIndex]].slice(1).join("")}
           </p>
         </div>
         <div>

@@ -1,12 +1,12 @@
-import React from "react";
-import "../styles/global.css";
+import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import NavBar from "@/components/common/NavBar";
 import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
 import InboxList from "@/components/common/InboxList";
 import BottomNav from "@/components/common/BottomNav";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+
+import "../styles/global.css";
 
 export default function Home() {
   const flexCenter = "flex justify-center items-center";
@@ -40,7 +40,7 @@ export default function Home() {
         <p className="text-lg">{quoteText}</p>
         {author && (
           <>
-            <p className="mt-2 text-xs"> - {author}</p>
+            <p className="mt-2 text-xs flex justify-end pr-10"> - {author}</p>
           </>
         )}
       </div>
@@ -68,9 +68,9 @@ export default function Home() {
       <div className="lg:max-w-screen-lg lg:mx-auto">
         <NavBar />
       </div>
-      <div className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto">
-        <div className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto">
-          <div className="mt-10 flex gap-4 lg:basis-2/5">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8">
+        <div className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto lg:basis-3/5">
+          <div className="mt-10 flex gap-4 ">
             <Link href="/journal/add">
               <Card
                 text="Enter Your Daily Journal"
@@ -101,13 +101,15 @@ export default function Home() {
           </div>
           <div className="mt-10 lg:mt-0">
             <div
-              className={`h-44 min-w-40 rounded-2xl relative bg-gray-100 px-4 py-4 ${flexCenter}`}
+              className={`h-44 min-w-40  max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 ${flexCenter}`}
             >
-              <div className="text-gray-400 max-w-50">
+              <div className="text-gray-400 max-w-">
                 {!journal && (
                   <p>Excitement is a better motivator than discipline.</p>
                 )}
-                <p className="">{journal && formatQuote(journal.quote)}</p>
+                <p className="line-clamp-4">
+                  {journal && formatQuote(journal.quote)}
+                </p>
               </div>
             </div>
           </div>

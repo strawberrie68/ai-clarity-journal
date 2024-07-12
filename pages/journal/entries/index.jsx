@@ -16,18 +16,18 @@ const Entry = ({ date, journalId, journal }) => {
 
   return (
     <Link href={`/journal/${journalId}`}>
-      <div className="flex gap-8 h-20">
+      <div className="flex gap-8 h-20 items-center">
         <div
-          className={`min-w-10 min-h-10 rounded-lg aspect-square basis-18 ${flexCenter}`}
+          className={`w-16 h-16 rounded-lg basis-20 shrink-0 ${flexCenter}`}
           style={{ backgroundColor: journal.color }}
         >
           <p className="text-2xl">{journal && journal.emoji}</p>
         </div>
-        <div className="flex-grow">
+        <div className="basis-auto min-w-48">
           <p className="text-stone-200 font-semibold text-sm ">
             {formattedDate}
           </p>
-          <p className="clamp-1 mt-4 text-sm text-stone-700">
+          <p className="line-clamp-2 mt-2 text-sm text-stone-700">
             {journal && journal.title}
           </p>
         </div>
