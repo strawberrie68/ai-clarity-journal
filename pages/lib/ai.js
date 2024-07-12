@@ -55,13 +55,13 @@ const parser = StructuredOutputParser.fromZodSchema(
     emoji: z
       .string()
       .describe(
-        "pick a emoji that represents the mood of the journal entry. This emoji should be placed at the beginning of the title to give a visual representation of the mood of the entry. Choose an emoji that best reflects the overall tone of the entry, whether it is happy, sad, thoughtful, or playful. The emoji should be appropriate and relevant to the content of the journal entry. If there is any highlights, pick an emoji representing that or important change they must do."
+        "pick a emoji that represents the mood or the highlight the journal entry. The emoji should be appropriate and relevant to the content of the journal entry. If the user mention a highlight, pick an emoji representing that or important change they must do rather than mood."
       )
       .optional(),
     color: z
       .string()
       .describe(
-        "pick a pastel hexcode. Pastel colored hexcodes typically follow a pattern where the RGB values are high (close to 255). It should also represents the mood of the journal entry."
+        "pick a hex color that is pastel color. I want it super pale, almost white. At the same time i want a hexcode that matches the mood of a journal entry. "
       )
       .optional(),
   })
