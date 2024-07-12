@@ -9,7 +9,7 @@ import "../../../styles/global.css";
 
 const PastEntry = () => {
   const formattedHaiku = (haiku) => {
-    return haiku.split(",").map((part, index) => (
+    return haiku?.split(",").map((part, index) => (
       <p key={index}>
         {part.trim()}
         <br />
@@ -31,6 +31,8 @@ const PastEntry = () => {
     };
     fetchJournal();
   }, [journalId]);
+
+  console.log(journal);
 
   const tabs = [
     {
@@ -87,7 +89,9 @@ const PastEntry = () => {
               <h3 className="font-semibold text-sm text-neutral-300">
                 🎨 Haiku:
               </h3>
-              <div className="mt-2">{formattedHaiku(journal.haiku)}</div>
+              <div className="mt-2">
+                {journal && formattedHaiku(journal.haiku)}
+              </div>
             </div>
           </section>
         </div>
