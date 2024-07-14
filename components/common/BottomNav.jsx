@@ -2,31 +2,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import {
+  activeTabStyle,
+  inactiveTabStyle,
+  activeTextStyle,
+  inactiveTextStyle,
+  navLinks,
+} from "@/utils/navConstants";
 
 const BottomNav = () => {
-  const flexCenter = "flex justify-center items-center";
-
-  const activeTabStyle = `flex bg-white rounded-full px-4 items-center gap-2 flex-col h-16 w-16 ${flexCenter}`;
-  const inactiveTabStyle = `flex items-center gap-2 flex-col`;
-
-  const activeTextStyle = "text-black text-xs";
-  const inactiveTextStyle = "text-white text-xs";
-
-  const NavLinks = [
-    { id: 1, name: "Inbox", icon: `/calendar-dots`, path: "/" },
-    { id: 2, name: "Explore", icon: `/explore`, path: "/explore" },
-    { id: 3, name: "Add", icon: `/book`, path: "/journal/add" },
-    { id: 4, name: "Entries", icon: `/books`, path: "/journal/entries" },
-    { id: 5, name: "Review", icon: `/review`, path: "/reviews" },
-  ];
-
   const pathname = usePathname();
   const isActive = (path) => path === pathname;
 
   return (
     <div className="bottom-nav sticky mx-auto bottom-4 rounded-full h-20 bg-black  max-w-screen-sm sm:w-10/12 sm:px-12 px-8 content-center">
       <ul className="flex justify-between items-center">
-        {NavLinks.map((link) => {
+        {navLinks.map((link) => {
           return (
             <li className="py-2" key={link.id}>
               <Link href={link.path}>
