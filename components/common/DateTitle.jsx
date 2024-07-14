@@ -1,9 +1,6 @@
+import { formatDate } from "../../utils/formatUtils";
 import "../../styles/global.css";
 
-const formatDate = (date) => {
-  const options = { weekday: "short", month: "short", day: "numeric" };
-  return date.toLocaleDateString("en-US", options);
-};
 const DateTitle = () => {
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
