@@ -26,3 +26,7 @@ body {
   outline: 2px solid rgb(236, 222, 34);
   border-radius: 50%;
 }
+
+.flexCenter {
+  @apply flex items-center justify-center;
+}

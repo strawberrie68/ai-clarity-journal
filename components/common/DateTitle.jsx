@@ -5,13 +5,10 @@ const formatDate = (date) => {
   return date.toLocaleDateString("en-US", options);
 };
 const DateTitle = () => {
-  const flexCenter = "flex justify-center items-center";
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
   return (
-    <div
-      className={`${flexCenter} bg-black rounded-xl h-9 mt-12 text-white px-4 w-40`}
-    >
+    <div className="flexCenter bg-black rounded-xl h-9 mt-12 text-white px-4 w-40">
       {formattedDate}
     </div>
   );
