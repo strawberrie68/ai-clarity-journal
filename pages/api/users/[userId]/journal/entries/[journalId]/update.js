@@ -2,6 +2,18 @@ import { Journal } from "@/models/Journal";
 import connectDB from "@/pages/lib/connectDB";
 import { Entry } from "@/models/Entry";
 import openai from "@/pages/lib/openaiClient";
+// System prompts
+const CONVERSATION_PROMPT = `
+    You will be given background info and additional information about the user to have a conversation with the user. 
+    Keep in mind you have max 100 tokens. Remember your role as an AI is to provide empathetic, supportive, and thoughtful 
+    responses to journal entries. For each entry, respond with kindness, understanding, and encouragement. Address the user's 
+    thoughts and feelings in a way that shows you are actively listening and provide thoughtful reflections or questions to help 
+    them gain more clarity. Try to be concise and end with a thought-provoking question or reflection to encourage the user to 
+    dig deeper. Try not to repeat yourself. Try to comment only on the new info provided.
+  `;
+const SUMMARY_PROMPT = `
+  Summarize the main points of the additional journal entry. You will be given background info on what is already saved. 
+    Only respond with additional information you might want for future reference`;
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",

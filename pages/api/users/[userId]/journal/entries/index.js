@@ -4,13 +4,20 @@ import { User } from "@/models/User";
 import connectDB from "@/pages/lib/connectDB";
 import openai from "@/pages/lib/openaiClient";
 
-async function digDeeperEntry(content) {
-// import OpenAI from "openai";
+// System prompts
+const DIG_DEEPER_PROMPT = `
+  Your role as an AI is to provide empathetic, supportive, and thoughtful responses to journal entries. 
+  For each entry, respond with kindness, understanding, and encouragement. Address the user's thoughts 
+  and feelings in a way that shows you are actively listening and provide thoughtful reflections or 
+  questions to help them gain more clarity. Try to be concise and end with a question or reflection to 
+  encourage the user to dig deeper, keep in mind you have max 150 tokens.
+`;
 
-// const openai = new OpenAI({
-//   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-// });
-
+const SUMMARY_PROMPT = `
+  Can you summarize the main points of the journal entry. You will need to use this journal to have a 
+  conversation with the user, so make sure you understand the main points. Keep in mind you have max 100 
+  tokens. You will use this for future reference while having a conversation with the user.
+`;
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
