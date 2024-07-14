@@ -2,13 +2,15 @@ import { Entry } from "@/models/Entry";
 import { Journal } from "@/models/Journal";
 import { User } from "@/models/User";
 import connectDB from "@/pages/lib/connectDB";
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-});
+import openai from "@/pages/lib/openaiClient";
 
 async function digDeeperEntry(content) {
+// import OpenAI from "openai";
+
+// const openai = new OpenAI({
+//   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+// });
+
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",

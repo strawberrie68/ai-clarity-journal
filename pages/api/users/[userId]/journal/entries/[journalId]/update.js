@@ -1,13 +1,7 @@
 import { Journal } from "@/models/Journal";
 import connectDB from "@/pages/lib/connectDB";
 import { Entry } from "@/models/Entry";
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-});
-
-async function conversationEntry(content, journalSummary) {
+import openai from "@/pages/lib/openaiClient";
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
