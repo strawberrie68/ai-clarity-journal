@@ -1,7 +1,7 @@
 import { Journal } from "../../../models/Journal";
 import connectDB from "../../lib/connectDB";
 
-async function getJournals(req, res) {
+async function getJournals(_req, res) {
   try {
     const Journals = await Journal.find({});
     res.status(200).json(Journals);

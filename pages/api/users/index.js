@@ -1,7 +1,7 @@
 import { User } from "../../../models/User";
 import connectDB from "../../lib/connectDB";
 
-async function getUser(req, res) {
+async function getUser(_req, res) {
   try {
     const users = await User.find({});
     res.status(200).json(users);
