@@ -3,7 +3,21 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const journalSchema = new Schema({
-  title: {
+  aiSummary: {
+    type: String,
+  },
+  color: {
+    type: String,
+  },
+  conversationSummary: {
+    type: String,
+  },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+  emoji: {
     type: String,
   },
   entries: {
@@ -15,21 +29,7 @@ const journalSchema = new Schema({
     ],
     default: [],
   },
-  date: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-  conversationSummary: {
-    type: String,
-  },
-  aiSummary: {
-    type: String,
-  },
-  sentiment: {
-    type: String,
-  },
-  mood: {
+  haiku: {
     type: String,
   },
   highlight: {
@@ -38,16 +38,16 @@ const journalSchema = new Schema({
   keyInsight: {
     type: String,
   },
+  mood: {
+    type: String,
+  },
   quote: {
     type: String,
   },
-  haiku: {
+  sentiment: {
     type: String,
   },
-  emoji: {
-    type: String,
-  },
-  color: {
+  title: {
     type: String,
   },
   user: {
