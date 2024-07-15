@@ -6,15 +6,13 @@ import { formatDate } from "@/utils/formatUtils";
 import "../../../styles/global.css";
 
 const Entry = ({ date, journalId, journal }) => {
-
-  const flexCenter = "flex justify-center items-center";
   const formattedDate = formatDate(date);
 
   return (
     <Link href={`/journal/${journalId}`}>
-      <div className="flex gap-8 h-20 items-center">
+      <article className="flex gap-8 h-20 items-center">
         <div
-          className={`w-16 h-16 rounded-lg basis-20 shrink-0 ${flexCenter}`}
+          className="w-16 h-16 rounded-lg basis-20 shrink-0 flexCenter"
           style={{ backgroundColor: journal.color }}
         >
           <p className="text-2xl">{journal && journal.emoji}</p>
@@ -27,7 +25,7 @@ const Entry = ({ date, journalId, journal }) => {
             {journal && journal.title}
           </p>
         </div>
-      </div>
+      </article>
     </Link>
   );
 };
@@ -54,14 +52,15 @@ const Entries = () => {
   }, []);
 
   return (
-    <section className="mx-6 mt-10 lg:max-w-screen-md lg:mx-auto">
+    <main className="mx-6 mt-10 lg:max-w-screen-md lg:mx-auto">
       <Header />
       <h1 className="text-3xl font-bold mt-11">Journal Entries</h1>
       <section>
         <h2 className="font-semibold">This week</h2>
         <section className="mt-4 flex flex-col gap-4 min-h-48">
-          {journals.length === 0 && <p>No entries yet</p>}
-          {journals &&
+          {journals.length === 0 ? (
+            <p>No entries yet</p>
+          ) : (
             journals.map((journal) => (
               <Entry
                 key={journal._id}
@@ -69,28 +68,28 @@ const Entries = () => {
                 journalId={journal._id}
                 journal={journal}
               />
-            ))}
+            ))
+          )}
         </section>
       </section>
       <section className="pb-4">
         <h2 className="font-semibold mt-8">Browse</h2>
         <h3 className="mt-4 font-medium">2024</h3>
         <section className="mt-4 flex flex-col gap-4">
-          <div className="border rounded-xl w-full h-16 px-4 py-2 flex justify-start items-center">
-            <p className="font-bold">Jun</p>
-          </div>
-          <div className="border rounded-xl w-full h-16 px-4 py-2 flex justify-start items-center">
-            <p className="font-bold">May</p>
-          </div>
-          <div className="border rounded-xl w-full h-16 px-4 py-2 flex justify-start items-center">
-            <p className="font-bold">Apr</p>
-          </div>
+          {["Jun", "May", "Apr"].map((month) => (
+            <div
+              key={month}
+              className="border rounded-xl w-full h-16 px-4 py-2 flex justify-start items-center"
+            >
+              <p className="font-bold">{month}</p>
+            </div>
+          ))}
         </section>
       </section>
-      <div className="sticky bottom-2 w-full">
+      <nav className="sticky bottom-2 w-full">
         <BottomNav />
-      </div>
-    </section>
+      </nav>
+    </main>
   );
 };
 

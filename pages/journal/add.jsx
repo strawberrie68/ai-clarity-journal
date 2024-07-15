@@ -73,7 +73,7 @@ const Add = () => {
 
   const updateEntriesAsString = (entries) => {
     const entriesString = entries
-      .map((entry, index) => {
+      .map((entry) => {
         return questions
           .map((question, qIndex) => {
             return `${question}: ${entry[`question${qIndex + 1}`]}`;
@@ -116,11 +116,11 @@ const Add = () => {
   }, [entries]);
 
   return (
-    <div className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
+    <main className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
       <Header />
       <DateTitle />
       <form className="flex flex-col gap-4">
-        <div
+        <article
           className={`w-full px-4 pt-4 pb-8 flex flex-col rounded-lg my-6 ${backgroundColors[currentQuestionIndex]}`}
         >
           <h2 className="text-lg text-gray-500 font-medium">
@@ -129,95 +129,47 @@ const Add = () => {
           <p className="text-xl font-semibold mt-2">
             {[...questions[currentQuestionIndex]].slice(1).join("")}
           </p>
-        </div>
-        <div>
+        </article>
+        <section>
           {currentQuestionIndex === 0 && (
             <>
               <h3 className="font-semibold">Mood</h3>
-              <div className="mood__inputs flex justify-between px-2 mt-2 mb-2">
-                <label>
-                  <input
-                    type="radio"
-                    name="mood"
-                    value="happy"
-                    onChange={handleInputChange}
-                  />
-                  <Image
-                    src="/smiley.svg"
-                    alt="happy emoji"
-                    width={32}
-                    height={32}
-                  />
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="mood"
-                    value="meh"
-                    onChange={handleInputChange}
-                  />
-                  <Image
-                    src="/smiley-meh.svg"
-                    alt="meh emoji"
-                    width={32}
-                    height={32}
-                  />
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="mood"
-                    value="blank"
-                    onChange={handleInputChange}
-                  />
-                  <Image
-                    src="/smiley-blank.svg"
-                    alt="blank emoji"
-                    width={32}
-                    height={32}
-                  />
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="mood"
-                    value="sad"
-                    onChange={handleInputChange}
-                  />
-                  <Image
-                    src="/smiley-sad.svg"
-                    alt="sad emoji"
-                    width={32}
-                    height={32}
-                  />
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="mood"
-                    value="nervous"
-                    onChange={handleInputChange}
-                  />
-                  <Image
-                    src="/smiley-nervous.svg"
-                    alt="nervous emoji"
-                    width={32}
-                    height={32}
-                  />
-                </label>
-              </div>
+              <fieldset className="mood__inputs flex justify-between px-2 mt-2 mb-2">
+                <legend className="sr-only">Select your mood</legend>
+                {["happy", "meh", "blank", "sad", "nervous"].map((mood) => (
+                  <label key={mood}>
+                    <input
+                      type="radio"
+                      name="mood"
+                      value={mood}
+                      onChange={handleInputChange}
+                    />
+                    <Image
+                      src={`/smiley-${mood}.svg`}
+                      alt={`${mood} emoji`}
+                      width={32}
+                      height={32}
+                    />
+                  </label>
+                ))}
+              </fieldset>
             </>
           )}
-        </div>
-        <div>
-          <h3 className="font-semibold">Journal</h3>
-          <textarea
-            className="border border-inherit rounded-lg h-64 w-full mt-2 px-4 py-2"
-            placeholder="Write something here..."
-            value={answers[`question${currentQuestionIndex + 1}`]}
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
+        </section>
+        <section>
+          <fieldset>
+            <h3 className="font-semibold">Journal</h3>
+            <legend className="sr-only">
+              Write your answer to the journal prompts here
+            </legend>
+            <textarea
+              className="border border-inherit rounded-lg h-64 w-full mt-2 px-4 py-2"
+              placeholder="Write something here..."
+              value={answers[`question${currentQuestionIndex + 1}`]}
+              onChange={handleInputChange}
+            ></textarea>
+          </fieldset>
+        </section>
         <div className="flex justify-between mt-4 absolute bottom-6 w-full -left-6 lg:max-w-screen-md lg:bottom-4 lg:relative lg:mx-auto">
           <Button
             buttonText="Cancel"
@@ -231,7 +183,7 @@ const Add = () => {
           />
         </div>
       </form>
-    </div>
+    </main>
   );
 };
 

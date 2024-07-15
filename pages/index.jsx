@@ -35,9 +35,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="mx-6 mt-10 pb-8">
-      <div className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
-        <div className="">
+    <main className="mx-6 mt-10 pb-8">
+      <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
+        <section>
           <button
             className={`bg-zinc-100 h-16 w-16 rounded-full ${flexCenter}`}
           >
@@ -47,21 +47,21 @@ export default function Home() {
             <p className="text-6xl font-bold">Hello,</p>
             <p className="text-6xl font-bold">Michelle</p>
           </div>
-        </div>
-        <div>
+        </section>
+        <section>
           <Image
             src="/user-profile.png"
             alt="user profile"
             width={66}
             height={66}
           />
-        </div>
-      </div>
-      <div className="lg:max-w-screen-lg lg:mx-auto">
+        </section>
+      </header>
+      <section className="lg:max-w-screen-lg lg:mx-auto">
         <NavBar />
-      </div>
-      <div className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8">
-        <div className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto lg:basis-3/5">
+      </section>
+      <section className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8">
+        <section className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto lg:basis-3/5">
           <div className="mt-10 flex gap-4 ">
             <Link href="/journal/add">
               <Card
@@ -105,16 +105,16 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="mt-10 lg:mt-0 lg:basis-2/5">
+        </section>
+        <section className="mt-10 lg:mt-0 lg:basis-2/5">
           <h3 className="text-xl font-bold">Inbox</h3>
           <InboxNav />
           <InboxList />
-        </div>
-      </div>
-      <div className="sticky bottom-4 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+        </section>
+      </section>
+      <nav className="sticky bottom-4 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
-      </div>
-    </div>
+      </nav>
+    </main>
   );
 }
