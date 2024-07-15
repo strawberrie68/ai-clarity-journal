@@ -1,15 +1,11 @@
-import BottomNav from "@/components/common/BottomNav";
-import Header from "@/components/common/Header";
-import "../../../styles/global.css";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import BottomNav from "@/components/common/BottomNav";
+import Header from "@/components/common/Header";
+import { formatDate } from "@/utils/formatUtils";
+import "../../../styles/global.css";
 
 const Entry = ({ date, journalId, journal }) => {
-  const formatDate = (date) => {
-    const options = { weekday: "short", month: "short", day: "numeric" };
-    const dateObj = new Date(date);
-    return dateObj.toLocaleDateString("en-US", options);
-  };
 
   const flexCenter = "flex justify-center items-center";
   const formattedDate = formatDate(date);

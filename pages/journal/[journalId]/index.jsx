@@ -4,25 +4,11 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../components/common/Header";
 import TabComponent from "@/components/common/TabComponent";
 import BottomNav from "@/components/common/BottomNav";
+import { formatDate, formattedHaiku } from "@/utils/formatUtils";
 
 import "../../../styles/global.css";
 
 const PastEntry = () => {
-  const formattedHaiku = (haiku) => {
-    return haiku?.split(",").map((part, index) => (
-      <p key={index}>
-        {part.trim()}
-        <br />
-      </p>
-    ));
-  };
-
-  const formatDate = (date) => {
-    const options = { weekday: "short", month: "short", day: "numeric" };
-    const dateObj = new Date(date);
-    return dateObj.toLocaleDateString("en-US", options);
-  };
-
   const [journal, setJournal] = useState({});
   const router = useRouter();
   const { journalId } = router.query;

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
 import TabComponent from "@/components/common/TabComponent";
+import { formattedHaiku } from "@/utils/formatUtils";
 
 import "../../../../styles/global.css";
 
@@ -12,22 +13,8 @@ const Summary = () => {
   const [journal, setJournal] = useState({});
   const [haiku, setHaiku] = useState("");
 
-  const formattedHaiku = haiku?.split(",").map((part, index) => (
-    <p key={index}>
-      {part.trim()}
-      <br />
-    </p>
-  ));
   const router = useRouter();
   const { journalId } = router.query;
-
-  const fetchJournal = async (journalId) => {
-    const response = await fetch(
-      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
-    );
-    const data = await response.json();
-    setJournal(data[0]);
-  };
 
   useEffect(() => {
     if (journalId) {
