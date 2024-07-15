@@ -7,6 +7,7 @@ import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
 import InboxList from "@/components/common/InboxList";
 import BottomNav from "@/components/common/BottomNav";
+import { formatQuote } from "@/utils/formatUtils";
 
 import "../styles/global.css";
 
@@ -32,22 +33,6 @@ export default function Home() {
   useEffect(() => {
     fetchLatestJournal();
   }, []);
-
-  const formatQuote = (quote) => {
-    if (!quote) return null;
-
-    const [quoteText, author] = quote.split(" - ");
-    return (
-      <div className="">
-        <p className="text-lg">{quoteText}</p>
-        {author && (
-          <>
-            <p className="mt-2 text-xs flex justify-end pr-10"> - {author}</p>
-          </>
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className="mx-6 mt-10 pb-8">
