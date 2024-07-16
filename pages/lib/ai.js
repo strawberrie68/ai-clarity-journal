@@ -29,7 +29,7 @@ const parser = StructuredOutputParser.fromZodSchema(
         `
         Pick a hex color that is pastel color. I want it super pale, almost white.
         You should be playful with the hex color, if the user mention an object or a place, 
-        pick a color that represents that object or place. `
+        pick a color that represents that object or place. Do not use gray or black.`
       )
       .optional(),
     emoji: z
