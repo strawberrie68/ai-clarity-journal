@@ -19,7 +19,10 @@ import {
 const PickJournal = () => {
   const { setJournalPrompts } = useContext(JournalContext);
   const { push } = useRouter();
+  const timePeriod = getCurrentTimePeriod();
+  const isMorning = timePeriod === "morning";
   const [selectedJournal, setSelectedJournal] = useState(null);
+
   const handleCardPick = (prompts, label) => {
     if (label === "Random") {
       const randomPromptsList = randomizePrompts(random);
@@ -47,6 +50,7 @@ const PickJournal = () => {
         </p>
       </section>
       <section className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {isMorning ? (
           <JournalCard
             src="/sun.svg"
             alt="morning icon"
@@ -54,6 +58,7 @@ const PickJournal = () => {
             onClick={() => handleCardPick(morningDaily, "Morning")}
             selected={selectedJournal === "Morning"}
           />
+        ) : (
           <JournalCard
             src="/moon-stars.svg"
             alt="night icon"
@@ -61,6 +66,8 @@ const PickJournal = () => {
             onClick={() => handleCardPick(eveningDaily, "Night")}
             selected={selectedJournal === "Night"}
           />
+        )}
+
         <JournalCard
           src="/heart.svg"
           alt="gratitude icon"
