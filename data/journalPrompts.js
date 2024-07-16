@@ -10,7 +10,7 @@ export const nervous = [
 ];
 export const happy = [
   "✨ How can you create more moments like this in the future?",
-  "❤️ Describe in detail the moment or event that made you feel this way.",
+  "🪞 Describe in detail the moment or event that made you feel this way.",
   "💁‍♀️ What are three things you are grateful for right now?",
 ];
 
@@ -28,7 +28,7 @@ export const angry = [
 
 export const dreamLife = [
   "💭 What would my life look like over the next 5 years I follow the same path I’m on now?",
-  "❤️ What would my life look like over the next 5 years if I couldn’t do what I’m doing now and had to choose the next thing that I would do instead?",
+  "🗺️ What would my life look like over the next 5 years if I couldn’t do what I’m doing now and had to choose the next thing that I would do instead?",
   "🎯 What would my life look like over the next 5 years if money wasn’t an issue and I could do whatever I wanted?",
 ];
 export const productivity = [
@@ -50,7 +50,7 @@ export const eveningDaily = [
   "📝 What excited me?",
   "🔋 What drained me of energy?",
   "📕 What did I learn?",
-  "❤️ What are 5 things I’m grateful for?",
+  "💌 What are 5 things I’m grateful for?",
   "🧭 How did I push the needle forward?",
 ];
 
@@ -71,6 +71,6 @@ export const random = [
   "🚀 What steps can I take today to start moving toward this ideal life?",
   "🎲 Are you taking enough risks in your life? Would you like to change your relationship to risk? If so, how?",
   "🎯 Which goal will have the greatest impact on your life?",
-  "⚡ What activities in the last 2 weeks have energized and drained me?",
+  "🔋 What activities in the last 2 weeks have energized and drained me?",
   "🕊️ What would you like people to say at your funeral?",
 ];
