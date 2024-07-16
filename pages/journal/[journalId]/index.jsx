@@ -13,6 +13,16 @@ const PastEntry = () => {
   const router = useRouter();
   const { journalId } = router.query;
 
+  function formatJournalEntry(entry) {
+    entry = entry.replace(/:/g, ":<br/>");
+    entry = entry.replace(/([\uD800-\uDBFF][\uDC00-\uDFFF])/g, "<br/><br/>$1");
+    const lines = entry.split("\n");
+    const formattedLines = lines.map((line, index) => (
+      <p key={index} dangerouslySetInnerHTML={{ __html: line }} />
+    ));
+    return formattedLines;
+  }
+
   useEffect(() => {
     const fetchJournal = async () => {
       const response = await fetch(
@@ -96,18 +106,21 @@ const PastEntry = () => {
       label: "Entry",
       content: (
         <div className="min-h-[580px] mt-8">
-          <h2 className="text-lg mt-12 font-bold px-2 text-gray-500">
-            {`${journal && journal.emoji} 
-              ${journal && journal.title}`}
+          <h2 className="text-md mt-10 font-bold mb-2 text-gray-500">
+            {journal && formatDate(journal.date)}
           </h2>
-          <div>
+          <div className="">
             {journal &&
               journal.entries?.map((entry) => (
                 <div key={entry._id}>
-                  <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
-                    <p className="max-w-prose ">{entry.content}</p>
+                  <section className="w-full min-h-16 px-4 py-8 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100">
+                    <h2 className="text-lg font-semibold max-w-prose pb-4">
+                      {`${journal && journal.emoji} 
+              ${journal && journal.title}`}
+                    </h2>
+                    {formatJournalEntry(entry.content)}
                   </section>
-                  <section className="w-full min-h-16 px-4 py-4 flex flex-col gap-4 rounded-lg border">
+                  <section className="w-full min-h-16 mt-4 px-4 py-4 flex flex-col gap-4 rounded-lg border">
                     <p className="max-w-prose ">{entry.aiResponse}</p>
                   </section>
                 </div>
@@ -124,7 +137,7 @@ const PastEntry = () => {
       <div className="pt-6">
         <TabComponent tabs={tabs} />
       </div>
-      <div className="">
+      <div className="pt-6">
         <BottomNav />
       </div>
     </section>
