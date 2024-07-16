@@ -28,3 +28,12 @@ export const formatQuote = (quote) => {
     </div>
   );
 };
+
+export const getCurrentTimePeriod = () => {
+  const currentHour = new Date().getHours();
+  return currentHour >= 6 && currentHour < 18 ? "morning" : "night";
+};
+
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
