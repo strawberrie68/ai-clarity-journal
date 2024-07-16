@@ -1,13 +1,5 @@
-import Image from "next/image";
-
-const NavItem = ({ src, text }) => (
-  <li className="basis-1/3">
-    <div className="flex items-center gap-2">
-      <Image src={src} alt={text} width={24} height={24} />
-      <p>{text}</p>
-    </div>
-  </li>
-);
+import React, { act, useState } from "react";
+import NavItem from "./NavItem";
 
 const InboxNav = () => {
   return (
