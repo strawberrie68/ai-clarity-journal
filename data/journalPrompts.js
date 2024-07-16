@@ -53,3 +53,24 @@ export const eveningDaily = [
   "❤️ What are 5 things I’m grateful for?",
   "🧭 How did I push the needle forward?",
 ];
+
+export const random = [
+  "📚 What do you want to learn?",
+  "👀 What do you want to see?",
+  "🎁 What do you want to have?",
+  "👤 Who do you want to be?",
+  "🧪 What do you want to try?",
+  "🎯 What do you want to do?",
+  "🌍 Where do you want to go?",
+  "🎨 What do you want to create?",
+  "🤝 What do you want to contribute to?",
+  "💪 What do you want to overcome?",
+  "🌟 What made you feel most alive when you were young?",
+  "🏅 What do you want to be remembered for?",
+  "🔍 What do you want to be known for?",
+  "🚀 What steps can I take today to start moving toward this ideal life?",
+  "🎲 Are you taking enough risks in your life? Would you like to change your relationship to risk? If so, how?",
+  "🎯 Which goal will have the greatest impact on your life?",
+  "⚡ What activities in the last 2 weeks have energized and drained me?",
+  "🕊️ What would you like people to say at your funeral?",
+];
