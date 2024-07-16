@@ -11,8 +11,8 @@ const InboxItem = ({ text, icon, status, background }) => {
           </div>
           <span className="line-clamp-1">{text}</span>
         </div>
-        <div className="flexCenter border border-black px-2 py-1 rounded-full h-9 basis-28">
-          <span>{status}</span>
+        <div className="flexCenter border border-black px-2 py-1 rounded-full h-9 basis-20 shrink-0">
+          <span className="text-xs">{status}</span>
         </div>
       </div>
     </li>
