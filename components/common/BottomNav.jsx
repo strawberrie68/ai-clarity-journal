@@ -11,7 +11,7 @@ export const inactiveTextStyle = "text-white text-xs";
 export const navLinks = [
   { id: 1, name: "Inbox", icon: `/calendar-dots`, path: "/" },
   { id: 2, name: "Explore", icon: `/explore`, path: "/explore" },
-  { id: 3, name: "Add", icon: `/book`, path: "/journal/add" },
+  { id: 3, name: "Add", icon: `/book`, path: "/pickJournal" },
   { id: 4, name: "Entries", icon: `/books`, path: "/journal/entries" },
   { id: 5, name: "Review", icon: `/review`, path: "/reviews" },
 ];
