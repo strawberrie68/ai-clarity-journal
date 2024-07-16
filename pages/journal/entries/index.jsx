@@ -72,7 +72,7 @@ const Entries = () => {
           )}
         </section>
       </section>
-      <section className="pb-4">
+      <section className="pb-10">
         <h2 className="font-semibold mt-8">Browse</h2>
         <h3 className="mt-4 font-medium">2024</h3>
         <section className="mt-4 flex flex-col gap-4">
@@ -86,7 +86,7 @@ const Entries = () => {
           ))}
         </section>
       </section>
-      <nav className="sticky bottom-2 w-full">
+      <nav className="sticky bottom-6 w-full">
         <BottomNav />
       </nav>
     </main>
