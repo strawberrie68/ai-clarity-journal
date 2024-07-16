@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { JournalContext } from "../pages/JournalContext";
+import { JournalContext } from "./JournalContext";
 import Button from "@/components/common/Button";
 import Header from "@/components/common/Header";
 import JournalCard from "@/components/common/JournalCard";
@@ -20,10 +20,21 @@ const PickJournal = () => {
   const { setJournalPrompts } = useContext(JournalContext);
   const { push } = useRouter();
   const [selectedJournal, setSelectedJournal] = useState(null);
+  const handleCardPick = (prompts, label) => {
+    if (label === "Random") {
+      const randomPromptsList = randomizePrompts(random);
+      setJournalPrompts(randomPromptsList);
+    } else {
+      setJournalPrompts(prompts);
+    }
+    setSelectedJournal(label);
+  };
+
   const handleSelectedJournal = () => {
     const path = selectedJournal === "More" ? "/explore" : "/journal/add";
     push(path);
   };
+
   return (
     <article className="mx-6 mt-10 pb-8 lg:max-w-screen-lg lg:mx-auto">
       <Header />
@@ -36,6 +47,56 @@ const PickJournal = () => {
         </p>
       </section>
       <section className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <JournalCard
+            src="/sun.svg"
+            alt="morning icon"
+            label="Morning"
+            onClick={() => handleCardPick(morningDaily, "Morning")}
+            selected={selectedJournal === "Morning"}
+          />
+          <JournalCard
+            src="/moon-stars.svg"
+            alt="night icon"
+            label="Night"
+            onClick={() => handleCardPick(eveningDaily, "Night")}
+            selected={selectedJournal === "Night"}
+          />
+        <JournalCard
+          src="/heart.svg"
+          alt="gratitude icon"
+          label="Gratitude"
+          onClick={() => handleCardPick(gratitudeDaily, "Gratitude")}
+          selected={selectedJournal === "Gratitude"}
+        />
+        <JournalCard
+          src="/calendar-dots.svg"
+          alt="productivity icon"
+          label="Productivity"
+          onClick={() => handleCardPick(productivity, "Productivity")}
+          selected={selectedJournal === "Productivity"}
+        />
+        <JournalCard
+          src="/bad day.svg"
+          alt="bad day journal icon"
+          label="Bad Day"
+          onClick={() => handleCardPick(sad, "Bad Day")}
+          selected={selectedJournal === "Bad Day"}
+        />
+        <JournalCard
+          src="/rocket.svg"
+          alt="random journal icon"
+          label="Random"
+          selected={selectedJournal === "Random"}
+          onClick={() => handleCardPick(null, "Random")}
+        />
+        <JournalCard
+          src="/explore.svg"
+          alt="more journal icon"
+          label="More"
+          selected={selectedJournal === "More"}
+          onClick={() => handleCardPick(morningDaily, "More")}
+        />
+      </section>
       <section className="mt-6 bottom-8 w-full">
         <Button
           buttonText="Select Journal"
