@@ -39,21 +39,21 @@ export default function Home() {
       <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
         <section>
           <button
-            className={`bg-zinc-100 h-16 w-16 rounded-full ${flexCenter}`}
+            className={`bg-zinc-100 h-10 w-10 rounded-full ${flexCenter}`}
           >
-            <Image src="/list.svg" alt="nav-bar" width={28} height={28} />
+            <Image src="/list.svg" alt="nav-bar" width={18} height={18} />
           </button>
-          <div className="mt-16">
-            <p className="text-6xl font-bold">Hello,</p>
-            <p className="text-6xl font-bold">Michelle</p>
+          <div className="mt-10">
+            <p className="text-5xl font-bold">Hello,</p>
+            <p className="text-5xl font-bold">Michelle</p>
           </div>
         </section>
         <section>
           <Image
             src="/user-profile.png"
             alt="user profile"
-            width={66}
-            height={66}
+            width={40}
+            height={40}
           />
         </section>
       </header>
@@ -106,10 +106,9 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="mt-10 lg:mt-0 lg:basis-2/5">
+        <section className="mt-8 lg:mt-0 lg:basis-2/5">
           <h3 className="text-xl font-bold">Inbox</h3>
           <InboxNav />
-          <InboxList />
         </section>
       </section>
       <nav className="sticky bottom-4 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">

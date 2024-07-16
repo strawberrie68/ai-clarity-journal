@@ -19,7 +19,7 @@ const TabComponent = ({ tabs }) => {
             key={tab.key}
             className={`${
               activeTab === tab.key ? activeTabStyle : inactiveTabStyle
-            } rounded-xl h-9 px-6 flex justify-center items-center cursor-pointer`}
+            } rounded-full h-9 px-6 flex justify-center items-center cursor-pointer`}
             onClick={() => handleToggle(tab.key)}
           >
             <h3
