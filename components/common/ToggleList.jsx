@@ -43,13 +43,13 @@ const ToggleList = () => {
         {activeItem === "All" && (
           <section className="flex flex-col gap-2 mt-4">
             <div
-              className="border rounded-lg px-2 py-3"
+              className="border rounded-lg px-2 py-3 hover:border-black"
               onClick={() => handleCardClick(dreamLife)}
             >
               <p>❤️ Find your passion</p>
             </div>
             <div
-              className="border rounded-lg px-2 py-3"
+              className="border rounded-lg px-2 py-3 hover:border-black"
               onClick={() => handleCardClick(productivity)}
             >
               <p>✨ Be Productive</p>

@@ -1,14 +1,11 @@
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-
-import NavBar from "@/components/common/NavBar";
+import Link from "next/link";
+import { formatQuote } from "@/utils/formatUtils";
+import BottomNav from "@/components/common/BottomNav";
 import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
-import InboxList from "@/components/common/InboxList";
-import BottomNav from "@/components/common/BottomNav";
-import { formatQuote } from "@/utils/formatUtils";
-
+import NavBar from "@/components/common/NavBar";
 import "../styles/global.css";
 
 export default function Home() {
@@ -91,20 +88,14 @@ export default function Home() {
               textBackground="bg-[#f0f0f0]"
             />
           </div>
-          <div className="mt-10 lg:mt-0">
-            <div
-              className={`h-44 min-w-40  max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 ${flexCenter}`}
-            >
-              <div className="text-gray-400 max-w-">
-                {!journal && (
-                  <p>Excitement is a better motivator than discipline.</p>
-                )}
-                <p className="line-clamp-4">
-                  {journal && formatQuote(journal.quote)}
-                </p>
-              </div>
-            </div>
-          </div>
+          <article className="mt-10 text-gray-400 lg:mt-0 h-44 min-w-40  max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 flexCenter">
+            {!journal && (
+              <p>Excitement is a better motivator than discipline.</p>
+            )}
+            <p className="line-clamp-4">
+              {journal && formatQuote(journal.quote)}
+            </p>
+          </article>
         </section>
         <section className="mt-8 lg:mt-0 lg:basis-2/5">
           <h3 className="text-xl font-bold">Inbox</h3>

@@ -4,7 +4,7 @@ import "../../styles/global.css";
 const DailyCard = ({ subType, icon, title, handleClick }) => {
   return (
     <article
-      className="min-h-36 flex flex-col flexCenter border rounded-lg bg-zinc-100 w-full"
+      className="min-h-36 flex flex-col flexCenter border rounded-lg bg-zinc-100 w-full hover:border-black cursor-pointer"
       onClick={handleClick}
     >
       <span className="text-xs mb-4">{subType}</span>

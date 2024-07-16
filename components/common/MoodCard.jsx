@@ -3,8 +3,11 @@ import Image from "next/image";
 import { capitalizeFirstLetter } from "@/utils/formatUtils";
 
 const MoodCard = ({ mood, handleClick }) => (
-  <button className="flex-col flex flexCenter" onClick={handleClick}>
-    <div className="w-16 h-16 border rounded-xl flexCenter">
+  <button
+    className="flex-col flex flexCenter cursor-pointer"
+    onClick={handleClick}
+  >
+    <div className="w-16 h-16 border hover:border-black rounded-xl flexCenter">
       <Image
         src={`/smiley-${mood}.svg`}
         alt={`${mood} mood emoji`}
