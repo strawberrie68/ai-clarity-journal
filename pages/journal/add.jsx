@@ -12,6 +12,8 @@ const backgroundColors = [
   "bg-gradient-to-r from-lime-50 to-teal-50 ",
   "bg-gradient-to-r from-indigo-100 to-yellow-100",
   "bg-gradient-to-r from-violet-100 to-pink-100",
+  "bg-gradient-to-r from-lime-50 to-teal-50 ",
+  "bg-gradient-to-r from-indigo-100 to-yellow-100",
 ];
 
 const Add = () => {
