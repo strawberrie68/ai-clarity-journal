@@ -1,19 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
+import { JournalContext } from "../JournalContext";
 import Image from "next/image";
-
+import Button from "@/components/common/Button";
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
-import Button from "@/components/common/Button";
-
 import "../../styles/global.css";
-
-const questions = [
-  "✨ What's your highest priority today?",
-  "💭 Is there anything worrying you about the day ahead?",
-  "🥳 What are you looking forward to today?",
-];
 
 const backgroundColors = [
   "bg-gradient-to-r from-lime-50 to-teal-50 ",
@@ -21,17 +14,22 @@ const backgroundColors = [
   "bg-gradient-to-r from-violet-100 to-pink-100",
 ];
 
-const emojis = ["✨", "💭", "🥳"];
-
 const Add = () => {
+  const { journalPrompts } = useContext(JournalContext);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState({
-    question1: "",
-    question2: "",
-    question3: "",
-  });
+  const [answers, setAnswers] = useState({});
   const [entries, setEntries] = useState([]);
   const [entriesAsString, setEntriesAsString] = useState({ content: "" });
+  const router = useRouter();
+
+  useEffect(() => {
+    const initialAnswers = journalPrompts.reduce((acc, _, index) => {
+      acc[`question${index + 1}`] = "";
+      return acc;
+    }, {});
+    setAnswers(initialAnswers);
+  }, [journalPrompts]);
+
   const { push } = useRouter();
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -43,7 +41,7 @@ const Add = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < journalPrompts.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       const newEntries = [...entries, answers];
@@ -61,11 +59,7 @@ const Add = () => {
         console.error(`ERROR ${error}`);
       }
 
-      setAnswers({
-        question1: "",
-        question2: "",
-        question3: "",
-      });
+      setAnswers({});
       setCurrentQuestionIndex(0);
       setEntriesAsString("");
     }
@@ -74,7 +68,7 @@ const Add = () => {
   const updateEntriesAsString = (entries) => {
     const entriesString = entries
       .map((entry) => {
-        return questions
+        return journalPrompts
           .map((question, qIndex) => {
             return `${question}: ${entry[`question${qIndex + 1}`]}`;
           })
@@ -108,7 +102,7 @@ const Add = () => {
 
   const handleBack = (e) => {
     e.preventDefault();
-    push("/");
+    router.back();
   };
 
   useEffect(() => {
@@ -123,11 +117,9 @@ const Add = () => {
         <article
           className={`w-full px-4 pt-4 pb-8 flex flex-col rounded-lg my-6 ${backgroundColors[currentQuestionIndex]}`}
         >
-          <h2 className="text-lg text-gray-500 font-medium">
-            {emojis[currentQuestionIndex]} Question
-          </h2>
+          <h2 className="text-lg text-gray-500 font-medium">Question</h2>
           <p className="text-xl font-semibold mt-2">
-            {[...questions[currentQuestionIndex]].slice(1).join("")}
+            {journalPrompts[currentQuestionIndex]}
           </p>
         </article>
         <section>
@@ -163,7 +155,7 @@ const Add = () => {
               Write your answer to the journal prompts here
             </legend>
             <textarea
-              className="border border-inherit rounded-lg h-64 w-full mt-2 px-4 py-2"
+              className="border border-inherit rounded-lg h-48 w-full mt-2 px-4 py-2"
               placeholder="Write something here..."
               value={answers[`question${currentQuestionIndex + 1}`]}
               onChange={handleInputChange}
