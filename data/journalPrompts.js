@@ -74,3 +74,12 @@ export const random = [
   "🔋 What activities in the last 2 weeks have energized and drained me?",
   "🕊️ What would you like people to say at your funeral?",
 ];
+
+
+export const procrastination = [
+  "Am I actually clear on what to do here?",
+  "Am I actually clear on why I'm doing it?",
+  "Am I actually clear on when I'm gonna do it?",
+];
+
+export const oneThing = ["What is one thing you want to accomplish today?"];

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { JournalContext } from "../../pages/JournalContext";
-import { dreamLife, productivity } from "../../data/journalPrompts";
+import { dreamLife, productivity, procrastination, oneThing } from "../../data/journalPrompts";
 import NavItem from "./NavItem";
 import "../../styles/global.css";
 
@@ -53,6 +53,18 @@ const ToggleList = () => {
               onClick={() => handleCardClick(productivity)}
             >
               <p>✨ Be Productive</p>
+            </div>
+            <div
+              className="border rounded-lg px-2 py-3 hover:border-black"
+              onClick={() => handleCardClick(procrastination)}
+            >
+              <p>⏰ Procrastination</p>
+            </div>
+            <div
+              className="border rounded-lg px-2 py-3 hover:border-black"
+              onClick={() => handleCardClick(oneThing)}
+            >
+              <p>⭐️ Highlight</p>
             </div>
           </section>
         )}

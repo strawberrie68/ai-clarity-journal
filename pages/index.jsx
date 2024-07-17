@@ -36,7 +36,7 @@ export default function Home() {
       <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
         <section>
           <button
-            className={`bg-zinc-100 h-10 w-10 rounded-full ${flexCenter}`}
+            className={`bg-zinc-100 h-11 w-11 rounded-full ${flexCenter}`}
           >
             <Image src="/list.svg" alt="nav-bar" width={18} height={18} />
           </button>
@@ -49,8 +49,8 @@ export default function Home() {
           <Image
             src="/user-profile.png"
             alt="user profile"
-            width={40}
-            height={40}
+            width={44}
+            height={44}
           />
         </section>
       </header>
