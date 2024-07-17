@@ -1,7 +1,7 @@
 const Button = ({ buttonText, isPrimary, handleClick, type }) => {
   const buttonStyle = isPrimary
     ? "border border-black bg-white text-black hover:bg-black hover:text-white"
-    : "text-gray-500 bg-transparent hover:text-black";
+    : "text-gray-500 bg-white hover:text-black";
 
   return (
     <button

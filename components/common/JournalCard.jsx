@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const JournalCard = ({ src, alt, label, onClick, selected }) => (
   <article
-    className={`border rounded-2xl min-w-44 flexCenter flex-col h-28 bg-zinc-100 hover:border-black ${
+    className={`border rounded-2xl min-w-36 flexCenter flex-col h-28 bg-zinc-100 hover:border-black ${
       selected ? "border-black" : "border-stone-300"
     }`}
     onClick={onClick}

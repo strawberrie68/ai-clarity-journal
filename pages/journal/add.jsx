@@ -157,14 +157,14 @@ const Add = () => {
               Write your answer to the journal prompts here
             </legend>
             <textarea
-              className="border border-inherit rounded-lg h-48 w-full mt-2 px-4 py-2"
+              className="border border-inherit rounded-lg h-48 w-full mt-4 px-4 py-2"
               placeholder="Write something here..."
               value={answers[`question${currentQuestionIndex + 1}`]}
               onChange={handleInputChange}
             ></textarea>
           </fieldset>
         </section>
-        <div className="flex justify-between mt-4 absolute bottom-6 w-full -left-6 lg:max-w-screen-md lg:bottom-4 lg:relative lg:mx-auto">
+        <div className="flex justify-between mt-4 relative bottom-6 w-full -left-6 lg:max-w-screen-md lg:bottom-4 lg:relative lg:mx-auto">
           <Button
             buttonText="Cancel"
             isPrimary={false}
