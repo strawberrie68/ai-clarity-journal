@@ -1,8 +1,8 @@
 import { Entry } from "@/models/Entry";
 import { Journal } from "@/models/Journal";
 import { User } from "@/models/User";
-import connectDB from "@/pages/lib/connectDB";
-import openai from "@/pages/lib/openaiClient";
+import connectDB from "@/lib/connectDB";
+import openai from "@/lib/openaiClient";
 
 // System prompts
 const DIG_DEEPER_PROMPT = `

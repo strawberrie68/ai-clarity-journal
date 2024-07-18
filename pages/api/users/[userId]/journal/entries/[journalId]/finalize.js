@@ -1,6 +1,6 @@
 import { Journal } from "@/models/Journal";
-import connectDB from "@/pages/lib/connectDB";
-import { analyze } from "../../../../../../lib/ai";
+import connectDB from "@/lib/connectDB";
+import { analyze } from "../../../../../../../lib/ai";
 
 async function updateJournalEntry(journalId) {
   try {

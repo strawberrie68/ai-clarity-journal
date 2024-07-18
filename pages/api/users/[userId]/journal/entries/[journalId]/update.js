@@ -1,7 +1,7 @@
 import { Journal } from "@/models/Journal";
-import connectDB from "@/pages/lib/connectDB";
+import connectDB from "@/lib/connectDB";
 import { Entry } from "@/models/Entry";
-import openai from "@/pages/lib/openaiClient";
+import openai from "@/lib/openaiClient";
 
 // System prompts
 const CONVERSATION_PROMPT = `

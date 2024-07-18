@@ -1,5 +1,5 @@
 import { User } from "../../../models/User";
-import connectDB from "../../lib/connectDB";
+import connectDB from "../../../lib/connectDB";
 
 async function getUser(_req, res) {
   try {

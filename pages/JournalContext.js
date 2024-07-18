@@ -15,3 +15,6 @@ export const JournalProvider = ({ children }) => {
     </JournalContext.Provider>
   );
 };
+
+
+export default JournalProvider;

@@ -1,5 +1,5 @@
 import { Journal } from "../../../models/Journal";
-import connectDB from "../../lib/connectDB";
+import connectDB from "../../../lib/connectDB";
 
 async function getJournals(_req, res) {
   try {

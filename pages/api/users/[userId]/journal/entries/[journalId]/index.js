@@ -1,4 +1,4 @@
-import connectDB from "../../../../../../lib/connectDB";
+import connectDB from "../../../../../../../lib/connectDB";
 import { Journal } from "@/models/Journal";
 import { Entry } from "@/models/Entry";
 
