@@ -13,7 +13,7 @@ export const navLinks = [
   { id: 2, name: "Explore", icon: `/explore`, path: "/explore" },
   { id: 3, name: "Add", icon: `/book`, path: "/pickJournal" },
   { id: 4, name: "Entries", icon: `/books`, path: "/journal/entries" },
-  { id: 5, name: "Review", icon: `/review`, path: "/reviews" },
+  { id: 5, name: "Review", icon: `/review`, path: "/review" },
 ];
 
 const BottomNav = () => {
