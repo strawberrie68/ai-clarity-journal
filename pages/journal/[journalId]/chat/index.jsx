@@ -13,6 +13,7 @@ const Chat = () => {
   const [values, setValues] = useState(initialValues);
   const [journal, setJournal] = useState({});
   const [entryIndex, setEntryIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { push } = useRouter();
   const { journalId } = router.query;
@@ -52,6 +53,7 @@ const Chat = () => {
         body: JSON.stringify({ content: values.content }),
       }
     );
+    setLoading(true);
 
     if (response) {
       const data = await response.json();
@@ -62,6 +64,7 @@ const Chat = () => {
       console.error("Invalid response from createJournalEntry:", response);
     }
   };
+  console.log(loading);
 
   const finalizeJournal = async (entry, journalId) => {
     const response = await fetch(
@@ -80,6 +83,7 @@ const Chat = () => {
 
   const handleFinalize = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await finalizeJournal(values, journalId);
@@ -117,14 +121,16 @@ const Chat = () => {
         </div>
         <div className="flex justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
           <Button
-            buttonText="Dig Deeper"
+            buttonText={loading ? "Dig Deeper..." : "Dig Deeper"}
             isPrimary={false}
             handleClick={handleDigDeeper}
+            disabled={loading}
           />
           <Button
-            buttonText="Finish"
+            buttonText={loading ? "Finalizing..." : "Finalize"}
             isPrimary={true}
             handleClick={handleFinalize}
+            disabled={loading}
           />
         </div>
       </form>

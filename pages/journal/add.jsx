@@ -21,8 +21,11 @@ const Add = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [entriesAsString, setEntriesAsString] = useState({ content: "" });
   const router = useRouter();
+  console.log(loading);
 
   useEffect(() => {
     const initialAnswers = journalPrompts.reduce((acc, _, index) => {
@@ -46,6 +49,7 @@ const Add = () => {
     if (currentQuestionIndex < journalPrompts.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      setLoading(true);
       const newEntries = [...entries, answers];
       setEntries(newEntries);
       const entriesString = updateEntriesAsString(newEntries);
@@ -60,7 +64,7 @@ const Add = () => {
       } catch (error) {
         console.error(`ERROR ${error}`);
       }
-
+      setLoading(false);
       setAnswers({});
       setCurrentQuestionIndex(0);
       setEntriesAsString("");
@@ -171,9 +175,10 @@ const Add = () => {
             handleClick={handleBack}
           />
           <Button
-            buttonText="Next"
+            buttonText={loading ? "Loading..." : "Next"}
             isPrimary={true}
             handleClick={handleSubmit}
+            disabled={loading}
           />
         </div>
       </form>
