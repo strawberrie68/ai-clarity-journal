@@ -30,3 +30,15 @@ body {
 .flexCenter {
   @apply flex items-center justify-center;
 }
+
+.input-shadow {
+  box-shadow: inset 0px -6px 7px 0px rgba(214, 214, 214, 0.13);
+}
+
+.button-shadow {
+  box-shadow: 0px 8px 32px -8px rgba(0, 0, 0, 0.25);
+}
+
+.error {
+  @apply text-rose-500 text-sm pt-2;
+}
