@@ -1,24 +1,74 @@
 import { User } from "../../../models/User";
 import connectDB from "../../../lib/connectDB";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-async function getUser(_req, res) {
+async function getUser(req, res) {
+  const { email, username } = req.query;
+
+  if (!email && !username) {
+    return res
+      .status(400)
+      .json({ error: "Email or username query parameter is required" });
+  }
+
   try {
-    const users = await User.find({});
-    res.status(200).json(users);
+    let user;
+    if (email) {
+      user = await User.findOne({ email });
+    } else if (username) {
+      user = await User.findOne({ username });
+    }
+
+    if (user) {
+      return res.status(200).json({ exists: true });
+    } else {
+      return res.status(200).json({ exists: false });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
 
 async function createUser(req, res) {
   try {
-    const { username, name, habits, journals } = req.body;
-    if (!name || !username) {
-      return res.status(400).json({ error: "Name and email are required" });
+    const { username, name, habits, journals, email, password } = req.body;
+    if (!name || !username || !email || !password) {
+      return res
+        .status(400)
+        .json({ error: "Name, email, password and username are required" });
     }
-    const person = new User({ username, name, habits, journals });
+
+    let user;
+    if (email) {
+      user = await User.findOne({ email });
+      if (user) {
+        return res
+          .status(200)
+          .json({ exists: true, message: "Email already exists" });
+      }
+    } else if (username) {
+      user = await User.findOne({ username });
+      if (user) {
+        return res
+          .status(200)
+          .json({ exists: true, message: "Username already exists" });
+      }
+    }
+
+    const hashedPassword = bcrypt.hashSync(password);
+
+    const person = new User({
+      username,
+      name,
+      habits,
+      journals,
+      email,
+      password: hashedPassword,
+    });
     await person.save();
-    res.status(201).json({ person });
+    res.status(201).json({ person }).send("User created successfully");
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
