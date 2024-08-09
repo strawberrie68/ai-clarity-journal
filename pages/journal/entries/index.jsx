@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import BottomNav from "@/components/common/BottomNav";
 import Header from "@/components/common/Header";
-import { formatDate } from "@/utils/formatUtils";
-import Image from "next/image";
-import "../../../styles/global.css";
+import { formatDate, formatDateWithoutMonth } from "@/utils/formatUtils";
 import { useAuth } from "../../AuthContext.js";
+import "../../../styles/global.css";
 
 const ToggleEntry = ({ date, journalId, journal }) => {
-  const formattedDate = formatDate(date);
+  const formattedDate = formatDateWithoutMonth(date);
   return (
     <Link href={`/journal/${journalId}`}>
       <article className="flex gap-8 h-6 items-center hover:bg-gray-300 list-disc w-full py-4">
