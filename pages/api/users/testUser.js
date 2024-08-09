@@ -7,20 +7,18 @@ const testUser = { username: "test-user", password: "test-password" };
 
 async function testUserHandler(_req, res) {
   try {
-    let user = await User.findOne({ username: testUser.username });
+    await User.deleteOne({ username: testUser.username });
 
-    if (!user) {
-      const hashedPassword = bcrypt.hashSync(testUser.password, 10);
-      user = new User({
-        username: testUser.username,
-        password: hashedPassword,
-        name: "Thanks for testing my app! 🙂 ",
-        email: "test@gmail.com",
-        habits: [],
-        journals: [],
-      });
-      await user.save();
-    }
+    const hashedPassword = bcrypt.hashSync(testUser.password, 10);
+    const user = new User({
+      username: testUser.username,
+      password: hashedPassword,
+      name: "Thanks for testing my app! 🙂",
+      email: "test@gmail.com",
+      habits: [],
+      journals: [],
+    });
+    await user.save();
 
     const passwordMatch = bcrypt.compareSync(testUser.password, user.password);
     if (passwordMatch) {
