@@ -6,7 +6,7 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
-import { useAuth } from "../AuthContext.js";
+import useAuth from "../AuthContext.js";
 
 import "../../styles/global.css";
 

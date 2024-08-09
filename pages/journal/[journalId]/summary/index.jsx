@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useAuth } from "../../../AuthContext.js";
+import useAuth from "../../../AuthContext.js";
 
 import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
