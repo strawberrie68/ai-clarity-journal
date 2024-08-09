@@ -30,8 +30,7 @@ const Register = () => {
     try {
       const response = await axios.post("/api/users", user);
       if (response) {
-        const data = await response.data;
-        console.log(data);
+        await response.data;
       }
     } catch (error) {
       console.error(error);
@@ -94,7 +93,6 @@ const Register = () => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(user);
     setUser({
       ...user,
       [name]: value,

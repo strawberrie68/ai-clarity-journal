@@ -1,7 +1,12 @@
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { JournalContext } from "../../pages/JournalContext";
-import { dreamLife, productivity, procrastination, oneThing } from "../../data/journalPrompts";
+import {
+  dreamLife,
+  productivity,
+  procrastination,
+  oneThing,
+} from "../../data/journalPrompts";
 import NavItem from "./NavItem";
 import "../../styles/global.css";
 
@@ -13,7 +18,6 @@ const ToggleList = () => {
   const handleCardClick = (prompts) => {
     setJournalPrompts(prompts);
     push("/journal/add");
-    console.log("prompts on toggleList", prompts);
   };
   return (
     <>

@@ -30,12 +30,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log("password", login);
     try {
       const response = await axios.post("/api/users/login", login);
       sessionStorage.setItem("token", response.data.token);
       sessionStorage.setItem("userId", response.data.userId);
-      console.log("token", response.data.token);
     } catch (error) {
       console.error(error);
     }
@@ -47,7 +45,6 @@ const Login = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(login);
     setLogin({
       ...login,
       [name]: value,

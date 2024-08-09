@@ -25,8 +25,7 @@ const Reset = () => {
         body: JSON.stringify(Reset),
       });
       if (response) {
-        const data = await response.json();
-        console.log(data);
+        await response.json();
       }
     } catch (error) {
       console.error(error);

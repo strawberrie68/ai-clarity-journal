@@ -66,7 +66,6 @@ const Chat = () => {
       console.error("Invalid response from createJournalEntry:", response);
     }
   };
-  console.log(loading);
 
   const finalizeJournal = async (entry, journalId) => {
     const response = await fetch(

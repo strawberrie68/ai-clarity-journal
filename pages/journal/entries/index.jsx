@@ -38,8 +38,10 @@ const Entry = ({ date, journalId, journal }) => {
           <p className="text-2xl">{journal && journal.emoji}</p>
         </div>
         <div className="basis-auto min-w-48">
-          <p className="text-stone-600 text-sm ">{formattedDate}</p>
-          <p className="line-clamp-2 text-sm text-stone-700">
+          <p className="text-stone-300 font-semibold text-sm ">
+            {formattedDate}
+          </p>
+          <p className="line-clamp-2 text-sm pt-2 text-stone-700">
             {journal && journal.title}
           </p>
         </div>
