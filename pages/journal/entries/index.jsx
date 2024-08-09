@@ -11,18 +11,16 @@ const ToggleEntry = ({ date, journalId, journal }) => {
   const formattedDate = formatDate(date);
   return (
     <Link href={`/journal/${journalId}`}>
-      <li className="flex gap-8 h-6 items-center hover:bg-gray-300 list-disc w-full">
-        <p className="text-2xl">{journal && journal.emoji}</p>
+      <article className="flex gap-8 h-6 items-center hover:bg-gray-300 list-disc w-full py-4">
+        <p className="text-stone-600 text-sm ">{formattedDate}</p>
 
-        <div className="flex basis-auto min-w-48 items-center gap-8">
-          <p className="text-stone-200 font-semibold text-sm ">
-            {formattedDate}
-          </p>
-          <p className="line-clamp-2 mt-2 text-sm text-stone-700">
+        <div className="flex basis-auto min-w-48 items-center gap-2">
+          <p className="text-md">{journal && journal.emoji}</p>
+          <p className="line-clamp-2 text-sm text-stone-700">
             {journal && journal.title}
           </p>
         </div>
-      </li>
+      </article>
     </Link>
   );
 };
@@ -148,19 +146,16 @@ const Entries = () => {
                       height={16}
                     />
                   </div>
-                  <div className="mt-8">
-                    <ul>
-                      {toggleState[year]?.[month] &&
-                        groupedJournals[year][month].map((journal) => (
-                          <li key={journal._id}>
-                            <ToggleEntry
-                              date={journal.date}
-                              journalId={journal._id}
-                              journal={journal}
-                            />
-                          </li>
-                        ))}
-                    </ul>
+                  <div className="mt-4">
+                    {toggleState[year]?.[month] &&
+                      groupedJournals[year][month].map((journal) => (
+                        <ToggleEntry
+                          date={journal.date}
+                          journalId={journal._id}
+                          journal={journal}
+                          key={journal._id}
+                        />
+                      ))}
                   </div>
                 </div>
               </section>
