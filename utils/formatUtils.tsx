@@ -1,10 +1,16 @@
-export const formatDate = (date) => {
-  const options = { weekday: "short", month: "short", day: "numeric" };
+import React from "react";
+
+export const formatDate = (date: string | number | Date): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  };
   const dateObj = new Date(date);
   return dateObj.toLocaleDateString("en-US", options);
 };
 
-export const formatDateWithoutMonth = (date) => {
+export const formatDateWithoutMonth = (date: string | number | Date) => {
   const dateObj = new Date(date);
   const options = { weekday: "short", day: "numeric" };
   const dayOfWeek = dateObj.toLocaleDateString("en-US", { weekday: "short" });
@@ -12,7 +18,7 @@ export const formatDateWithoutMonth = (date) => {
   return `${dayOfWeek} ${dayOfMonth}`;
 };
 
-export const formattedHaiku = (haiku) => {
+export const formattedHaiku = (haiku: string) => {
   return haiku?.split(",").map((part, index) => (
     <p key={index}>
       {part.trim()}
@@ -21,18 +27,18 @@ export const formattedHaiku = (haiku) => {
   ));
 };
 
-export const formatQuote = (quote) => {
+export const formatQuote = (quote: string): JSX.Element | null => {
   if (!quote) return null;
 
   const [quoteText, author] = quote.split(" - ");
+  const authorLine = author ? (
+    <p className="mt-2 text-xs flex justify-end pr-10">- {author}</p>
+  ) : null;
+
   return (
-    <div className="">
+    <div>
       <p className="text-lg">{quoteText}</p>
-      {author && (
-        <>
-          <p className="mt-2 text-xs flex justify-end pr-10"> - {author}</p>
-        </>
-      )}
+      {authorLine}
     </div>
   );
 };
@@ -42,6 +48,6 @@ export const getCurrentTimePeriod = () => {
   return currentHour >= 6 && currentHour < 18 ? "morning" : "night";
 };
 
-export const capitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
