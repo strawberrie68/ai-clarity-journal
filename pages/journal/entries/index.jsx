@@ -4,6 +4,7 @@ import BottomNav from "@/components/common/BottomNav";
 import Header from "@/components/common/Header";
 import { formatDate } from "@/utils/formatUtils";
 import "../../../styles/global.css";
+import { useAuth } from "../../AuthContext.js";
 
 const Entry = ({ date, journalId, journal }) => {
   const formattedDate = formatDate(date);
@@ -32,24 +33,26 @@ const Entry = ({ date, journalId, journal }) => {
 
 const Entries = () => {
   const [journals, setJournals] = useState([]);
+  const { userId } = useAuth();
 
   useEffect(() => {
-    const fetchJournals = async () => {
-      const response = await fetch(
-        `/api/users/6689d71d5b6990ef9ab9b498/journals`
-      );
-      const data = await response.json();
-      if (data.length > 0) {
-        const sortedJournals = data
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 7);
-        setJournals(sortedJournals);
-      } else {
-        setJournals([]);
-      }
-    };
-    fetchJournals();
+    if (userId) {
+      fetchJournals(userId);
+    }
   }, []);
+
+  const fetchJournals = async (userId) => {
+    const response = await fetch(`/api/users/${userId}/journals`);
+    const data = await response.json();
+    if (data.length > 0) {
+      const sortedJournals = data
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 7);
+      setJournals(sortedJournals);
+    } else {
+      setJournals([]);
+    }
+  };
 
   return (
     <main className="mx-6 mt-10 lg:max-w-screen-md lg:mx-auto">

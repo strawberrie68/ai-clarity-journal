@@ -4,6 +4,7 @@ import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../../../AuthContext.js";
 
 const initialValues = {
   content: "",
@@ -17,10 +18,11 @@ const Chat = () => {
   const router = useRouter();
   const { push } = useRouter();
   const { journalId } = router.query;
+  const { userId } = useAuth();
 
   const fetchJournal = async () => {
     const response = await fetch(
-      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
+      `/api/users/${userId}/journal/entries/${journalId}`
     );
     const data = await response.json();
     setJournal(data[0]);
@@ -44,7 +46,7 @@ const Chat = () => {
   const handleDigDeeper = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}/update`,
+      `/api/users/${userId}/journal/entries/${journalId}/update`,
       {
         method: "PUT",
         headers: {
@@ -68,7 +70,7 @@ const Chat = () => {
 
   const finalizeJournal = async (entry, journalId) => {
     const response = await fetch(
-      `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}/finalize`,
+      `/api/users/${userId}/journal/entries/${journalId}/finalize`,
       {
         method: "PUT",
         headers: {

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { formatQuote } from "@/utils/formatUtils";
+import { useAuth } from "./AuthContext.js";
 import BottomNav from "@/components/common/BottomNav";
 import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
@@ -11,25 +13,45 @@ import "../styles/global.css";
 export default function Home() {
   const flexCenter = "flex justify-center items-center";
   const [journal, setJournal] = useState([]);
+  const [user, setUser] = useState({});
+  const { userId, token } = useAuth();
 
-  const fetchLatestJournal = async () => {
-    const response = await fetch(
-      `/api/users/6689d71d5b6990ef9ab9b498/journals`
-    );
-    const data = await response.json();
-    if (data.length > 0) {
-      const sortedJournals = data
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 7);
-      setJournal(sortedJournals[0]);
-    } else {
-      setJournal([]);
+  useEffect(() => {
+    if (userId) {
+      fetchUser(userId);
+      fetchLatestJournal(userId);
+    }
+  }, [token]);
+
+  const fetchUser = async (userId) => {
+    try {
+      const response = await axios.get(`/api/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data[0]);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  useEffect(() => {
-    fetchLatestJournal();
-  }, []);
+  const fetchLatestJournal = async (userId) => {
+    try {
+      const response = await axios.get(`/api/users/${userId}/journals`);
+      const data = response.data;
+      if (data.length > 0) {
+        const sortedJournals = data
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .slice(0, 7);
+        setJournal(sortedJournals[0]);
+      } else {
+        setJournal([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <main className="mx-6 mt-10 pb-8">
@@ -42,7 +64,7 @@ export default function Home() {
           </button>
           <div className="mt-10">
             <p className="text-5xl font-bold">Hello,</p>
-            <p className="text-5xl font-bold">Michelle</p>
+            <p className="text-5xl font-bold">{user.name}</p>
           </div>
         </section>
         <section>
@@ -78,9 +100,9 @@ export default function Home() {
             />
             <Card
               text={
-                journal
-                  ? journal.keyInsight
-                  : "Tips: Everyday is a good day to start"
+                !journal || journal.length === 0
+                  ? "Tips: Everyday is a good day to start"
+                  : journal.keyInsight
               }
               icon="/lightbulb.svg"
               secondaryBackground="bg-[#D3AC1E]"
@@ -89,9 +111,10 @@ export default function Home() {
             />
           </div>
           <article className="mt-10 text-gray-400 lg:mt-0 h-44 min-w-40  max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 flexCenter">
-            {!journal && (
-              <p>Excitement is a better motivator than discipline.</p>
-            )}
+            {!journal ||
+              (journal.length === 0 && (
+                <p>Excitement is a better motivator than discipline.</p>
+              ))}
             <p className="line-clamp-4">
               {journal && formatQuote(journal.quote)}
             </p>

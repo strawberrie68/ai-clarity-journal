@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAuth } from "../../../AuthContext.js";
 
 import Header from "@/components/common/Header";
 import Button from "@/components/common/Button";
@@ -15,11 +16,12 @@ const Summary = () => {
 
   const router = useRouter();
   const { journalId } = router.query;
+  const { userId } = useAuth();
 
   useEffect(() => {
     const fetchJournal = async (journalId) => {
       const response = await fetch(
-        `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
+        `/api/users/${userId}/journal/entries/${journalId}`
       );
       const data = await response.json();
       setJournal(data[0]);

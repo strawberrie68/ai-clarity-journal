@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../../AuthContext.js";
 
 import Header from "../../../components/common/Header";
 import TabComponent from "@/components/common/TabComponent";
@@ -12,6 +13,7 @@ const PastEntry = () => {
   const [journal, setJournal] = useState({});
   const router = useRouter();
   const { journalId } = router.query;
+  const { userId } = useAuth();
 
   function formatJournalEntry(entry) {
     entry = entry.replace(/:/g, ":<br/>");
@@ -26,7 +28,7 @@ const PastEntry = () => {
   useEffect(() => {
     const fetchJournal = async () => {
       const response = await fetch(
-        `/api/users/6689d71d5b6990ef9ab9b498/journal/entries/${journalId}`
+        `/api/users/${userId}/journal/entries/${journalId}`
       );
       const data = await response.json();
       setJournal(data[0]);

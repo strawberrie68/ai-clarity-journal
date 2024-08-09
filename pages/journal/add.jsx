@@ -6,6 +6,8 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
+import { useAuth } from "../AuthContext.js";
+
 import "../../styles/global.css";
 
 const backgroundColors = [
@@ -25,7 +27,7 @@ const Add = () => {
 
   const [entriesAsString, setEntriesAsString] = useState({ content: "" });
   const router = useRouter();
-  console.log(loading);
+  const { userId } = useAuth();
 
   useEffect(() => {
     const initialAnswers = journalPrompts.reduce((acc, _, index) => {
@@ -88,17 +90,14 @@ const Add = () => {
 
   const createJournalEntry = async (entriesString) => {
     try {
-      const response = await fetch(
-        "/api/users/6689d71d5b6990ef9ab9b498/journal/entries",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: entriesString }),
-        }
-      );
+      const response = await fetch(`/api/users/${userId}/journal/entries`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: entriesString }),
+      });
       const jsonResponse = await response.json();
       return jsonResponse;
     } catch (err) {
