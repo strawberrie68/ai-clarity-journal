@@ -1,4 +1,4 @@
-export const randomizePrompts = (promptsArray) => {
+export const randomizePrompts = (promptsArray: string[]) => {
   const randomPrompts = [];
   for (let i = 0; i < 3; i++) {
     const randomPrompt =
