@@ -21,9 +21,9 @@ const PickJournal = () => {
   const { push } = useRouter();
   const timePeriod = getCurrentTimePeriod();
   const isMorning = timePeriod === "morning";
-  const [selectedJournal, setSelectedJournal] = useState(null);
+  const [selectedJournal, setSelectedJournal] = useState<string | null>(null);
 
-  const handleCardPick = (prompts, label) => {
+  const handleCardPick = (prompts: string[] | null, label: string | null) => {
     if (label === "Random") {
       const randomPromptsList = randomizePrompts(random);
       setJournalPrompts(randomPromptsList);
@@ -110,6 +110,7 @@ const PickJournal = () => {
           isPrimary={true}
           type="button"
           handleClick={handleSelectedJournal}
+          disabled={false}
         />
       </section>
     </article>
