@@ -4,6 +4,14 @@ export const formatDate = (date) => {
   return dateObj.toLocaleDateString("en-US", options);
 };
 
+export const formatDateWithoutMonth = (date) => {
+  const dateObj = new Date(date);
+  const options = { weekday: "short", day: "numeric" };
+  const dayOfWeek = dateObj.toLocaleDateString("en-US", { weekday: "short" });
+  const dayOfMonth = dateObj.toLocaleDateString("en-US", { day: "numeric" });
+  return `${dayOfWeek} ${dayOfMonth}`;
+};
+
 export const formattedHaiku = (haiku) => {
   return haiku?.split(",").map((part, index) => (
     <p key={index}>
