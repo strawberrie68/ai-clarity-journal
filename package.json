@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@langchain/openai": "^0.2.1",
+    "axios": "^1.7.3",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
     "langchain": "^0.0.129",
     "mongoose": "^8.4.4",
     "next": "^14.2.4",
