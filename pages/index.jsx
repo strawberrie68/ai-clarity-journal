@@ -3,7 +3,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { formatQuote } from "@/utils/formatUtils";
-import useAuth from "./AuthContext.js";
+import { useAuth } from "./AuthContext.js";
 import BottomNav from "@/components/common/BottomNav";
 import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";

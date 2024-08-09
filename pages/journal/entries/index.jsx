@@ -5,7 +5,8 @@ import Header from "@/components/common/Header";
 import { formatDate } from "@/utils/formatUtils";
 import Image from "next/image";
 import "../../../styles/global.css";
-import useAuth from "../../AuthContext.js";
+import { useAuth } from "../../AuthContext.js";
+
 const ToggleEntry = ({ date, journalId, journal }) => {
   const formattedDate = formatDate(date);
   return (
