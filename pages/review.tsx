@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import BottomNav from "@/components/common/BottomNav";
 import "../styles/global.css";
 
 export default function Review() {
-
   return (
     <main className="mx-6 mt-10 pb-8 lg:max-w-screen-lg lg:mx-auto">
       <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
@@ -28,7 +27,9 @@ export default function Review() {
       </header>
 
       <section className="flex w-full justify-start items-center mt-16">
-        <p className="py-10 border flexCenter px-10 rounded-lg">Currently under constructions. Check back soon! :)</p>
+        <p className="py-10 border flexCenter px-10 rounded-lg">
+          Currently under constructions. Check back soon! :)
+        </p>
       </section>
 
       <nav className="sticky bottom-4 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
