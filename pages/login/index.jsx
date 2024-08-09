@@ -15,10 +15,11 @@ const Login = () => {
   const handleTestUser = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("/api/users", testUser);
-      if (response) {
-        const data = await response.json();
-        console.log(data);
+      const response = await axios.post("/api/users/testUser");
+      if (response.status === 200) {
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userId", response.data.userId);
+        router.push("/");
       }
     } catch (error) {
       console.error(error);
