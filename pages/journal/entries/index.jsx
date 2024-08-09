@@ -134,10 +134,12 @@ const Entries = () => {
             {Object.keys(groupedJournals[year]).map((month) => (
               <section key={month} className="mt-4 flex flex-col gap-4">
                 <div
-                  className="flex flex-col justify-between border rounded-xl w-full px-4 py-2  items-center cursor-pointer"
+                  className={`flex ${
+                    toggleState[year]?.[month] ? "flex-col" : ""
+                  } border rounded-xl w-full px-4 py-4 h-auto cursor-pointer`}
                   onClick={() => toggleVisibility(year, month)}
                 >
-                  <div className="flex justify-between w-full items-center">
+                  <div className={`flex justify-between w-full items-center`}>
                     <p className="font-bold">{month}</p>
                     <Image
                       src="/caret-down.svg"
