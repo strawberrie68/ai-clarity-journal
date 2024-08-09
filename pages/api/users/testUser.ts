@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../../models/User";
 import connectDB from "../../../lib/connectDB";
 import bcrypt from "bcryptjs";
@@ -5,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 const testUser = { username: "test-user", password: "test-password" };
 
-async function testUserHandler(_req, res) {
+async function testUserHandler(_req: NextApiRequest, res: NextApiResponse) {
   try {
     await User.deleteOne({ username: testUser.username });
 
@@ -22,19 +23,28 @@ async function testUserHandler(_req, res) {
 
     const passwordMatch = bcrypt.compareSync(testUser.password, user.password);
     if (passwordMatch) {
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "30m",
-      });
+      const token = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET as string,
+        {
+          expiresIn: "30m",
+        }
+      );
       return res.status(200).json({ token, userId: user._id });
     } else {
       return res.status(400).json({ error: "Invalid credentials" });
     }
   } catch (error) {
-    res.status(500).json({ error: `Internal Server Error: ${error.message}` });
+    res
+      .status(500)
+      .json({ error: `Internal Server Error: ${(error as Error).message}` });
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {
