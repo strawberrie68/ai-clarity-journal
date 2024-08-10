@@ -3,55 +3,81 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { formatQuote } from "@/utils/formatUtils";
-import { useAuth } from "./AuthContext.js";
+import { useAuth } from "./AuthContext";
 import BottomNav from "@/components/common/BottomNav";
 import Card from "@/components/common/Card";
 import InboxNav from "@/components/common/InboxNav";
 import NavBar from "@/components/common/NavBar";
 import "../styles/global.css";
 
+interface User {
+  name: string;
+  username: string;
+  email: string;
+  journals: string[];
+  habits?: string[];
+}
+
+interface Journal {
+  keyInsight?: string;
+  quote?: string;
+  aiSummary?: string;
+  color?: string;
+  conversationSummary?: string;
+  emoji?: string;
+  haiku?: string;
+  highlight?: string;
+  mood?: string;
+  sentiment?: string;
+  title?: string;
+  user: string;
+  entries: string[];
+  date: string;
+}
+
 export default function Home() {
   const flexCenter = "flex justify-center items-center";
-  const [journal, setJournal] = useState([]);
-  const [user, setUser] = useState({});
-  const { userId, token } = useAuth();
+  const [journal, setJournal] = useState<Journal | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const { userId, token } = useAuth() as { userId: string; token: string };
 
   useEffect(() => {
     if (userId) {
       fetchUser(userId);
       fetchLatestJournal(userId);
     }
-  }, [token]);
+  }, [token, userId]);
 
-  const fetchUser = async (userId) => {
+  const fetchUser = async (userId: string) => {
     try {
-      const response = await axios.get(`/api/users/${userId}`, {
+      const response = await axios.get<User[]>(`/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(response.data[0]);
+      setUser(response.data[0] || null);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const fetchLatestJournal = async (userId) => {
+  const fetchLatestJournal = async (userId: string) => {
     try {
-      const response = await axios.get(`/api/users/${userId}/journals`);
+      const response = await axios.get<Journal[]>(`/api/users/${userId}/journals`);
       const data = response.data;
       if (data.length > 0) {
         const sortedJournals = data
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
           .slice(0, 7);
-        setJournal(sortedJournals[0]);
+        setJournal(sortedJournals[0] || null);
       } else {
-        setJournal([]);
+        setJournal(null);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
 
   return (
     <main className="mx-6 mt-10 pb-8">
@@ -64,7 +90,7 @@ export default function Home() {
           </button>
           <div className="mt-10">
             <p className="text-5xl font-bold">Hello,</p>
-            <p className="text-5xl font-bold">{user.name}</p>
+            <p className="text-5xl font-bold">{user ? user.name : "Loading..."}</p>
           </div>
         </section>
         <section>
@@ -100,9 +126,9 @@ export default function Home() {
             />
             <Card
               text={
-                !journal || journal.length === 0
+                !journal
                   ? "Tips: Everyday is a good day to start"
-                  : journal.keyInsight
+                  : journal.keyInsight || "Tips: Everyday is a good day to start"
               }
               icon="/lightbulb.svg"
               secondaryBackground="bg-[#D3AC1E]"
@@ -110,14 +136,13 @@ export default function Home() {
               textBackground="bg-[#f0f0f0]"
             />
           </div>
-          <article className="mt-10 text-gray-400 lg:mt-0 h-44 min-w-40  max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 flexCenter">
-            {!journal ||
-              (journal.length === 0 && (
-                <p>Excitement is a better motivator than discipline.</p>
-              ))}
-            <p className="line-clamp-4">
-              {journal && formatQuote(journal.quote)}
-            </p>
+          <article className="mt-10 text-gray-400 lg:mt-0 h-44 min-w-40 max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 flexCenter">
+            {!journal && (
+              <p>Excitement is a better motivator than discipline.</p>
+            )}
+            {journal && journal.quote && (
+              <p className="line-clamp-4">{formatQuote(journal.quote)}</p>
+            )}
           </article>
         </section>
         <section className="mt-8 lg:mt-0 lg:basis-2/5">
