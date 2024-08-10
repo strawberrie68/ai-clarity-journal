@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { JournalContext } from "../pages/JournalContext";
+import { JournalContext } from "./JournalContext";
 import { getCurrentTimePeriod } from "@/utils/formatUtils";
 import {
   sad,
@@ -20,7 +20,9 @@ import TabComponent from "@/components/common/TabComponent";
 import ToggleList from "@/components/common/ToggleList";
 import "../styles/global.css";
 
-const journalPrompts = {
+type JournalPrompt = string[];
+
+const journalPrompts: Record<string, JournalPrompt> = {
   happy,
   curious,
   nervous,
@@ -28,13 +30,13 @@ const journalPrompts = {
   angry,
 };
 
-const Explore = () => {
+const Explore: React.FC = () => {
   const timePeriod = getCurrentTimePeriod();
   const isMorning = timePeriod === "morning";
   const { setJournalPrompts } = useContext(JournalContext);
   const { push } = useRouter();
 
-  const handleCardClick = (prompts) => {
+  const handleCardClick = (prompts: string[]) => {
     setJournalPrompts(prompts);
     push("/journal/add");
   };
