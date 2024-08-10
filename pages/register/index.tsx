@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import ButtonCopy from "@/components/common/ButtonCopy";
 import Link from "next/link";
-import "../../styles/global.css";
 import Image from "next/image";
 import axios from "axios";
+import { useRouter } from 'next/router';
+import "../../styles/global.css";
 
-const formValues = {
+interface User {
+  username: string;
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+const formValues: User = {
   username: "",
   name: "",
   email: "",
@@ -13,12 +22,14 @@ const formValues = {
   confirmPassword: "",
 };
 
-const Register = () => {
-  const [user, setUser] = useState(formValues);
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+const Register: React.FC = () => {
+  const [user, setUser] = useState<User>(formValues);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     const validationErrors = await validateUser(user);
@@ -38,8 +49,14 @@ const Register = () => {
     setLoading(false);
   };
 
-  const validateUser = async (user) => {
-    const errors = {};
+  const handleLink = () => {
+    router.push('/login');
+  };
+
+
+
+  const validateUser = async (user: User): Promise<Record<string, string>> => {
+    const errors: Record<string, string> = {};
     if (!user.email) {
       errors.email = "Please enter your email";
     } else {
@@ -72,7 +89,7 @@ const Register = () => {
     return errors;
   };
 
-  const checkEmailAvailability = async (email) => {
+  const checkEmailAvailability = async (email: string): Promise<boolean> => {
     try {
       const response = await axios.get(`/api/users?email=${email}`);
       return response.data.exists === false;
@@ -82,7 +99,7 @@ const Register = () => {
     }
   };
 
-  const checkUsernameAvailability = async (username) => {
+  const checkUsernameAvailability = async (username: string): Promise<boolean> => {
     try {
       const response = await axios.get(`/api/users?username=${username}`);
       return response.data.exists === false;
@@ -91,13 +108,14 @@ const Register = () => {
       return false;
     }
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({
       ...user,
       [name]: value,
     });
   };
+
 
   return (
     <main className="mx-8 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
@@ -203,56 +221,26 @@ const Register = () => {
                 buttonType="primary"
                 handleClick={handleSubmit}
                 disabled={loading}
+                type="submit"
               />
             </div>
           </form>
-          <Link href={"/login"}>
-            <ButtonCopy
-              buttonText={
-                <>
-                  Have an account? &nbsp; <strong> Login here</strong>
-                </>
-              }
-              buttonType="secondary"
-              disabled={loading}
-            />
-          </Link>
+
+          <ButtonCopy
+            buttonText={
+              <>
+                Have an account? &nbsp; <strong> Login here</strong>
+              </>
+            }
+            buttonType="secondary"
+            disabled={loading}
+            handleClick={handleLink}
+            type="button"
+          />
+
         </section>
       </>
-      {/* ) : (
-        <div>
-          <h2 className="text-3xl font-semibold mt-12">Account Exists!</h2>
-          <div className="mt-8">
-            <p className="text-off-black font-medium">
-              The account for the email
-            </p>
-            <div className="border border-dk-gray bg-white h-12 rounded w-full mt-2 px-4 placeholder:italic placeholder:text-placeholder-gray input-shadow flex items-center">
-              <p>michelle@gmail.com</p>
-            </div>
-            <p className="text-off-black font-medium pt-4">
-              Already exists. Try logging in instead or pick a different email
-              address.
-            </p>
-          </div>
-          <div className="mt-12 flex flex-col gap-6">
-            <ButtonCopy
-              buttonText={<>Login</>}
-              buttonType="primary"
-              disabled={loading}
-            />
 
-            <ButtonCopy
-              buttonText={
-                <>
-                  Use a different email? &nbsp; <strong> Register</strong>
-                </>
-              }
-              buttonType="secondary"
-              disabled={loading}
-            />
-          </div>
-        </div>
-      )} */}
     </main>
   );
 };
