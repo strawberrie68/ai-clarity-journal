@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import ButtonCopy from "@/components/common/ButtonCopy";
 import Link from "next/link";
-import "../../styles/global.css";
 import axios from "axios";
 import { useRouter } from "next/router";
+import "../../styles/global.css";
 
-const testUser = { username: "test-user", password: "test-password" };
 
 const Login = () => {
   const [login, setLogin] = useState({ username: "", password: "" });
@@ -26,8 +25,11 @@ const Login = () => {
     }
     setLoading(false);
   };
+  const handleLink = () => {
+    router.push('/register');
+  };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -43,7 +45,7 @@ const Login = () => {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLogin({
       ...login,
@@ -95,6 +97,7 @@ const Login = () => {
             buttonType="primary"
             handleClick={handleSubmit}
             disabled={loading}
+            type="submit"
           />
         </div>
       </form>
@@ -108,6 +111,7 @@ const Login = () => {
           buttonType="primary-2"
           handleClick={handleTestUser}
           disabled={loading}
+          type="button"
         />
       </div>
       <div className="flex my-10 items-center">
@@ -115,17 +119,19 @@ const Login = () => {
         <p className="px-4 text-dk-gray">or</p>
         <div className="border border-lt-gray h-0 w-full"></div>
       </div>
-      <Link href={"/register"}>
-        <ButtonCopy
-          buttonText={
-            <>
-              Don't have an account? &nbsp; <strong> Register here</strong>
-            </>
-          }
-          buttonType="secondary"
-          disabled={loading}
-        />
-      </Link>
+
+      <ButtonCopy
+        buttonText={
+          <>
+            Don't have an account? &nbsp; <strong> Register here</strong>
+          </>
+        }
+        buttonType="secondary"
+        disabled={loading}
+        type="button"
+        handleClick={handleLink}
+      />
+
     </main>
   );
 };
