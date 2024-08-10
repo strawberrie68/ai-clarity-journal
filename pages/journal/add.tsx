@@ -1,13 +1,12 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { JournalContext } from "../JournalContext";
+import { JournalContext } from "../JournalContext.js";
 import Image from "next/image";
 import Button from "@/components/common/Button";
 import DateTitle from "@/components/common/DateTitle";
 import Header from "@/components/common/Header";
 import { useAuth } from "../AuthContext.js";
-
 import "../../styles/global.css";
 
 const backgroundColors = [
@@ -18,27 +17,36 @@ const backgroundColors = [
   "bg-gradient-to-r from-indigo-100 to-yellow-100",
 ];
 
-const Add = () => {
-  const { journalPrompts } = useContext(JournalContext);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [entries, setEntries] = useState([]);
-  const [loading, setLoading] = useState(false);
+interface Answers {
+  [key: string]: string;
+}
 
-  const [entriesAsString, setEntriesAsString] = useState({ content: "" });
+interface Entry {
+  content: string;
+}
+
+const Add: React.FC = () => {
+  const { journalPrompts } = useContext(JournalContext);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [answers, setAnswers] = useState<Answers>({});
+  const [entries, setEntries] = useState<Answers[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [entriesAsString, setEntriesAsString] = useState<Entry>({ content: "" });
   const router = useRouter();
   const { userId } = useAuth();
+  const { push } = useRouter();
+
 
   useEffect(() => {
-    const initialAnswers = journalPrompts.reduce((acc, _, index) => {
+    const initialAnswers = journalPrompts.reduce((acc: Answers, _: string, index: number) => {
       acc[`question${index + 1}`] = "";
       return acc;
     }, {});
     setAnswers(initialAnswers);
   }, [journalPrompts]);
 
-  const { push } = useRouter();
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value } = e.target;
     setAnswers({
       ...answers,
@@ -46,7 +54,7 @@ const Add = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (currentQuestionIndex < journalPrompts.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -69,26 +77,26 @@ const Add = () => {
       setLoading(false);
       setAnswers({});
       setCurrentQuestionIndex(0);
-      setEntriesAsString("");
+      setEntriesAsString({ content: "" });
     }
   };
 
-  const updateEntriesAsString = (entries) => {
+  const updateEntriesAsString = (entries: Answers[]): string => {
     const entriesString = entries
       .map((entry) => {
         return journalPrompts
-          .map((question, qIndex) => {
+          .map((question: string, qIndex: string) => {
             return `${question}: ${entry[`question${qIndex + 1}`]}`;
           })
           .join(", ");
       })
       .join(" | ");
 
-    setEntriesAsString(entriesString);
+    setEntriesAsString({ content: entriesString });
     return entriesString;
   };
 
-  const createJournalEntry = async (entriesString) => {
+  const createJournalEntry = async (entriesString: string) => {
     try {
       const response = await fetch(`/api/users/${userId}/journal/entries`, {
         method: "POST",
@@ -105,7 +113,7 @@ const Add = () => {
     }
   };
 
-  const handleBack = (e) => {
+  const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     router.back();
   };
@@ -172,12 +180,15 @@ const Add = () => {
             buttonText="Cancel"
             isPrimary={false}
             handleClick={handleBack}
+            type="button"
+            disabled={false}
           />
           <Button
             buttonText={loading ? "Loading..." : "Next"}
             isPrimary={true}
             handleClick={handleSubmit}
             disabled={loading}
+            type="submit"
           />
         </div>
       </form>
