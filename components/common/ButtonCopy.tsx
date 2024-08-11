@@ -3,7 +3,7 @@ interface ButtonProps {
   buttonType: "primary" | "secondary" | "primary-2";
   type: "button" | "submit";
   disabled: boolean;
-  handleClick: (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => void;
+  handleClick: () => void;
 }
 
 const ButtonCopy: React.FC<ButtonProps> = ({

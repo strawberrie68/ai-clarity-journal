@@ -219,7 +219,7 @@ const Register: React.FC = () => {
               <ButtonCopy
                 buttonText={loading ? "Loading.." : "Create a new account"}
                 buttonType="primary"
-                handleClick={handleSubmit}
+                handleClick={() => handleSubmit}
                 disabled={loading}
                 type="submit"
               />
@@ -234,7 +234,7 @@ const Register: React.FC = () => {
             }
             buttonType="secondary"
             disabled={loading}
-            handleClick={handleLink}
+            handleClick={() => handleLink}
             type="button"
           />
 

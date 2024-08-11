@@ -124,13 +124,13 @@ const Chat = () => {
           <Button
             buttonText={loading ? "Dig Deeper..." : "Dig Deeper"}
             isPrimary={false}
-            handleClick={handleDigDeeper}
+            handleClick={() => handleDigDeeper}
             disabled={loading}
           />
           <Button
             buttonText={loading ? "Finalizing..." : "Finalize"}
             isPrimary={true}
-            handleClick={handleFinalize}
+            handleClick={() => handleFinalize}
             disabled={loading}
           />
         </div>

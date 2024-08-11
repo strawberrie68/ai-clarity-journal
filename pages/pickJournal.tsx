@@ -109,7 +109,7 @@ const PickJournal = () => {
           buttonText="Select Journal"
           isPrimary={true}
           type="button"
-          handleClick={handleSelectedJournal}
+          handleClick={() => handleSelectedJournal}
           disabled={false}
         />
       </section>

@@ -99,7 +99,7 @@ const Login = () => {
           <ButtonCopy
             buttonText="Login"
             buttonType="primary"
-            handleClick={handleSubmit}
+            handleClick={() => handleSubmit}
             disabled={loading}
             type="submit"
           />
@@ -113,7 +113,7 @@ const Login = () => {
             </>
           }
           buttonType="primary-2"
-          handleClick={handleTestUser}
+          handleClick={() => handleTestUser}
           disabled={loading}
           type="button"
         />
@@ -133,7 +133,7 @@ const Login = () => {
         buttonType="secondary"
         disabled={loading}
         type="button"
-        handleClick={handleLink}
+        handleClick={() => handleLink}
       />
 
     </main>
