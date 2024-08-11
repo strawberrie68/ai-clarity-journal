@@ -19,7 +19,6 @@ interface Journal {
   emoji?: string;
   color?: string;
   date: string;
-  groupCreated?: boolean;
 }
 
 
@@ -57,8 +56,6 @@ const Entries: React.FC = () => {
       setJournals(sortedJournals);
 
       const grouped = data.reduce((acc: GroupedJournals, journal) => {
-        if (journal.groupCreated) return acc;
-
         const date = new Date(journal.date);
         const year = date.getFullYear();
         const month = date.toLocaleString("default", { month: "short" });
