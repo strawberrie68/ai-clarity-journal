@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { Entry } from "@/models/Entry";
 import { Journal } from "@/models/Journal";
 import { User } from "@/models/User";
@@ -19,33 +20,43 @@ const SUMMARY_PROMPT = `
   tokens. You will use this for future reference while having a conversation with the user.
 `;
 
-async function callOpenAI(prompt, content, maxTokens) {
+async function callOpenAI(
+  prompt: string,
+  userMessage: string,
+  maxTokens: number
+): Promise<string> {
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: prompt },
-        { role: "user", content: content },
+        { role: "user", content: userMessage },
       ],
       temperature: 0,
       max_tokens: maxTokens,
     });
 
-    return response.choices[0].message.content.trim();
+    const content = response.choices[0]?.message?.content?.trim();
+    if (!content) {
+      throw new Error("No content returned from OpenAI");
+    }
+
+    return content;
   } catch (error) {
     console.error("Error calling OpenAI:", error);
     throw error;
   }
 }
 
-async function digDeeperEntry(content) {
+async function digDeeperEntry(content: string): Promise<string> {
   return callOpenAI(DIG_DEEPER_PROMPT, content, 150);
 }
-async function summaryEntry(content) {
+
+async function summaryEntry(content: string): Promise<string> {
   return callOpenAI(SUMMARY_PROMPT, content, 100);
 }
 
-async function createEntryAndJournal(userId, content) {
+async function createEntryAndJournal(userId: string, content: string) {
   const summary = await summaryEntry(content);
   const response = await digDeeperEntry(content);
 
@@ -71,9 +82,9 @@ async function createEntryAndJournal(userId, content) {
   return { entryData, journalData };
 }
 
-async function createJournal(req, res) {
-  const { userId } = req.query;
-  const { content } = req.body;
+async function createJournal(req: NextApiRequest, res: NextApiResponse) {
+  const { userId } = req.query as { userId?: string };
+  const { content } = req.body as { content?: string };
 
   if (!userId || !content) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -95,7 +106,10 @@ async function createJournal(req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {

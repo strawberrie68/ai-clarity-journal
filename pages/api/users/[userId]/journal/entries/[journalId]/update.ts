@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { Journal } from "@/models/Journal";
 import connectDB from "@/lib/connectDB";
 import { Entry } from "@/models/Entry";
@@ -16,7 +17,11 @@ const SUMMARY_PROMPT = `
   Summarize the main points of the additional journal entry. You will be given background info on what is already saved. 
     Only respond with additional information you might want for future reference`;
 
-async function callOpenAI(prompt, userMessage, maxTokens) {
+async function callOpenAI(
+  prompt: string,
+  userMessage: string,
+  maxTokens: number
+): Promise<string> {
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -28,24 +33,29 @@ async function callOpenAI(prompt, userMessage, maxTokens) {
       max_tokens: maxTokens,
     });
 
-    return response.choices[0].message.content.trim();
+    const content = response.choices[0]?.message?.content?.trim();
+    if (!content) {
+      throw new Error("No content returned from OpenAI");
+    }
+
+    return content;
   } catch (error) {
     console.error("Error calling OpenAI:", error);
     throw error;
   }
 }
 
-async function conversationEntry(content, journalSummary) {
+async function conversationEntry(content: string, journalSummary: string) {
   const userMessage = `new info: ${content}. background info: ${journalSummary}`;
   return callOpenAI(CONVERSATION_PROMPT, userMessage, 150);
 }
 
-async function summaryEntry(content, journalSummary) {
+async function summaryEntry(content: string, journalSummary: string) {
   const userMessage = `new info: ${content}. background info: ${journalSummary}`;
   return callOpenAI(SUMMARY_PROMPT, userMessage, 150);
 }
 
-async function createEntryForJournal(content, summary) {
+async function createEntryForJournal(content: string, summary: string) {
   const response = await conversationEntry(content, summary);
   const newEntry = new Entry({
     content,
@@ -56,7 +66,7 @@ async function createEntryForJournal(content, summary) {
   return newEntryId;
 }
 
-async function updateJournal(req, res) {
+async function updateJournal(req: NextApiRequest, res: NextApiResponse) {
   const { journalId, userId } = req.query;
   const { content } = req.body;
 
@@ -97,7 +107,10 @@ async function updateJournal(req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {
