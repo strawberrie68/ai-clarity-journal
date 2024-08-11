@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../AuthContext.js";
 import axios from 'axios';
-import Header from "../../../components/common/Header.jsx";
+import Header from "../../../components/common/Header";
 import TabComponent from "@/components/common/TabComponent";
 import BottomNav from "@/components/common/BottomNav";
 import { formatDate, formattedHaiku } from "@/utils/formatUtils";
