@@ -1,7 +1,8 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../../../models/User";
 import connectDB from "../../../../lib/connectDB";
 
-async function getUser(req, res) {
+async function getUser(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;
 
   try {
@@ -13,7 +14,10 @@ async function getUser(req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {

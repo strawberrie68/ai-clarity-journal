@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../../../models/User";
-import connectDB from "../../../../lib/connectDB";
 import { Journal } from "@/models/Journal";
+import connectDB from "../../../../lib/connectDB";
 
-async function getUserJournals(req, res) {
+async function getUserJournals(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;
 
   try {
@@ -19,7 +20,10 @@ async function getUserJournals(req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     case "GET":
       await getUserJournals(req, res);
