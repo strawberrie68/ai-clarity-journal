@@ -27,7 +27,7 @@ const parser = StructuredOutputParser.fromZodSchema(
       .string()
       .describe(
         `
-        Pick a hex color that is pastel color. I want it super pale, almost white. No gray. 
+        Pick a hex color that is pastel color. I want it super pale and no gray. 
         You should be playful with the hex color.`
       )
       .optional(),
@@ -110,7 +110,7 @@ const parser = StructuredOutputParser.fromZodSchema(
   })
 );
 
-async function getPrompt(content) {
+async function getPrompt(content: string) {
   const format_instructions = parser.getFormatInstructions();
 
   const prompt = new PromptTemplate({
@@ -127,8 +127,8 @@ async function getPrompt(content) {
   return input;
 }
 
-export async function analyze(entries) {
-  const input = await getPrompt(entries, parser.getFormatInstructions());
+export async function analyze(entries: string) {
+  const input = await getPrompt(entries);
   const model = new OpenAI({
     temperature: 0,
     modelName: "gpt-3.5-turbo",

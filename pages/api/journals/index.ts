@@ -1,7 +1,8 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { Journal } from "../../../models/Journal";
 import connectDB from "../../../lib/connectDB";
 
-async function getJournals(_req, res) {
+async function getJournals(_req: NextApiRequest, res: NextApiResponse) {
   try {
     const Journals = await Journal.find({});
     res.status(200).json(Journals);
@@ -10,7 +11,10 @@ async function getJournals(_req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {
