@@ -39,6 +39,11 @@ async function updateJournalEntry(
       return null;
     }
 
+    if (!journal.conversationSummary) {
+      console.error("Conversation summary is missing");
+      return null;
+    }
+
     const aiResponse = await analyze(journal.conversationSummary);
 
     const updatedJournal = await Journal.findOneAndUpdate(
