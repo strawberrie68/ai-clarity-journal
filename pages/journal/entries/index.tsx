@@ -1,59 +1,44 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import BottomNav from "@/components/common/BottomNav";
 import Header from "@/components/common/Header";
-import { formatDate, formatDateWithoutMonth } from "@/utils/formatUtils";
 import { useAuth } from "../../AuthContext.js";
+import axios from 'axios';
+import ToggleEntry from "@/components/common/ToggleEntry";
+import Entry from "@/components/common/Entry";
 import "../../../styles/global.css";
 
-const ToggleEntry = ({ date, journalId, journal }) => {
-  const formattedDate = formatDateWithoutMonth(date);
-  return (
-    <Link href={`/journal/${journalId}`}>
-      <article className="flex gap-8 h-6 items-center hover:bg-gray-300 list-disc w-full py-4">
-        <p className="text-stone-600 text-sm ">{formattedDate}</p>
+interface Entry {
+  aiResponse: string;
+  content: string;
+}
 
-        <div className="flex basis-auto min-w-48 items-center gap-2">
-          <p className="text-md">{journal && journal.emoji}</p>
-          <p className="line-clamp-2 text-sm text-stone-700">
-            {journal && journal.title}
-          </p>
-        </div>
-      </article>
-    </Link>
-  );
-};
+interface Journal {
+  _id: string;
+  title?: string;
+  emoji?: string;
+  color?: string;
+  date: string;
+  groupCreated?: boolean;
+}
 
-const Entry = ({ date, journalId, journal }) => {
-  const formattedDate = formatDate(date);
 
-  return (
-    <Link href={`/journal/${journalId}`}>
-      <article className="flex gap-8 h-20 items-center">
-        <div
-          className="w-16 h-16 rounded-lg basis-20 shrink-0 flexCenter"
-          style={{ backgroundColor: journal.color }}
-        >
-          <p className="text-2xl">{journal && journal.emoji}</p>
-        </div>
-        <div className="basis-auto min-w-48">
-          <p className="text-stone-300 font-semibold text-sm ">
-            {formattedDate}
-          </p>
-          <p className="line-clamp-2 text-sm pt-2 text-stone-700">
-            {journal && journal.title}
-          </p>
-        </div>
-      </article>
-    </Link>
-  );
-};
+interface GroupedJournals {
+  [year: string]: {
+    [month: string]: Journal[];
+  };
+}
 
-const Entries = () => {
-  const [journals, setJournals] = useState([]);
-  const [groupedJournals, setGroupedJournals] = useState({});
-  const [toggleState, setToggleState] = useState({});
+interface ToggleState {
+  [year: string]: {
+    [month: string]: boolean;
+  };
+}
+
+const Entries: React.FC = () => {
+  const [journals, setJournals] = useState<Journal[]>([]);
+  const [groupedJournals, setGroupedJournals] = useState<GroupedJournals>({});
+  const [toggleState, setToggleState] = useState<ToggleState>({});
   const { userId } = useAuth();
 
   useEffect(() => {
@@ -62,16 +47,16 @@ const Entries = () => {
     }
   }, [userId]);
 
-  const fetchJournals = async (userId) => {
-    const response = await fetch(`/api/users/${userId}/journals`);
-    const data = await response.json();
+  const fetchJournals = async (userId: string) => {
+    const response = await axios.get(`/api/users/${userId}/journals`);
+    const data: Journal[] = response.data;
     if (data.length > 0) {
       const sortedJournals = data
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .slice(0, 7);
       setJournals(sortedJournals);
 
-      const grouped = data.reduce((acc, journal) => {
+      const grouped = data.reduce((acc: GroupedJournals, journal) => {
         if (journal.groupCreated) return acc;
 
         const date = new Date(journal.date);
@@ -92,12 +77,12 @@ const Entries = () => {
     }
   };
 
-  const toggleVisibility = (year, month) => {
+  const toggleVisibility = (year: string, month: string | null) => {
     setToggleState((prevState) => ({
       ...prevState,
       [year]: {
         ...prevState[year],
-        [month]: !prevState[year]?.[month],
+        ...(month && { [month]: !prevState[year]?.[month] }),
       },
     }));
   };
@@ -136,9 +121,8 @@ const Entries = () => {
             {Object.keys(groupedJournals[year]).map((month) => (
               <section key={month} className="mt-4 flex flex-col gap-4">
                 <div
-                  className={`flex ${
-                    toggleState[year]?.[month] ? "flex-col" : ""
-                  } border rounded-xl w-full px-4 py-4 h-auto cursor-pointer`}
+                  className={`flex ${toggleState[year]?.[month] ? "flex-col" : ""
+                    } border rounded-xl w-full px-4 py-4 h-auto cursor-pointer`}
                   onClick={() => toggleVisibility(year, month)}
                 >
                   <div className={`flex justify-between w-full items-center`}>

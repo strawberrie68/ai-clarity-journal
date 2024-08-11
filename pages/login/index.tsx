@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import ButtonCopy from "@/components/common/ButtonCopy";
 import Link from "next/link";
 import axios from "axios";
@@ -29,19 +29,23 @@ const Login = () => {
     router.push('/register');
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await axios.post("/api/users/login", login);
-      sessionStorage.setItem("token", response.data.token);
-      sessionStorage.setItem("userId", response.data.userId);
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-    if (loading === false) {
-      router.push("/");
+
+    if ('currentTarget' in e && e.currentTarget.tagName === 'FORM') {
+      setLoading(true);
+      try {
+        const response = await axios.post("/api/users/login", login);
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userId", response.data.userId);
+        setLoading(false);
+        router.push("/");
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    } else {
+      handleTestUser();
     }
   };
 
