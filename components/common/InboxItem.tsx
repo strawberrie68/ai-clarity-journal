@@ -1,4 +1,12 @@
-const InboxItem = ({ text, icon, status, background }) => {
+
+interface InboxItemProps {
+  text: string;
+  icon: string;
+  status: string;
+  background: string;
+}
+
+const InboxItem: React.FC<InboxItemProps> = ({ text, icon, status, background }) => {
   return (
     <li className="nav-item py-2 flex justify-between items-center">
       <div className="flex gap-4 items-center flex-grow">

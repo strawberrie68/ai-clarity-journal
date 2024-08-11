@@ -15,7 +15,7 @@ const ToggleList = () => {
   const { push } = useRouter();
   const { setJournalPrompts } = useContext(JournalContext);
 
-  const handleCardClick = (prompts) => {
+  const handleCardClick = (prompts: string[]) => {
     setJournalPrompts(prompts);
     push("/journal/add");
   };

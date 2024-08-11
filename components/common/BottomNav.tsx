@@ -18,7 +18,7 @@ export const navLinks = [
 
 const BottomNav = () => {
   const pathname = usePathname();
-  const isActive = (path) => path === pathname;
+  const isActive = (path: string) => path === pathname;
 
   return (
     <div className="bottom-nav sticky mx-auto bottom-4 rounded-full h-20 bg-black  max-w-screen-sm sm:w-10/12 sm:px-12 px-8 content-center">

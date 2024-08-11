@@ -1,7 +1,14 @@
 import Image from "next/image";
 import "../../styles/global.css";
 
-const DailyCard = ({ subType, icon, title, handleClick }) => {
+interface DailyCardProps {
+  subType: string;
+  icon: string;
+  title: string;
+  handleClick: () => void;
+}
+
+const DailyCard: React.FC<DailyCardProps> = ({ subType, icon, title, handleClick }) => {
   return (
     <article
       className="min-h-36 flex flex-col flexCenter border rounded-lg bg-zinc-100 w-full hover:border-black cursor-pointer"

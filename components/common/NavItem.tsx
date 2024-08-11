@@ -1,6 +1,13 @@
 import Image from "next/image";
 
-const NavItem = ({ src, text, isActive, onClick }) => (
+interface NavItemProps {
+  src: string;
+  text: string;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ src, text, isActive, onClick }) => (
   <li
     className="flex flex-col items-start cursor-pointer w-full"
     onClick={onClick}

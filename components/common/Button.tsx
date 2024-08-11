@@ -1,4 +1,12 @@
-const Button = ({ buttonText, isPrimary, handleClick, type, disabled }) => {
+interface ButtonProps {
+  buttonText: string;
+  isPrimary: boolean;
+  handleClick: () => void;
+  type: "button" | "submit";
+  disabled: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ buttonText, isPrimary, handleClick, type, disabled }) => {
   const buttonStyle = isPrimary
     ? "border border-black bg-white text-black hover:bg-black hover:text-white"
     : "text-gray-500 bg-white hover:text-black";

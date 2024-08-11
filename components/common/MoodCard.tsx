@@ -2,7 +2,12 @@ import React from "react";
 import Image from "next/image";
 import { capitalizeFirstLetter } from "@/utils/formatUtils";
 
-const MoodCard = ({ mood, handleClick }) => (
+interface MoodCardProps {
+  mood: string;
+  handleClick: () => void;
+}
+
+const MoodCard: React.FC<MoodCardProps> = ({ mood, handleClick }) => (
   <button
     className="flex-col flex flexCenter cursor-pointer"
     onClick={handleClick}

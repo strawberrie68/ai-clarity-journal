@@ -1,4 +1,4 @@
-import React, { act, useState } from "react";
+import React, { useState } from "react";
 import NavItem from "./NavItem";
 import InboxList from "./InboxList";
 

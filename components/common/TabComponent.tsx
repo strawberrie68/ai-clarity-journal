@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 
-const TabComponent = ({ tabs }) => {
+interface Tab {
+  key: string;
+  label: string;
+  content: JSX.Element;
+}
+
+interface TabComponentProps {
+  tabs: Tab[];
+}
+
+const TabComponent: React.FC<TabComponentProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(tabs[0].key);
 
-  const handleToggle = (tabKey) => {
+  const handleToggle = (tabKey: string) => {
     setActiveTab(tabKey);
   };
 
@@ -17,15 +27,13 @@ const TabComponent = ({ tabs }) => {
         {tabs.map((tab) => (
           <div
             key={tab.key}
-            className={`${
-              activeTab === tab.key ? activeTabStyle : inactiveTabStyle
-            } rounded-full h-9 px-6 flex justify-center items-center cursor-pointer`}
+            className={`${activeTab === tab.key ? activeTabStyle : inactiveTabStyle
+              } rounded-full h-9 px-6 flex justify-center items-center cursor-pointer`}
             onClick={() => handleToggle(tab.key)}
           >
             <h3
-              className={`${
-                activeTab === tab.key ? activeTextStyle : ""
-              } text-sm`}
+              className={`${activeTab === tab.key ? activeTextStyle : ""
+                } text-sm`}
             >
               {tab.label}
             </h3>

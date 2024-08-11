@@ -1,6 +1,14 @@
 import Image from "next/image";
 
-const Card = ({
+interface CardProps {
+  icon: string;
+  text: string;
+  background: string;
+  secondaryBackground: string;
+  textBackground: string;
+}
+
+const Card: React.FC<CardProps> = ({
   icon,
   text,
   background,
