@@ -1,9 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../../models/User";
 import connectDB from "../../../lib/connectDB";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
-async function getUser(req, res) {
+async function getUser(req: NextApiRequest, res: NextApiResponse) {
   const { email, username } = req.query;
 
   if (!email && !username) {
@@ -31,7 +31,7 @@ async function getUser(req, res) {
   }
 }
 
-async function createUser(req, res) {
+async function createUser(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { username, name, habits, journals, email, password } = req.body;
     if (!name || !username || !email || !password) {
@@ -68,13 +68,16 @@ async function createUser(req, res) {
       password: hashedPassword,
     });
     await person.save();
-    res.status(201).json({ person }).send("User created successfully");
+    res.status(201).send("User created successfully");
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {

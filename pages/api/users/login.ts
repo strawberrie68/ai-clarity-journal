@@ -1,9 +1,10 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../../models/User";
 import connectDB from "../../../lib/connectDB";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-async function login(req, res) {
+async function login(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -19,9 +20,13 @@ async function login(req, res) {
     if (user) {
       const passwordMatch = bcrypt.compareSync(password, user.password);
       if (passwordMatch) {
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-          expiresIn: "7d",
-        });
+        const token = jwt.sign(
+          { userId: user._id },
+          process.env.JWT_SECRET as string,
+          {
+            expiresIn: "7d",
+          }
+        );
         return res.status(200).json({ token, userId: user._id });
       }
     } else {
@@ -32,7 +37,10 @@ async function login(req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await connectDB();
 
   switch (req.method) {
