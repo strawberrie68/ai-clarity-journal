@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../../../models/User";
+import { Journal } from "../../../../models/Journal";
 import connectDB from "../../../../lib/connectDB";
+
+// This line ensures that the Journal model is registered in Mongoose
+Journal;
 
 async function getUser(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;

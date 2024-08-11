@@ -3,6 +3,8 @@ import connectDB from "../../../../../../../lib/connectDB";
 import { Journal } from "@/models/Journal";
 import { Entry } from "@/models/Entry";
 
+Entry;
+
 async function getUserJournal(req: NextApiRequest, res: NextApiResponse) {
   const { journalId } = req.query;
 
