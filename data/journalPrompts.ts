@@ -75,7 +75,6 @@ export const random = [
   "🕊️ What would you like people to say at your funeral?",
 ];
 
-
 export const procrastination = [
   "Am I actually clear on what to do here?",
   "Am I actually clear on why I'm doing it?",
