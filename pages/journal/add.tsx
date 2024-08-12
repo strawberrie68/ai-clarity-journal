@@ -54,7 +54,7 @@ const Add: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (currentQuestionIndex < journalPrompts.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -113,7 +113,7 @@ const Add: React.FC = () => {
     }
   };
 
-  const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBack = (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.back();
   };
@@ -179,14 +179,14 @@ const Add: React.FC = () => {
           <Button
             buttonText="Cancel"
             isPrimary={false}
-            handleClick={() => handleBack}
+            handleClick={handleBack}
             type="button"
             disabled={false}
           />
           <Button
             buttonText={loading ? "Loading..." : "Next"}
             isPrimary={true}
-            handleClick={() => handleSubmit}
+            handleClick={handleSubmit}
             disabled={loading}
             type="submit"
           />

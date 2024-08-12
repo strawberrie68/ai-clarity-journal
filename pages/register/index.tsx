@@ -29,7 +29,7 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     const validationErrors = await validateUser(user);
@@ -219,7 +219,7 @@ const Register: React.FC = () => {
               <ButtonCopy
                 buttonText={loading ? "Loading.." : "Create a new account"}
                 buttonType="primary"
-                handleClick={() => handleSubmit}
+                handleClick={handleSubmit}
                 disabled={loading}
                 type="submit"
               />
@@ -234,7 +234,7 @@ const Register: React.FC = () => {
             }
             buttonType="secondary"
             disabled={loading}
-            handleClick={() => handleLink}
+            handleClick={handleLink}
             type="button"
           />
 

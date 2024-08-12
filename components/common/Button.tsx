@@ -1,7 +1,7 @@
 interface ButtonProps {
   buttonText: string;
   isPrimary: boolean;
-  handleClick: () => void;
+  handleClick: (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => void;
   type: "button" | "submit";
   disabled: boolean;
 }
