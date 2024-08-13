@@ -9,6 +9,8 @@ import "../../styles/global.css";
 const Login = () => {
   const [login, setLogin] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({ username: "", password: "" });
+
   const router = useRouter();
 
   const handleTestUser = async () => {
@@ -31,22 +33,32 @@ const Login = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let newErrors = { username: "", password: "" };
 
-    if ('currentTarget' in e && e.currentTarget.tagName === 'FORM') {
-      setLoading(true);
-      try {
-        const response = await axios.post("/api/users/login", login);
-        sessionStorage.setItem("token", response.data.token);
-        sessionStorage.setItem("userId", response.data.userId);
-        setLoading(false);
-        router.push("/");
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    } else {
-      handleTestUser();
+    if (login.username === "") {
+      newErrors.username = "Please enter your username";
     }
+
+    if (login.password === "") {
+      newErrors.password = "Please enter your password";
+    }
+
+    if (newErrors.username || newErrors.password) {
+      setErrors(newErrors);
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axios.post("/api/users/login", login);
+      sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("userId", response.data.userId);
+      setLoading(false);
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +86,7 @@ const Login = () => {
               name="username"
               onChange={handleInputChange}
             ></input>
+            <p className="error">{errors.username}</p>
           </fieldset>
           <fieldset>
             <h3 className="font-semibold text-off-black">Password</h3>
@@ -86,6 +99,7 @@ const Login = () => {
               type="password"
               name="password"
             ></input>
+            <p className="error">{errors.password}</p>
           </fieldset>
           <div className="">
             <Link href="/forgot-password">
@@ -97,7 +111,7 @@ const Login = () => {
         </section>
         <div className="flex flex-col mt-4 w-full -left-6 lg:max-w-screen-md lg:bottom-4">
           <ButtonCopy
-            buttonText="Login"
+            buttonText={loading ? "Loading.." : "Login"}
             buttonType="primary"
             handleClick={handleSubmit}
             disabled={loading}
@@ -107,7 +121,7 @@ const Login = () => {
       </form>
       <div className="mt-8">
         <ButtonCopy
-          buttonText={
+          buttonText={loading ? "Loading.." :
             <>
               Want to try app out? &nbsp; <strong> Test here</strong>
             </>
