@@ -7,7 +7,17 @@
 
 - Clarity is an AI journal that helps users clear their minds and help them be more productive.
 
+
+![clarity (1)](https://github.com/user-attachments/assets/8c987d89-1428-4d6b-b22f-371192cc7d5d)
+
+[<kbd>
+ 🛁 Project Link
+</kbd>]([https://clarity-lime.vercel.app/login])
+
+
+
 #### ✨ Why Clarity
+
 
 - Clarity is for journalers who find traditional ones insufficient for clearing their minds. It is powered by a custom AI agent whose directive is to be a friend and therapist, offering helpful feedback while revealing underlying issues, and helping to create actionable healthy habits.
 
