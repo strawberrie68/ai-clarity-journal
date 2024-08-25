@@ -10,11 +10,8 @@
 
 ![clarity (1)](https://github.com/user-attachments/assets/8c987d89-1428-4d6b-b22f-371192cc7d5d)
 
-[<kbd>
- 🛁 Project Link
-</kbd>]([https://clarity-lime.vercel.app/login])
-
-
+ <a href="https://clarity-lime.vercel.app/login" target="_blank">
+<kbd> <br> 🛁 Project Link <br> </kbd></a>
 
 #### ✨ Why Clarity
 
