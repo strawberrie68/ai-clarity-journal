@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import Image from "next/image";
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useAuth } from "../../AuthContext.js";
 import BottomNav from "@/components/common/BottomNav";
 import Header from "@/components/common/Header";
-import { useAuth } from "../../AuthContext.js";
-import axios from 'axios';
 import ToggleEntry from "@/components/common/ToggleEntry";
 import Entry from "@/components/common/Entry";
+import { PlusCircledIcon } from "@radix-ui/react-icons"
+
 import "../../../styles/global.css";
 
 interface Entry {
@@ -39,12 +43,14 @@ const Entries: React.FC = () => {
   const [groupedJournals, setGroupedJournals] = useState<GroupedJournals>({});
   const [toggleState, setToggleState] = useState<ToggleState>({});
   const { userId } = useAuth();
+  const router = useRouter()
 
   useEffect(() => {
     if (userId) {
       fetchJournals(userId);
     }
   }, [userId]);
+
 
   const fetchJournals = async (userId: string) => {
     const response = await axios.get(`/api/users/${userId}/journals`);
@@ -86,13 +92,21 @@ const Entries: React.FC = () => {
 
   return (
     <main className="mx-6 mt-10 lg:max-w-screen-md lg:mx-auto">
-      <Header />
+      <Header handleClick={() => router.back()} />
       <h1 className="text-3xl font-bold mt-11">Journal Entries</h1>
       <section>
         <h2 className="font-semibold">This week</h2>
         <section className="mt-4 flex flex-col gap-4 min-h-48">
           {journals.length === 0 ? (
-            <p>No entries yet</p>
+            <div>
+              <p className="my-3">No entries yet</p>
+              <Link href="/explore">
+                <div className="border border-black rounded-lg h-20 flex text-lg justify-center items-center gap-4 hover:bg-black hover:text-white">
+                  <PlusCircledIcon className="w-8 h-8 text-gray-400" />
+                  <p className="font-medium text-2xl text-gray-400">Add an entry</p>
+                </div>
+              </Link>
+            </div>
           ) : (
             journals.map((journal) => (
               <Entry
@@ -105,7 +119,7 @@ const Entries: React.FC = () => {
           )}
         </section>
       </section>
-      <section className="pb-10">
+      <section className="pb-24">
         <h2 className="font-semibold mt-8">Browse</h2>
         {Object.keys(groupedJournals).map((year) => (
           <div key={year}>
@@ -148,7 +162,7 @@ const Entries: React.FC = () => {
           </div>
         ))}
       </section>
-      <nav className="sticky bottom-6 w-full">
+      <nav className="fixed w-full bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
       </nav>
     </main>

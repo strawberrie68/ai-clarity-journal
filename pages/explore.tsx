@@ -111,11 +111,11 @@ const Explore: React.FC = () => {
           </section>
         </div>
       </section>
-      <section className="mt-10 pb-10">
+      <section className="mt-10 pb-20">
         <h2 className="text-xl font-bold">Explore</h2>
         <ToggleList />
       </section>
-      <nav className="sticky bottom-4">
+      <nav className="fixed w-full bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
       </nav>
     </div>

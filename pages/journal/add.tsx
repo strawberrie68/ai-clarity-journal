@@ -124,7 +124,7 @@ const Add: React.FC = () => {
 
   return (
     <main className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
-      <Header />
+      <Header handleClick={handleBack} />
       <DateTitle />
       <form className="flex flex-col gap-4">
         <article
