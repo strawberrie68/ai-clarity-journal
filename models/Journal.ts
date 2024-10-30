@@ -54,6 +54,20 @@ const journalSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  todo: [
+    {
+      taskName: { type: String },
+      dueDate: { type: String },
+      isCompleted: { type: Boolean },
+      emoji: { type: String },
+      repeat: { type: String, enum: ["none", "daily", "weekly", "monthly"] },
+      nextDueDate: { type: String },
+      priority: { type: String, enum: ["low", "medium", "high"] },
+      status: {
+        type: String, enum: ['Not Started', 'In Progress', 'Done']
+      },
+    },
+  ],
 });
 
 export const Journal =

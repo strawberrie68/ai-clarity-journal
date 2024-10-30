@@ -6,8 +6,9 @@ import { formatQuote } from "@/utils/formatUtils";
 import { useAuth } from "./AuthContext";
 import BottomNav from "@/components/common/BottomNav";
 import Card from "@/components/common/Card";
-import InboxNav from "@/components/common/InboxNav";
 import NavBar from "@/components/common/NavBar";
+import Inbox2 from "../components/common/Inbox2"
+import { Todo } from "../components/common/Inbox2"
 import "../styles/global.css";
 
 interface User {
@@ -16,6 +17,7 @@ interface User {
   email: string;
   journals: string[];
   habits?: string[];
+  todo: Todo[];
 }
 
 interface Journal {
@@ -40,13 +42,14 @@ export default function Home() {
   const [journal, setJournal] = useState<Journal | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const { userId, token } = useAuth() as { userId: string; token: string };
-
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     if (userId) {
       fetchUser(userId);
       fetchLatestJournal(userId);
     }
   }, [token, userId]);
+  console.log(user)
 
   const fetchUser = async (userId: string) => {
     try {
@@ -56,8 +59,9 @@ export default function Home() {
         },
       });
       setUser(response.data[0] || null);
+      setIsLoading(false)
     } catch (error) {
-      console.error(error);
+      console.error(error, "Could not get user");
     }
   };
 
@@ -74,10 +78,37 @@ export default function Home() {
         setJournal(null);
       }
     } catch (error) {
-      console.error(error);
+      console.error(error, "error fetching the journal");
     }
   };
 
+
+
+  if (isLoading) {
+    return <div></div>
+  }
+
+  const handleCleanUp = () => {
+    if (user) {
+      const cleanUpTasks = user.todo.filter((item) => item.isCompleted == false)
+      handleUpdateTodo(cleanUpTasks)
+    }
+
+  }
+  const handleUpdateTodo = async (updatedTodos: Todo[]) => {
+    try {
+      await axios.put(`/api/users/${userId}/todo/`, updatedTodos);
+      setUser((prevUser) => {
+        if (!prevUser) return null;
+        return {
+          ...prevUser,
+          todo: updatedTodos
+        };
+      });
+    } catch (error) {
+      console.error(error, "error updating todos");
+    }
+  };
 
   return (
     <main className="mx-6 mt-10 pb-8">
@@ -105,7 +136,7 @@ export default function Home() {
       <section className="lg:max-w-screen-lg lg:mx-auto">
         <NavBar />
       </section>
-      <section className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8">
+      <section className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8 pb-12">
         <section className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto lg:basis-3/5">
           <div className="mt-10 flex gap-4 ">
             <Link href="/journal/add">
@@ -146,11 +177,17 @@ export default function Home() {
           </article>
         </section>
         <section className="mt-8 lg:mt-0 lg:basis-2/5">
-          <h3 className="text-xl font-bold">Inbox</h3>
-          <InboxNav />
+          <div className="flex justify-between pt-5 pb-3">
+            <h3 className="text-xl font-bold">Inbox</h3>
+            <button className="pr-3" onClick={handleCleanUp}>
+              <p className="text-sm text-slate-400 font-bold">Clean up Tasks</p>
+            </button>
+          </div>
+          {user?.todo && <Inbox2 todos={user.todo} handleUpdateTodo={handleUpdateTodo} />}
+
         </section>
       </section>
-      <nav className="sticky bottom-4 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+      <nav className="fixed w-full bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
       </nav>
     </main>

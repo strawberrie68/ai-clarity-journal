@@ -3,6 +3,19 @@ import { StructuredOutputParser } from "langchain/output_parsers";
 import { PromptTemplate } from "langchain/prompts";
 import { z } from "zod";
 
+const zodTodoSchema = z.object({
+  taskName: z.string(),
+  dueDate: z.string().optional(),
+  isCompleted: z.boolean().optional().default(false),
+  repeat: z
+    .enum(["none", "daily", "weekly", "monthly"])
+    .optional()
+    .default("none"),
+  nextDueDate: z.string().optional(),
+  priority: z.enum(["low", "medium", "high"]).optional().default("low"),
+  emoji: z.string().optional(),
+});
+
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     aiSummary: z
@@ -28,7 +41,7 @@ const parser = StructuredOutputParser.fromZodSchema(
       .describe(
         `
         Pick a hex color that is pastel color. I want it super pale and no gray. 
-        You should be playful with the hex color.`
+        You should be playful with the hex color. Can you randomize the color.`
       )
       .optional(),
     emoji: z
@@ -107,6 +120,12 @@ const parser = StructuredOutputParser.fromZodSchema(
         `
       )
       .optional(),
+    todo: z.array(zodTodoSchema).describe(
+      `Give an array (max of three) of to-do items or habits that might help what was related to the journal entry. 
+      For example if the journal entry says they are procrastinating, maybe help them schedule their tasks. Or 
+      If they want to exercise help them create a task that includes them exercising like tennis or swimming or running etc. 
+      Maybe set a due date on it as well. If it is a habit they want, maybe make it repeat weekly.   `
+    ),
   })
 );
 
@@ -135,10 +154,12 @@ export async function analyze(entries: string) {
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   });
   const result = await model.call(input);
+  console.log(result);
 
   try {
     return parser.parse(result);
   } catch (error) {
-    console.error(error);
+    console.error("Parsing error:", error);
+    throw error; // Re-throwing might be helpful for upstream error handling
   }
 }
