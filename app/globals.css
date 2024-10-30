@@ -26,3 +26,9 @@ body {
   outline: 2px solid rgb(236, 222, 34);
   border-radius: 50%;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
