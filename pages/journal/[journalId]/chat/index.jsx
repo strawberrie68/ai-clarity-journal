@@ -1,13 +1,14 @@
-import "../../../../styles/global.css";
-import DateTitle from "@/components/common/DateTitle";
-import Header from "@/components/common/Header";
-import Button from "@/components/common/Button";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../AuthContext.js";
+import '../../../../styles/global.css';
+import DateTitle from '@/components/common/DateTitle';
+import Header from '@/components/common/Header';
+import Button from '@/components/common/Button';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../../AuthContext.js';
+import { useRouter } from 'next/navigation';
 
 const initialValues = {
-  content: "",
+  content: '',
 };
 
 const Chat = () => {
@@ -22,7 +23,7 @@ const Chat = () => {
 
   const fetchJournal = async () => {
     const response = await fetch(
-      `/api/users/${userId}/journal/entries/${journalId}`
+      `/api/users/${userId}/journal/entries/${journalId}`,
     );
     const data = await response.json();
     setJournal(data[0]);
@@ -48,12 +49,12 @@ const Chat = () => {
     const response = await fetch(
       `/api/users/${userId}/journal/entries/${journalId}/update`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ content: values.content }),
-      }
+      },
     );
     setLoading(true);
 
@@ -63,7 +64,7 @@ const Chat = () => {
       setValues(initialValues);
       fetchJournal();
     } else {
-      console.error("Invalid response from createJournalEntry:", response);
+      console.error('Invalid response from createJournalEntry:', response);
     }
   };
 
@@ -71,12 +72,12 @@ const Chat = () => {
     const response = await fetch(
       `/api/users/${userId}/journal/entries/${journalId}/finalize`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ entry }),
-      }
+      },
     );
 
     return response.json();
@@ -92,7 +93,7 @@ const Chat = () => {
       if (response) {
         push(`/journal/${journalId}/summary`);
       } else {
-        console.error("Invalid response from createJournalEntry:", response);
+        console.error('Invalid response from createJournalEntry:', response);
       }
     } catch (error) {
       console.error(`ERROR ${error}`);
@@ -101,7 +102,7 @@ const Chat = () => {
 
   return (
     <div className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
-      <Header />
+      <Header handleClick={() => router.back} />
       <DateTitle />
       <form className=" flex flex-col gap-4">
         <div className="w-full  px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
@@ -122,13 +123,13 @@ const Chat = () => {
         </div>
         <div className="flex justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
           <Button
-            buttonText={loading ? "Dig Deeper..." : "Dig Deeper"}
+            buttonText={loading ? 'Dig Deeper...' : 'Dig Deeper'}
             isPrimary={false}
             handleClick={handleDigDeeper}
             disabled={loading}
           />
           <Button
-            buttonText={loading ? "Finalizing..." : "Finalize"}
+            buttonText={loading ? 'Finalizing...' : 'Finalize'}
             isPrimary={true}
             handleClick={handleFinalize}
             disabled={loading}
