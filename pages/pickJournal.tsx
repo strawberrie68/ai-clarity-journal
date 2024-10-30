@@ -37,10 +37,10 @@ const PickJournal = () => {
     const path = selectedJournal === "More" ? "/explore" : "/journal/add";
     push(path);
   };
-
+  const router = useRouter();
   return (
     <article className="mx-6 mt-10 pb-8 lg:max-w-screen-lg lg:mx-auto">
-      <Header />
+      <Header handleClick={() => router.push("/")} />
       <h1 className="text-3xl font-bold mt-6">Pick a Journal</h1>
       <section className="mt-4 px-5 py-6 rounded-2xl bg-gradient-to-r from-lime-100 to-teal-100 flex flex-col">
         <h3 className="font-bold text-lg">💭 Pick a journal to start</h3>

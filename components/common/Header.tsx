@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import "../../styles/global.css";
 
+interface HeaderProps {
+  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
-
-const Header = () => {
+const Header: React.FC<HeaderProps> = () => {
   return (
     <header className="flex justify-between">
       <Link href="/">

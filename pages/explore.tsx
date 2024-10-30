@@ -77,10 +77,10 @@ const Explore: React.FC = () => {
     { key: "favorites", label: "Favorites", content: <div>Favorites</div> },
     { key: "suggestion", label: "Suggestions", content: <div>Suggestion</div> },
   ];
-
+  const router = useRouter();
   return (
     <div className="mx-6 mt-10 pb-8 lg:max-w-screen-lg lg:mx-auto">
-      <Header />
+      <Header handleClick={() => router.back} />
       <h1 className="text-3xl font-bold mt-11">Explore</h1>
       <section className="mt-4 ">
         <section className="mt-2 px-5 py-6 rounded-lg bg-gradient-to-r from-lime-50 to-teal-50 flex flex-col">

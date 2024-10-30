@@ -72,7 +72,7 @@ const Summary = () => {
   }
   return (
     <main className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
-      <Header />
+      <Header handleClick={() => router.back} />
       <h1 className="text-3xl font-bold mt-11">Summary</h1>
       <SummarySection journal={journal} />
       <section className="mt-8">
