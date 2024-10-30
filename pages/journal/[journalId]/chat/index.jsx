@@ -5,7 +5,6 @@ import Button from '@/components/common/Button';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../AuthContext.js';
-import { useRouter } from 'next/navigation';
 
 const initialValues = {
   content: '',
