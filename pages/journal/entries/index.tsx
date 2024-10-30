@@ -92,7 +92,7 @@ const Entries: React.FC = () => {
 
   return (
     <main className="mx-6 mt-10 lg:max-w-screen-md lg:mx-auto">
-      <Header />
+      <Header handleClick={() => router.back()} />
       <h1 className="text-3xl font-bold mt-11">Journal Entries</h1>
       <section>
         <h2 className="font-semibold">This week</h2>
