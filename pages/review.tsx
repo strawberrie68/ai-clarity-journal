@@ -13,7 +13,7 @@ export default function Review() {
           </button>
           <div className="mt-10">
             <p className="text-5xl font-bold">Hello,</p>
-            <p className="text-5xl font-bold">Michelle</p>
+            <p className="text-5xl font-bold">Test User</p>
           </div>
         </section>
         <section>

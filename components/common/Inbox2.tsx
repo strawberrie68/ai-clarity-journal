@@ -220,7 +220,7 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
                             todo={todo}
                             activeTab="priority"
                             onStatusChange={handleStatusChange}
-                            onCompletionToggle={handlePriorityChange}
+                            onCompletionToggle={handleCompletionToggle}
                             onPriorityChange={handlePriorityChange}
                         />
                     ))
