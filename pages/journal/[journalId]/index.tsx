@@ -6,6 +6,7 @@ import Header from "../../../components/common/Header";
 import TabComponent from "@/components/common/TabComponent";
 import BottomNav from "@/components/common/BottomNav";
 import { formatDate, formattedHaiku } from "@/utils/formatUtils";
+
 import "../../../styles/global.css";
 
 interface Journal {
@@ -23,6 +24,18 @@ interface Journal {
   user: string;
   entries: Entry[];
   date: string;
+  todo?: ToDo[];
+}
+
+
+interface ToDo {
+  taskName?: String;
+  dueDate?: Date;
+  isCompleted?: Boolean;
+  emoji?: String;
+  repeat?: "none" | "daily" | "weekly" | "monthly";
+  nextDueDate?: Date;
+  priority?: "low" | "medium" | "high" | undefined;
 }
 
 interface Entry {
@@ -35,6 +48,12 @@ interface Tab {
   key: string;
   label: string;
   content: JSX.Element;
+}
+
+const priority = {
+  "high": "bg-red-100",
+  "medium": "bg-amber-100",
+  "low": "bg-blue-100"
 }
 
 const PastEntry: React.FC = () => {
@@ -55,14 +74,41 @@ const PastEntry: React.FC = () => {
 
   useEffect(() => {
     const fetchJournal = async () => {
-      const response = await axios.get(
-        `/api/users/${userId}/journal/entries/${journalId}`
-      );
-      const data: Journal[] = response.data;
-      setJournal(data[0]);
+      try {
+        const response = await axios.get(
+          `/api/users/${userId}/journal/entries/${journalId}`
+        );
+        console.log(response.data)
+        const data: Journal[] = response.data;
+        setJournal(data[0]);
+      } catch (error) {
+        console.error("Error getting the journal:", error);
+      }
     };
+
     fetchJournal();
   }, [journalId, userId]);
+
+  console.log(journal)
+  const handleAddTask = (index: number) => {
+    if (journal && journal.todo) {
+      const task = journal.todo[index];
+      if (task) {
+        router.push({
+          pathname: "/journal/addTask",
+          query: { task: JSON.stringify(task) },
+        });
+      } else {
+        console.error("Task not found at the given index.");
+      }
+    } else {
+      console.error("Journal or todo list is undefined.");
+    }
+  };
+
+  const handleBack = () => {
+    router.back()
+  }
 
   const tabs: Tab[] = [
     {
@@ -118,6 +164,29 @@ const PastEntry: React.FC = () => {
               </div>
             </div>
           </section>
+          <section className="mt-10">
+            <h3 className="font-bold text-xl my-4">Suggested Tasks</h3>
+            <div className="flex flex-col gap-4">
+              {journal?.todo?.map((item, index) => {
+                return (
+                  <article className="border rounded-xl border-grey-100 flex w-auto max-h-18 p-4 justify-between hover:border-gray-400"
+                    onClick={() => handleAddTask(index)}
+                  >
+                    <div>
+                      <span className=""> {item.emoji} {item.taskName}</span>
+                      <div className={`${item.priority ? priority[item.priority] : "bg-gray-100"}  flex justify-center rounded-xl px-2 text-sm max-h-6 max-w-24 mt-2`}>
+                        <span>{item.priority}</span>
+                      </div>
+                    </div>
+                    <div className="h-12 w-12 hover:bg-gray-200 hover:opacity-55 basis-12 items-center flex border justify-center rounded-3xl">
+                      +
+                    </div>
+                  </article>
+                )
+              })}
+
+            </div>
+          </section>
         </div>
       ),
     },
@@ -139,7 +208,7 @@ const PastEntry: React.FC = () => {
                     </h2>
                     {formatJournalEntry(entry.content)}
                   </section>
-                  <section className="w-full min-h-16 mt-4 px-4 py-4 flex flex-col gap-4 rounded-lg border">
+                  <section className="w-full min-h-16 mt-4 px-4 pb-4 pt-6 flex flex-col gap-4 rounded-lg border">
                     <p className="max-w-prose">{entry.aiResponse}</p>
                   </section>
                 </div>
@@ -152,7 +221,7 @@ const PastEntry: React.FC = () => {
 
   return (
     <section className="mx-6 mt-10 pb-4 lg:max-w-screen-md lg:mx-auto">
-      <Header />
+      <Header handleClick={handleBack} />
       <div className="pt-6">
         <TabComponent tabs={tabs} />
       </div>

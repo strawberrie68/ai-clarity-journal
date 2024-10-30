@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { useAuth } from "../../../AuthContext.js";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useAuth } from '../../../AuthContext.js';
+import Header from '@/components/common/Header';
+import Button from '@/components/common/Button';
+import TabComponent from '@/components/common/TabComponent';
+import { formattedHaiku } from '@/utils/formatUtils';
 
-import Header from "@/components/common/Header";
-import Button from "@/components/common/Button";
-import TabComponent from "@/components/common/TabComponent";
-import { formattedHaiku } from "@/utils/formatUtils";
-
-import "../../../../styles/global.css";
+import '../../../../styles/global.css';
 
 const Summary = () => {
   const [journal, setJournal] = useState({});
-  const [haiku, setHaiku] = useState("");
+  const [haiku, setHaiku] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
   const { journalId } = router.query;
@@ -21,9 +21,10 @@ const Summary = () => {
   useEffect(() => {
     const fetchJournal = async (journalId) => {
       const response = await fetch(
-        `/api/users/${userId}/journal/entries/${journalId}`
+        `/api/users/${userId}/journal/entries/${journalId}`,
       );
       const data = await response.json();
+      setIsLoading(false);
       setJournal(data[0]);
     };
 
@@ -40,8 +41,8 @@ const Summary = () => {
 
   const tabs = [
     {
-      key: "keyPoints",
-      label: "Key Points",
+      key: 'keyPoints',
+      label: 'Key Points',
       content: (
         <section className="mt-8 flex flex-col gap-4">
           <KeyPoint title="⭐️ Key Insight:" content={journal?.keyInsight} />
@@ -52,20 +53,54 @@ const Summary = () => {
       ),
     },
     {
-      key: "suggestions",
-      label: "Suggestions",
+      key: 'suggestions',
+      label: 'Suggestions',
       content: <SuggestionsList />,
     },
   ];
 
+  const handleAddTask = (index) => {
+    const task = journal.todo[index];
+    router.push({
+      pathname: '/journal/addTask',
+      query: { task: JSON.stringify(task) },
+    });
+  };
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
   return (
     <main className="mx-6 mt-10 pb-8 lg:max-w-screen-md lg:mx-auto">
       <Header />
       <h1 className="text-3xl font-bold mt-11">Summary</h1>
       <SummarySection journal={journal} />
       <section className="mt-8">
-        <h3 className="text-xl font-bold">Highlights</h3>
+        <h2 className="text-xl font-bold">Highlights</h2>
         <TabComponent tabs={tabs} />
+        <h3 className="font-bold text-2xl mt-8">Suggested Tasks</h3>
+        <p className="my-2">
+          Would you like to add these tasks to your To Do list?{' '}
+        </p>
+        <div className="flex flex-col gap-2">
+          {journal.todo.map((task, index) => {
+            return (
+              <article
+                className="border rounded-xl h-16 flex justify-between items-center px-4"
+                key={task.id}
+                onClick={() => handleAddTask(index)}
+              >
+                <div className="flex gap-4">
+                  <span>{task.emoji}</span>
+                  <p>{task.taskName}</p>
+                </div>
+                <div className="bg-amber-100 rounded-lg px-4 font-semibold">
+                  <span>{task.priority}</span>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </section>
       <Link href={`/`}>
         <div className="mt-14">
@@ -86,7 +121,7 @@ const KeyPoint = ({ title, content }) => (
 const SuggestionsList = () => (
   <section>
     <ul className="mt-6 gap-4 flex flex-col">
-      {["Drink only 3 cups of coffee", "Exercise daily"].map(
+      {['Drink only 3 cups of coffee', 'Exercise daily'].map(
         (suggestion, index) => (
           <li
             key={index}
@@ -102,7 +137,7 @@ const SuggestionsList = () => (
               <p className="text-xl text-sky-600">+</p>
             </div>
           </li>
-        )
+        ),
       )}
     </ul>
   </section>

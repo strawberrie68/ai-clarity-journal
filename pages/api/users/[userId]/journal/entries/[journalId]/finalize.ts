@@ -18,6 +18,17 @@ interface JournalInterface {
   user: string;
   entries: Entry[];
   date: string;
+  todo?: ToDo[];
+}
+
+interface ToDo {
+  taskName?: String;
+  dueDate?: String;
+  isCompleted?: Boolean;
+  emoji?: String;
+  repeat?: "none" | "daily" | "weekly" | "monthly";
+  nextDueDate?: String;
+  priority?: "low" | "medium" | "high";
 }
 
 interface Entry {
@@ -26,13 +37,9 @@ interface Entry {
   _id: string;
 }
 
-async function updateJournalEntry(
-  journalId: string
-): Promise<JournalInterface | null> {
+async function updateJournalEntry(journalId: string): Promise<JournalInterface | null> {
   try {
-    const journal = (await Journal.findById(
-      journalId
-    )) as JournalInterface | null;
+    const journal = (await Journal.findById(journalId)) as JournalInterface | null;
 
     if (!journal) {
       console.error("Journal not found");
@@ -45,6 +52,7 @@ async function updateJournalEntry(
     }
 
     const aiResponse = await analyze(journal.conversationSummary);
+    console.log(aiResponse);
 
     const updatedJournal = await Journal.findOneAndUpdate(
       { _id: journalId },
@@ -60,6 +68,7 @@ async function updateJournalEntry(
           haiku: aiResponse?.haiku,
           emoji: aiResponse?.emoji,
           color: aiResponse?.color,
+          todo: aiResponse?.todo,
         },
       },
       { new: true }
