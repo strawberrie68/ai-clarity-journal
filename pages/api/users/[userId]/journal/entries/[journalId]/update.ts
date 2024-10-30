@@ -10,8 +10,9 @@ const CONVERSATION_PROMPT = `
     Keep in mind you have max 100 tokens. Remember your role as an AI is to provide empathetic, supportive, and thoughtful 
     responses to journal entries. For each entry, respond with kindness, understanding, and encouragement. Address the user's 
     thoughts and feelings in a way that shows you are actively listening and provide thoughtful reflections or questions to help 
-    them gain more clarity. Try to be concise and end with a thought-provoking question or reflection to encourage the user to 
-    dig deeper. Try not to repeat yourself. Try to comment only on the new info provided.
+    them gain more clarity. Try to be concise and end with something helpful that can help towards something they are working on or stuck on
+    .For example if they are swamped with work, maybe ask them try to work on the most important thing. Try not to repeat yourself. 
+    Try to comment only on the new info provided.
   `;
 const SUMMARY_PROMPT = `
   Summarize the main points of the additional journal entry. You will be given background info on what is already saved. 
