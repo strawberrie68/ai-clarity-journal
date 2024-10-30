@@ -32,5 +32,5 @@
     ".next/types/**/*.ts",
     "lib/connectDB.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next", "public"]
 }
