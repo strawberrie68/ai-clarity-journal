@@ -1,38 +1,25 @@
 import React from "react";
 import Image from "next/image";
+import Router, { useRouter } from "next/router";
 import BottomNav from "@/components/common/BottomNav";
 import "../styles/global.css";
+import Header from "@/components/common/Header";
 
 export default function Review() {
+  const router = useRouter()
   return (
     <main className="mx-6 mt-10 pb-8 lg:max-w-screen-lg lg:mx-auto">
-      <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
-        <section>
-          <button className="bg-zinc-100 h-11 w-11 rounded-full flexCenter">
-            <Image src="/list.svg" alt="nav-bar" width={18} height={18} />
-          </button>
-          <div className="mt-10">
-            <p className="text-5xl font-bold">Hello,</p>
-            <p className="text-5xl font-bold">Test User</p>
-          </div>
-        </section>
-        <section>
-          <Image
-            src="/user-profile.png"
-            alt="user profile"
-            width={44}
-            height={44}
-          />
-        </section>
-      </header>
-
-      <section className="flex w-full justify-start items-center mt-16">
+      <Header handleClick={() => router.push("/")} />
+      <div className="mt-10">
+        <p className="text-5xl font-bold">Hello,</p>
+        <p className="text-5xl font-bold">Test User</p>
+      </div>
+      <section className="flex w-full justify-start items-center mt-10">
         <p className="py-10 border flexCenter px-10 rounded-lg">
           Currently under constructions. Check back soon! :)
         </p>
       </section>
-
-      <nav className="fixed w-full bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+      <nav className="fixed w-full mx-auto px-6 bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
       </nav>
     </main>

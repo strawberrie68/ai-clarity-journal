@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ProfileNav from "./ProfileNav";
 import "../../styles/global.css";
 
 interface HeaderProps {
@@ -15,12 +16,7 @@ const Header: React.FC<HeaderProps> = () => {
         </button>
       </Link>
       <div>
-        <Image
-          src="/user-profile.png"
-          alt="user avatar"
-          width={44}
-          height={44}
-        />
+        <ProfileNav />
       </div>
     </header>
   );

@@ -162,7 +162,7 @@ const Entries: React.FC = () => {
           </div>
         ))}
       </section>
-      <nav className="fixed w-full bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+      <nav className="fixed w-full px-6 bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
       </nav>
     </main>

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
 import { formatQuote } from "@/utils/formatUtils";
 import { useAuth } from "./AuthContext";
+import { SunIcon } from "@radix-ui/react-icons"
 import BottomNav from "@/components/common/BottomNav";
 import Card from "@/components/common/Card";
 import NavBar from "@/components/common/NavBar";
-import Inbox2 from "../components/common/Inbox2"
-import { Todo } from "../components/common/Inbox2"
+import Inbox2, { Todo } from "../components/common/Inbox2"
+import ProfileNav from "@/components/common/ProfileNav";
 import "../styles/global.css";
 
 interface User {
@@ -110,6 +110,7 @@ export default function Home() {
     }
   };
 
+
   return (
     <main className="mx-6 mt-10 pb-8">
       <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
@@ -117,7 +118,7 @@ export default function Home() {
           <button
             className={`bg-zinc-100 h-11 w-11 rounded-full ${flexCenter}`}
           >
-            <Image src="/list.svg" alt="nav-bar" width={18} height={18} />
+            <SunIcon width={18} height={18} />
           </button>
           <div className="mt-10">
             <p className="text-5xl font-bold">Hello,</p>
@@ -125,18 +126,13 @@ export default function Home() {
           </div>
         </section>
         <section>
-          <Image
-            src="/user-profile.png"
-            alt="user profile"
-            width={44}
-            height={44}
-          />
+          <ProfileNav />
         </section>
       </header>
       <section className="lg:max-w-screen-lg lg:mx-auto">
         <NavBar />
       </section>
-      <section className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8 pb-12">
+      <section className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8 pb-24">
         <section className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto lg:basis-3/5">
           <div className="mt-10 flex gap-4 ">
             <Link href="/journal/add">
@@ -187,7 +183,7 @@ export default function Home() {
 
         </section>
       </section>
-      <nav className="fixed w-full bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+      <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
         <BottomNav />
       </nav>
     </main>
