@@ -22,17 +22,14 @@ const parser = StructuredOutputParser.fromZodSchema(
       .string()
       .describe(
         `
-        quick summary of the entire journal entry, while highlighting the main points like the struggles,
-        highlights of the day while making the user feel understood and heard. Act as a objective friend or therapist
-        that responds with empathy, validation, and insightful advice, start by recognizing and identifying 
-        the user's emotions, such as mixed feelings of gratitude, frustration, and disappointment. 
-        Validate the user's experience by affirming that it is understandable to feel conflicted and 
-        that their emotions are valid. Provide insight by highlighting the user's self-awareness and 
-        maturity in decision-making, acknowledging their careful consideration of opportunities and their 
-        impacts. Offer thoughtful suggestions that encourage the user to focus on what brings them joy and 
-        fulfillment, and suggest evaluating if certain relationships align with their values. Emphasize the 
-        importance of trusting instincts and prioritizing well-being, and reassure the user by reinforcing 
-        the idea that they deserve uplifting and supportive relationship
+        Create a summary of this journal entry that feels like a supportive friend or 
+        therapist speaking directly to the user. Start by gently acknowledging the emotions 
+        they’re feeling—whether it’s gratitude, frustration, or disappointment—and validate 
+        their experience. Recognize their careful thinking and self-awareness, especially if 
+        they’re considering new opportunities or evaluating relationships. Offer gentle, 
+        thoughtful suggestions that encourage them to focus on what brings them joy and
+         fulfillment. Emphasize the importance of trusting their instincts and well-being, 
+         reminding them that they deserve uplifting, supportive relationships.
         `
       )
       .optional(),
