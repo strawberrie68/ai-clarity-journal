@@ -9,18 +9,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  todo: [
-    {
-      taskName: { type: String },
-      dueDate: { type: String },
-      isCompleted: { type: Boolean, default: false },
-      emoji: { type: String },
-      repeat: { type: String, enum: ["none", "daily", "weekly", "monthly"], default: "none" },
-      nextDueDate: { type: String, default: new Date() },
-      priority: { type: String, enum: ["low", "medium", "high"] },
-      status: { type: String, enum: ["In progress", "Done", "Not Started"], default: "Not Started" }
-    },
-  ],
   journals: [
     {
       type: Schema.Types.ObjectId,
