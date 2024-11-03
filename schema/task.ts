@@ -1,13 +1,15 @@
 import { z } from "zod";
+import { PRIORITIES, STATUSES } from "@/types/task";
 
-const priorityEnum = z.enum(["high", "medium", "low"]);
-const statusEnum = z.enum(['not started', 'in progress', 'done'])
 
 export const taskFormSchema = z.object({
     emoji: z.string()
-        .min(1, "Emoji is required")
+        .optional()
+        .transform(val => val || "😊")
         .refine((emoji) => {
-            const emojiRegex = /([\u203C-\u3299]|[\uD83C\uD83D][\uDC00-\uDFFF]|[\u2600-\u26FF]|[\u2700-\u27BF]|[\u1F300-\u1F5FF]|[\u1F680-\u1F6FF]|[\u1F700-\u1F77F]|[\u1F900-\u1F9FF]|[\u1FA00-\u1FAFF])/;
+            if (!emoji) return true;
+            const emojiRegex = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
+
             return emojiRegex.test(emoji);
         }, {
             message: "Must be a valid emoji",
@@ -18,12 +20,12 @@ export const taskFormSchema = z.object({
     taskName: z.string()
         .min(1, "Task name is required")
         .max(50, "Task name is too long"),
-    priority: priorityEnum,
+    priority: z.enum([PRIORITIES.HIGH, PRIORITIES.MEDIUM, PRIORITIES.LOW]),
     dueDate: z.string().refine((date) => !isNaN(new Date(date).getTime()), {
         message: "Invalid date format",
     }),
     isCompleted: z.boolean(),
-    status: statusEnum,
-    id: z.string().optional(),
+    status: z.enum([STATUSES.NOT_STARTED, STATUSES.IN_PROGRESS, STATUSES.COMPLETE]),
+    userId: z.string().optional(),
 
 })
