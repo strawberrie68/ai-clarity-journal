@@ -26,17 +26,18 @@ const AddTask = () => {
     const [open, setOpen] = useState(false);
     const { userId } = useAuth();
     const [alert, setAlert] = useState({ message: '', type: '', visible: false });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const form = useForm<z.infer<typeof taskFormSchema>>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: {
-            emoji: "",
+            emoji: "😊",
             color: "#ffffff",
             taskName: "",
-            priority: "medium",
+            priority: "Medium",
             dueDate: new Date().toISOString(),
             isCompleted: false,
-            status: "not started",
+            status: "Not Started",
         },
     })
 
@@ -58,35 +59,82 @@ const AddTask = () => {
 
 
     const AddTaskToDoList = async (formValue: TaskProps) => {
-        console.log("AddTaskToDoList called with:", formValue);
+        console.log("Making request to: /api/tasks/addTask")
         if (!userId) {
-            console.error("No userId available");
-            throw new Error("No userId available");
+            throw new Error("User ID is required");
         }
-
         try {
-            console.log("Making API request to:", `/api/users/${userId}/todo/addToDo`);
-            const response = await axios.post(`/api/users/${userId}/todo/addToDo`, formValue);
+            const formattedTodo = {
+                ...formValue,
+                userId
+            }
+            const response = await axios.post(`/api/tasks/addTask`, formattedTodo);
+            console.log("Response:", response.data)
             return response.data;
-        } catch (error) {
-            console.error("Error in AddTaskToDoList:", error);
+        } catch (error: any) {
+            console.error("Full error details:", {
+                status: error.response?.status,
+                statusText: error.response?.statusText,
+                data: error.response?.data,
+                url: error.config?.url,
+            });
             throw error;
         }
-
     }
 
     const handleBack = () => { router.back() }
 
+    useEffect(() => {
+        const subscription = form.watch((value) => {
+            console.log("Form values changed:", {
+                ...value,
+                priority: `"${value.priority}"`,
+            });
+        });
+        return () => subscription.unsubscribe();
+    }, [form.watch]);
+
     const onSubmit = async (values: z.infer<typeof taskFormSchema>) => {
+        console.log("onSubmit triggered"); // Add this line
+        console.log("Form submitted with values:", {
+            ...values,
+            priority: `"${values.priority}"`,  // Log with quotes to see exact casing
+        });
+
+        if (isSubmitting) {
+            console.log("Form is already submitting, returning");
+            return;
+        }
 
         try {
-            if (!values.taskName) {
-                console.error("Task name is required");
-                setAlert({ message: 'Task name is required', type: 'error', visible: true });
+            setIsSubmitting(true);
+            console.log("Form Values:", values);
+            console.log("User ID:", userId);
+
+            if (!values.taskName?.trim()) {
+                setAlert({
+                    message: 'Task name is required',
+                    type: 'error',
+                    visible: true
+                });
                 return;
             }
 
+            if (!userId) {
+                setAlert({
+                    message: 'Please log in to add tasks',
+                    type: 'error',
+                    visible: true
+                });
+                return;
+            }
+            console.log("All validations passed, calling AddTaskToDoList");
+
+
+
             await AddTaskToDoList(values);
+            console.log("Task added successfully");
+
             setAlert({ message: 'Task added successfully!', type: 'success', visible: true });
             setTimeout(() => {
                 console.log("Redirecting...");
@@ -94,12 +142,14 @@ const AddTask = () => {
             }, 3000);
 
         } catch (error) {
-            console.error("Error in onSubmit:", error);
+            console.error("Submission error:", error);
             setAlert({
-                message: 'Failed to add task. Please try again.',
+                message: error instanceof Error ? error.message : 'Failed to add task. Please try again.',
                 type: 'error',
                 visible: true
             });
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -108,6 +158,15 @@ const AddTask = () => {
         const parsedDate = new Date(dateString);
         return isNaN(parsedDate.getTime()) ? null : parsedDate;
     }
+    const handleSubmit = (e: React.FormEvent) => {
+        console.log("Form submit event triggered");
+        form.handleSubmit((data) => {
+            console.log("Form is valid, data:", data);
+            onSubmit(data);
+        }, (errors) => {
+            console.log("Form validation failed:", errors);
+        })(e);
+    };
 
     return (
         <div className="bg-white mx-6 mt-10 pb-4 lg:max-w-screen-md lg:mx-auto">
@@ -127,11 +186,8 @@ const AddTask = () => {
             }
             <Form {...form}>
                 <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={handleSubmit}
                     className="space-y-8"
-                    onSubmitCapture={(e) => {
-                        console.log("Form submit captured");
-                    }}
                 >
                     <div className="flex gap-4 flex-col">
                         <label htmlFor="emojiInput" className="block font-semibold">
@@ -229,7 +285,7 @@ const AddTask = () => {
                                             Priority
                                         </FormLabel>
                                         <div className="relative -left-6">
-                                            {['low', 'medium', 'high'].map((level) => (
+                                            {['Low', 'Medium', 'High'].map((level) => (
                                                 <label key={level} className="cursor-pointer px-2">
                                                     <input
                                                         type="radio"
@@ -245,7 +301,7 @@ const AddTask = () => {
                                                             : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-300'
                                                             }`}
                                                     >
-                                                        {level.charAt(0).toUpperCase() + level.slice(1)}
+                                                        {level}
                                                     </span>
                                                 </label>
                                             ))}
@@ -298,7 +354,12 @@ const AddTask = () => {
                             )}
                         />
                     </div>
-                    <Button className="rounded-3xl w-full mx-auto sticky bottom-4 h-14 text-2xl" type="submit" onClick={() => console.log("Submit button clicked")}>Add new task</Button>
+                    <Button className="rounded-3xl w-full mx-auto sticky bottom-4 h-14 text-2xl"
+                        type="submit"
+                        onClick={() => console.log("Button clicked")}
+                        disabled={isSubmitting} >
+                        {isSubmitting ? 'Adding...' : 'Add new task'}
+                    </Button>
                 </form>
             </Form>
         </div>

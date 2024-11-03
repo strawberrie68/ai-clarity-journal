@@ -6,55 +6,55 @@ import Header from "../../../components/common/Header";
 import TabComponent from "@/components/common/TabComponent";
 import BottomNav from "@/components/common/BottomNav";
 import { formatDate, formattedHaiku } from "@/utils/formatUtils";
-
+import { Priority, Journal, priorityColors, Tab } from "@/types/task";
 import "../../../styles/global.css";
 
-interface Journal {
-  keyInsight?: string;
-  quote?: string;
-  aiSummary?: string;
-  color?: string;
-  conversationSummary?: string;
-  emoji?: string;
-  haiku?: string;
-  highlight?: string;
-  mood?: string;
-  sentiment?: string;
-  title?: string;
-  user: string;
-  entries: Entry[];
-  date: string;
-  todo?: ToDo[];
-}
+// interface Journal {
+//   keyInsight?: string;
+//   quote?: string;
+//   aiSummary?: string;
+//   color?: string;
+//   conversationSummary?: string;
+//   emoji?: string;
+//   haiku?: string;
+//   highlight?: string;
+//   mood?: string;
+//   sentiment?: string;
+//   title?: string;
+//   user: string;
+//   entries: Entry[];
+//   date: string;
+//   todo?: ToDo[];
+// }
 
 
-interface ToDo {
-  taskName?: String;
-  dueDate?: Date;
-  isCompleted?: Boolean;
-  emoji?: String;
-  repeat?: "none" | "daily" | "weekly" | "monthly";
-  nextDueDate?: Date;
-  priority?: "low" | "medium" | "high" | undefined;
-}
+// interface ToDo {
+//   taskName?: String;
+//   dueDate?: Date;
+//   isCompleted?: Boolean;
+//   emoji?: String;
+//   repeat?: "none" | "daily" | "weekly" | "monthly";
+//   nextDueDate?: Date;
+//   priority?: "Low" | "Medium" | "High" | undefined;
+// }
 
-interface Entry {
-  aiResponse: string;
-  content: string;
-  _id: string;
-}
+// interface Entry {
+//   aiResponse: string;
+//   content: string;
+//   _id: string;
+// }
 
-interface Tab {
-  key: string;
-  label: string;
-  content: JSX.Element;
-}
+// interface Tab {
+//   key: string;
+//   label: string;
+//   content: JSX.Element;
+// }
 
-const priority = {
-  "high": "bg-red-100",
-  "medium": "bg-amber-100",
-  "low": "bg-blue-100"
-}
+// const priority = {
+//   "High": "bg-red-100",
+//   "Medium": "bg-amber-100",
+//   "Low": "bg-blue-100"
+// }
 
 const PastEntry: React.FC = () => {
   const [journal, setJournal] = useState<Journal | null>(null);
@@ -78,7 +78,6 @@ const PastEntry: React.FC = () => {
         const response = await axios.get(
           `/api/users/${userId}/journal/entries/${journalId}`
         );
-        console.log(response.data)
         const data: Journal[] = response.data;
         setJournal(data[0]);
       } catch (error) {
@@ -89,7 +88,6 @@ const PastEntry: React.FC = () => {
     fetchJournal();
   }, [journalId, userId]);
 
-  console.log(journal)
   const handleAddTask = (index: number) => {
     if (journal && journal.todo) {
       const task = journal.todo[index];
@@ -109,6 +107,11 @@ const PastEntry: React.FC = () => {
   const handleBack = () => {
     router.back()
   }
+
+  const getPriorityClass = (priority: Priority | undefined): string => {
+    if (!priority) return "bg-gray-100";
+    return priorityColors[priority];
+  };
 
   const tabs: Tab[] = [
     {
@@ -171,10 +174,11 @@ const PastEntry: React.FC = () => {
                 return (
                   <article className="border rounded-xl border-grey-100 flex w-auto max-h-18 p-4 justify-between hover:border-gray-400"
                     onClick={() => handleAddTask(index)}
+                    key={index}
                   >
                     <div>
                       <span className=""> {item.emoji} {item.taskName}</span>
-                      <div className={`${item.priority ? priority[item.priority] : "bg-gray-100"}  flex justify-center rounded-xl px-2 text-sm max-h-6 max-w-24 mt-2`}>
+                      <div className={`${getPriorityClass(item.priority)} flex justify-center rounded-xl px-2 text-sm max-h-6 max-w-24 mt-2`}>
                         <span>{item.priority}</span>
                       </div>
                     </div>

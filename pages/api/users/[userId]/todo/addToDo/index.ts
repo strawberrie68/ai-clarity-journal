@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../../../../../../models/User";
 import connectDB from "../../../../../../lib/connectDB";
+import { Task, ITask } from "../../../../../../models/Task"
 
 
 async function postToDo(req: NextApiRequest, res: NextApiResponse) {
@@ -13,17 +13,25 @@ async function postToDo(req: NextApiRequest, res: NextApiResponse) {
 
     try {
         await connectDB();
-        const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            { $push: { todo: task } },
-            { new: true } // Option to return the updated document
-        );
 
-        if (!updatedUser) {
-            return res.status(404).json({ error: "User not found" });
-        }
+        const newTask: Partial<ITask> = {
+            taskName: task.taskName,
+            dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+            isCompleted: task.isCompleted || false,
+            emoji: task.emoji,
+            repeat: task.repeat || "none",
+            nextDueDate: task.nextDueDate ? new Date(task.nextDueDate) : new Date(),
+            priority: task.priority || "low",
+            status: task.status || "Not Started",
+            color: task.color || "#ffffff",
+        };
 
-        res.status(201).json(updatedUser);
+
+        const taskDocument = new Task({ ...newTask, userId });
+
+        const savedTask = await taskDocument.save();
+
+        res.status(201).json(savedTask);
     } catch (error) {
         console.error("Error adding task:", error);
         res.status(500).json({ error: "Could not add new task to user, Internal Server Error" });
