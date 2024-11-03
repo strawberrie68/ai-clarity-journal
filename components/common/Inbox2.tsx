@@ -1,11 +1,13 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import axios from 'axios';
+import { useAuth } from "../../pages/AuthContext";
 
-type Priority = 'high' | 'medium' | 'low';
-type Status = "not started" | "in progress" | "completed";
+type Priority = 'High' | 'Medium' | 'Low';
+type Status = "Not Started" | "In Progress" | "Completed";
 
 export interface Todo {
     _id: number;
@@ -21,20 +23,20 @@ interface TodoCardProps {
     todo: Todo;
     activeTab: string;
     onStatusChange: (id: number, newStatus: Status) => void;
-    onCompletionToggle: (id: number) => void;
+    onCompletionToggle: (id: number, isCompleted: boolean) => void;
     onPriorityChange: (id: number, newPriority: Priority) => void;
 }
 
 const priorityMap: Record<Priority, number> = {
-    high: 3,
-    medium: 2,
-    low: 1
+    High: 3,
+    Medium: 2,
+    Low: 1
 };
 
 const statusMap: Record<Status, number> = {
-    "not started": 0,
-    "in progress": 1,
-    "completed": 2
+    "Not Started": 0,
+    "In Progress": 1,
+    "Completed": 2
 };
 
 interface TodoTabsProps {
@@ -43,37 +45,76 @@ interface TodoTabsProps {
     isLoading?: boolean;
 }
 
-const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading = false }) => {
-    if (isLoading || !todos) {
+const TodoTabs = () => {
+    const [tasks, setTasks] = useState<Todo[]>([]);
+    const [isLoading, setLoading] = useState(true)
+    const { userId } = useAuth();
+
+
+    const fetchTasks = async (userId: string) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`/api/tasks/getTasks`, {
+                params: { userId }
+            });
+
+            setTasks(response.data as Todo[]);
+        } catch (error) {
+            console.error(error, "error fetching the todo");
+        } finally {
+            setLoading(false);
+        }
+    };
+    console.log(tasks)
+
+    useEffect(() => {
+        fetchTasks(userId);
+    }, [userId]);
+
+    const updateTask = async (taskId: number, updates: Partial<Todo>) => {
+        try {
+            const response = await axios.put("/api/tasks/updateTask", {
+                id: taskId,
+                ...updates
+            });
+
+            setTasks(currentTasks =>
+                currentTasks.map(task =>
+                    task._id === taskId ? { ...task, ...updates } : task
+                )
+            );
+
+            return response.data;
+        } catch (error) {
+            console.error("Error updating task:", error);
+            throw error;
+        }
+    };
+
+    if (isLoading || !tasks) {
         return <div className="w-full h-32 flex items-center justify-center">Loading...</div>;
     }
 
-    const handleStatusChange = (id: number, newStatus: Status) => {
-        const updatedTodos = todos.map(todo =>
-            todo._id === id ? { ...todo, status: newStatus } : todo
-        );
 
-        console.log(updatedTodos);
 
-        handleUpdateTodo(updatedTodos);
+    const handleStatusChange = async (id: number, newStatus: Status) => {
+        await updateTask(id, { status: newStatus });
     };
 
-    const handlePriorityChange = (id: number, newPriority: Priority) => {
-        const updatedTodos = todos.map(todo =>
-            todo._id === id ? { ...todo, priority: newPriority } : todo
-        );
-        handleUpdateTodo(updatedTodos);
+    const handleCompletionToggle = async (id: number) => {
+        const task = tasks.find(t => t._id === id);
+        if (!task) return;
+
+        const updates = {
+            isCompleted: !task.isCompleted,
+            status: !task.isCompleted ? "Completed" : "Not Started" as Status
+        };
+
+        await updateTask(id, updates);
     };
 
-    const handleCompletionToggle = (id: number) => {
-        const updatedTodos = todos.map(todo =>
-            todo._id === id ? {
-                ...todo,
-                isCompleted: !todo.isCompleted,
-                status: (!todo.isCompleted ? "completed" : "not started") as Status
-            } : todo
-        );
-        handleUpdateTodo(updatedTodos);
+    const handlePriorityChange = async (id: number, newPriority: Priority) => {
+        await updateTask(id, { priority: newPriority });
     };
 
     const sortByCompletion = (todosToSort: Todo[]): Todo[] => {
@@ -108,7 +149,7 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
                         checked={todo.isCompleted}
                         onCheckedChange={() => {
                             console.log("Checkbox toggled:", todo._id);
-                            onCompletionToggle(todo._id);
+                            handleCompletionToggle(todo._id);  // Remove the second parameter
                         }}
                         className="rounded-full w-6 h-6 bg-white"
                     />
@@ -130,16 +171,16 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
                         onValueChange={(value: string) => onPriorityChange(todo._id, value as Priority)}
                         value={todo.priority as Priority}
                     >
-                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.priority === "low" ? "bg-green-200 text-green-700" :
-                            todo.priority === "medium" ? "bg-amber-100 text-yellow-700" :
+                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.priority === "Low" ? "bg-green-200 text-green-700" :
+                            todo.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
                                 "bg-rose-200 text-rose-950"
                             }`}>
                             <SelectValue placeholder="Priority" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl">
-                            <SelectItem className="text-sm rounded-full px-6" value="high">High</SelectItem>
-                            <SelectItem className="text-sm rounded-full px-6" value="medium">Medium</SelectItem>
-                            <SelectItem className="text-sm rounded-full px-6" value="low">Low</SelectItem>
+                            <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
+                            <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
+                            <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
                         </SelectContent>
                     </Select>
                 )}
@@ -152,16 +193,16 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
                         }}
                         value={todo.status as Status}
                     >
-                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.status === "completed" ? "bg-green-200 text-green-700" :
-                            todo.status === "in progress" ? "bg-amber-100 text-yellow-700" :
+                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.status === "Completed" ? "bg-green-200 text-green-700" :
+                            todo.status === "In Progress" ? "bg-amber-100 text-yellow-700" :
                                 "bg-gray-200 text-gray-700"
                             }`}>
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl">
-                            <SelectItem className="rounded-full px-6" value="not started">Not Started</SelectItem>
-                            <SelectItem className="rounded-full px-6" value="in progress">In Progress</SelectItem>
-                            <SelectItem className="rounded-full px-6" value="completed">Completed</SelectItem>
+                            <SelectItem className="rounded-full px-6" value="Not Started">Not Started</SelectItem>
+                            <SelectItem className="rounded-full px-6" value="In Progress">In Progress</SelectItem>
+                            <SelectItem className="rounded-full px-6" value="Completed">Completed</SelectItem>
                         </SelectContent>
                     </Select>
                 )}
@@ -179,10 +220,10 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
                 <TabsTrigger className={tabStyle} value="priority">By Priority</TabsTrigger>
             </TabsList>
             <TabsContent value="all">
-                {sortByDateAndCompletion(todos).length === 0 ? (
+                {sortByDateAndCompletion(tasks).length === 0 ? (
                     <div className="py-4 text-gray-500">No tasks available</div>
                 ) : (
-                    sortByDateAndCompletion(todos).map(todo => (
+                    sortByDateAndCompletion(tasks).map(todo => (
                         <TodoCard
                             key={todo._id}
                             todo={todo}
@@ -195,10 +236,10 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
                 )}
             </TabsContent>
             <TabsContent value="status">
-                {sortByDateAndStatus(todos).length == 0 ?
+                {sortByDateAndStatus(tasks).length == 0 ?
                     (<div className="py-4 text-gray-500">No tasks available</div>
                     ) :
-                    sortByDateAndStatus(todos).map(todo => (
+                    sortByDateAndStatus(tasks).map(todo => (
                         <TodoCard
                             key={todo._id}
                             todo={todo}
@@ -211,10 +252,10 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ todos, handleUpdateTodo, isLoading 
 
             </TabsContent>
             <TabsContent value="priority">
-                {sortByPriorityAndCompletion(todos).length === 0 ? (
+                {sortByPriorityAndCompletion(tasks).length === 0 ? (
                     <div className="py-4 text-gray-500">No tasks available</div>)
                     :
-                    sortByPriorityAndCompletion(todos).map(todo => (
+                    sortByPriorityAndCompletion(tasks).map(todo => (
                         <TodoCard
                             key={todo._id}
                             todo={todo}

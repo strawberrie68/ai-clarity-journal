@@ -43,6 +43,7 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const { userId, token } = useAuth() as { userId: string; token: string };
   const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
     if (userId) {
       fetchUser(userId);
@@ -85,31 +86,14 @@ export default function Home() {
 
 
   if (isLoading) {
-    return <div></div>
+    return <div>Loading</div>
   }
 
-  const handleCleanUp = () => {
-    if (user) {
-      const cleanUpTasks = user.todo.filter((item) => item.isCompleted == false)
-      handleUpdateTodo(cleanUpTasks)
-    }
-
-  }
-  const handleUpdateTodo = async (updatedTodos: Todo[]) => {
-    try {
-      await axios.put(`/api/users/${userId}/todo/`, updatedTodos);
-      setUser((prevUser) => {
-        if (!prevUser) return null;
-        return {
-          ...prevUser,
-          todo: updatedTodos
-        };
-      });
-    } catch (error) {
-      console.error(error, "error updating todos");
-    }
-  };
-
+  // const handleCleanUp = () => {
+  //   if (user) {
+  //     const cleanUpTasks = user.todo.filter((item) => item.isCompleted == false)
+  //     handleUpdateTodo(cleanUpTasks)
+  //   }
 
   return (
     <main className="mx-6 mt-10 pb-8">
@@ -175,12 +159,11 @@ export default function Home() {
         <section className="mt-8 lg:mt-0 lg:basis-2/5">
           <div className="flex justify-between pt-5 pb-3">
             <h3 className="text-xl font-bold">Inbox</h3>
-            <button className="pr-3" onClick={handleCleanUp}>
+            <button className="pr-3" >
               <p className="text-sm text-slate-400 font-bold">Clean up Tasks</p>
             </button>
           </div>
-          {user?.todo && <Inbox2 todos={user.todo} handleUpdateTodo={handleUpdateTodo} />}
-
+          <Inbox2 />
         </section>
       </section>
       <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
