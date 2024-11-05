@@ -18,7 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popove
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import Header from "@/components/common/Header"
-
+import EmojiPickerInput from "@/components/common/EmojiInputPicker"
 const AddTask = () => {
     const router = useRouter();
     const { task } = router.query;
@@ -31,7 +31,7 @@ const AddTask = () => {
     const form = useForm<z.infer<typeof taskFormSchema>>({
         resolver: zodResolver(taskFormSchema),
         defaultValues: {
-            emoji: "😊",
+            emoji: "",
             color: "#ffffff",
             taskName: "",
             priority: "Medium",
@@ -201,15 +201,24 @@ const AddTask = () => {
                                 <span className="text-5xl">{watch("emoji") || "😊"}</span>
                             </div>
                             <div>
-                                <label htmlFor="emojiInput" className="block pb-2 text-sm">
-                                    Emoji:
-                                </label>
-                                <input
-                                    id="emojiInput"
-                                    {...register("emoji")}
-                                    type="text"
-                                    placeholder="👻"
-                                    className="flex justify-center border rounded-full px-4 py-1 mb-4 w-12 h-12"
+                                <FormField
+                                    control={form.control}
+                                    name="emoji"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="block text-sm"> Emoji:</FormLabel>
+                                            <FormControl>
+                                                <EmojiPickerInput
+                                                    value={field.value}
+                                                    onChange={(emoji: string) => {
+                                                        field.onChange(emoji);
+                                                        setValue("emoji", emoji);
+                                                    }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
                                 />
                             </div>
 

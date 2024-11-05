@@ -104,7 +104,7 @@ const Chat = () => {
       <Header handleClick={() => router.back} />
       <DateTitle />
       <form className=" flex flex-col gap-4">
-        <div className="w-full  px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
+        <div className="w-full px-4 py-4 flex flex-col gap-4 rounded-lg bg-gradient-to-r from-lime-100 to-teal-100 my-6">
           <h2 className="text-lg font-semibold">Response</h2>
           <p className="max-w-prose">
             {journal?.entries && journal.entries[entryIndex].aiResponse}
@@ -113,14 +113,14 @@ const Chat = () => {
         <div>
           <h3 className="font-semibold">Journal</h3>
           <textarea
-            className="border border-inherit rounded-lg h-64 w-full mt-2 px-4 py-2 max-w-prose"
+            className="border border-inherit rounded-lg h-64 w-full mt-2 px-4 py-2 resize-none"
             placeholder="Write something here..."
             onChange={handleInputChange}
             value={values.content}
             name="content"
           ></textarea>
         </div>
-        <div className="flex justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
+        <div className="flex w-full justify-between mt-4 lg:max-w-screen-md lg:mx-auto">
           <Button
             buttonText={loading ? 'Dig Deeper...' : 'Dig Deeper'}
             isPrimary={false}
