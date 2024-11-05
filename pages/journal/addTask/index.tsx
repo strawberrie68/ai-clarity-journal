@@ -59,7 +59,6 @@ const AddTask = () => {
 
 
     const AddTaskToDoList = async (formValue: TaskProps) => {
-        console.log("Making request to: /api/tasks/addTask")
         if (!userId) {
             throw new Error("User ID is required");
         }
@@ -69,7 +68,6 @@ const AddTask = () => {
                 userId
             }
             const response = await axios.post(`/api/tasks/addTask`, formattedTodo);
-            console.log("Response:", response.data)
             return response.data;
         } catch (error: any) {
             console.error("Full error details:", {
@@ -84,22 +82,8 @@ const AddTask = () => {
 
     const handleBack = () => { router.back() }
 
-    useEffect(() => {
-        const subscription = form.watch((value) => {
-            console.log("Form values changed:", {
-                ...value,
-                priority: `"${value.priority}"`,
-            });
-        });
-        return () => subscription.unsubscribe();
-    }, [form.watch]);
 
     const onSubmit = async (values: z.infer<typeof taskFormSchema>) => {
-        console.log("onSubmit triggered"); // Add this line
-        console.log("Form submitted with values:", {
-            ...values,
-            priority: `"${values.priority}"`,  // Log with quotes to see exact casing
-        });
 
         if (isSubmitting) {
             console.log("Form is already submitting, returning");
@@ -108,9 +92,6 @@ const AddTask = () => {
 
         try {
             setIsSubmitting(true);
-            console.log("Form Values:", values);
-            console.log("User ID:", userId);
-
             if (!values.taskName?.trim()) {
                 setAlert({
                     message: 'Task name is required',
@@ -128,16 +109,11 @@ const AddTask = () => {
                 });
                 return;
             }
-            console.log("All validations passed, calling AddTaskToDoList");
-
-
 
             await AddTaskToDoList(values);
-            console.log("Task added successfully");
 
             setAlert({ message: 'Task added successfully!', type: 'success', visible: true });
             setTimeout(() => {
-                console.log("Redirecting...");
                 router.back();
             }, 3000);
 
@@ -159,12 +135,11 @@ const AddTask = () => {
         return isNaN(parsedDate.getTime()) ? null : parsedDate;
     }
     const handleSubmit = (e: React.FormEvent) => {
-        console.log("Form submit event triggered");
         form.handleSubmit((data) => {
-            console.log("Form is valid, data:", data);
+            console.error("Form is valid, data:", data);
             onSubmit(data);
         }, (errors) => {
-            console.log("Form validation failed:", errors);
+            console.error("Form validation failed:", errors);
         })(e);
     };
 
@@ -365,7 +340,6 @@ const AddTask = () => {
                     </div>
                     <Button className="rounded-3xl w-full mx-auto sticky bottom-4 h-14 text-2xl"
                         type="submit"
-                        onClick={() => console.log("Button clicked")}
                         disabled={isSubmitting} >
                         {isSubmitting ? 'Adding...' : 'Add new task'}
                     </Button>
