@@ -9,52 +9,6 @@ import { formatDate, formattedHaiku } from "@/utils/formatUtils";
 import { Priority, Journal, priorityColors, Tab } from "@/types/task";
 import "../../../styles/global.css";
 
-// interface Journal {
-//   keyInsight?: string;
-//   quote?: string;
-//   aiSummary?: string;
-//   color?: string;
-//   conversationSummary?: string;
-//   emoji?: string;
-//   haiku?: string;
-//   highlight?: string;
-//   mood?: string;
-//   sentiment?: string;
-//   title?: string;
-//   user: string;
-//   entries: Entry[];
-//   date: string;
-//   todo?: ToDo[];
-// }
-
-
-// interface ToDo {
-//   taskName?: String;
-//   dueDate?: Date;
-//   isCompleted?: Boolean;
-//   emoji?: String;
-//   repeat?: "none" | "daily" | "weekly" | "monthly";
-//   nextDueDate?: Date;
-//   priority?: "Low" | "Medium" | "High" | undefined;
-// }
-
-// interface Entry {
-//   aiResponse: string;
-//   content: string;
-//   _id: string;
-// }
-
-// interface Tab {
-//   key: string;
-//   label: string;
-//   content: JSX.Element;
-// }
-
-// const priority = {
-//   "High": "bg-red-100",
-//   "Medium": "bg-amber-100",
-//   "Low": "bg-blue-100"
-// }
 
 const PastEntry: React.FC = () => {
   const [journal, setJournal] = useState<Journal | null>(null);

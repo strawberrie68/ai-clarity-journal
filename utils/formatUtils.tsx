@@ -1,4 +1,6 @@
 import React from "react";
+import { Types } from 'mongoose';
+
 
 export const formatDate = (date: string | number | Date): string => {
   const options: Intl.DateTimeFormatOptions = {
@@ -50,4 +52,8 @@ export const getCurrentTimePeriod = () => {
 
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const getIdString = (id: Types.ObjectId | string): string => {
+  return id instanceof Types.ObjectId ? id.toString() : id;
 };
