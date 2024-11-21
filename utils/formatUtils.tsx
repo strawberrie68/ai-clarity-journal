@@ -57,3 +57,31 @@ export const capitalizeFirstLetter = (string: string) => {
 export const getIdString = (id: Types.ObjectId | string): string => {
   return id instanceof Types.ObjectId ? id.toString() : id;
 };
+
+export const getDateStatus = (dueDate: string | Date) => {
+  const today = new Date();
+  const due = new Date(dueDate);
+
+  today.setHours(0, 0, 0, 0);
+  due.setHours(0, 0, 0, 0);
+
+  const timeDiff = due.getTime() - today.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  if (daysDiff < 0) {
+    return {
+      status: 'Overdue',
+      className: 'text-red-600'
+    };
+  } else if (daysDiff === 0) {
+    return {
+      status: 'Due Today',
+      className: 'text-yellow-600'
+    };
+  } else {
+    return {
+      status: `${daysDiff} days remaining`,
+      className: 'text-green-600'
+    };
+  }
+};

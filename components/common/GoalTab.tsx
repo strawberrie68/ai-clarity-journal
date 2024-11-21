@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { GoalInput, PopulatedGoals } from "@/types/goal";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Flag, EllipsisVertical, CircleArrowRight } from "lucide-react";
-import { Priority } from "@/types/task"
-
+import { getDateStatus } from "@/utils/formatUtils"
+import { getPriorityColor } from "@/utils/colorUtils"
 
 interface GoalTabProps {
     goals: PopulatedGoals[];
@@ -29,45 +29,7 @@ const GoalTab: React.FC<GoalTabProps> = ({ goals, onAddGoal }) => {
             console.error('Error adding goal:', error);
         }
     };
-    const getPriorityColor = (priority: Priority) => {
-        const colors = {
-            High: 'bg-red-100 text-red-800',
-            Medium: 'bg-yellow-100 text-yellow-800',
-            Low: 'bg-green-100 text-green-800'
-        };
-        return colors[priority];
-    };
 
-    const getDateStatus = (dueDate: string | Date) => {
-        const today = new Date();
-        const due = new Date(dueDate);
-
-        today.setHours(0, 0, 0, 0);
-        due.setHours(0, 0, 0, 0);
-
-        const timeDiff = due.getTime() - today.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-        if (daysDiff < 0) {
-            return {
-                status: 'Overdue',
-                className: 'text-red-600'
-            };
-        } else if (daysDiff === 0) {
-            return {
-                status: 'Due Today',
-                className: 'text-yellow-600'
-            };
-        } else {
-            return {
-                status: `${daysDiff} days remaining`,
-                className: 'text-green-600'
-            };
-        }
-    };
-
-
-    console.log("goals", goals)
     return (
         <section className="mt-12 max-w-screen-lg mx-auto">
             <div className="border rounded-lg p-4 bg-gray-100">
