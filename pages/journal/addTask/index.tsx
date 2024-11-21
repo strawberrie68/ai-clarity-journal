@@ -19,6 +19,10 @@ import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import Header from "@/components/common/Header"
 import EmojiPickerInput from "@/components/common/EmojiInputPicker"
+import { Goal } from "@/types/goal"
+import { getIdString } from '@/utils/formatUtils';
+
+
 const AddTask = () => {
     const router = useRouter();
     const { task } = router.query;
@@ -27,6 +31,8 @@ const AddTask = () => {
     const { userId } = useAuth();
     const [alert, setAlert] = useState({ message: '', type: '', visible: false });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [goals, setGoals] = useState<Goal[]>([]);
+    const [newGoalName, setNewGoalName] = useState("");
 
     const form = useForm<z.infer<typeof taskFormSchema>>({
         resolver: zodResolver(taskFormSchema),
@@ -38,10 +44,11 @@ const AddTask = () => {
             dueDate: new Date().toISOString(),
             isCompleted: false,
             status: "Not Started",
+            goalId: "",
         },
     })
 
-    const { register, watch, setValue, formState: { errors } } = form
+    const { watch, setValue, formState: { errors } } = form
 
     useEffect(() => {
         if (task && typeof task === 'string') {
@@ -56,6 +63,20 @@ const AddTask = () => {
             }
         }
     }, [task]);
+
+    useEffect(() => {
+        const fetchGoals = async () => {
+            const response = await axios('/api/goals/getGoals', {
+                params: { userId }
+            });
+            setGoals(response.data);
+        };
+        if (userId) {
+            fetchGoals();
+        }
+    }, []);
+
+    console.log("goals:", goals)
 
 
     const AddTaskToDoList = async (formValue: TaskProps) => {
@@ -258,6 +279,27 @@ const AddTask = () => {
                                 </FormItem>
                             )}
                         />
+                        {/* <Goal/> */}
+                        <FormField
+                            control={form.control}
+                            name="goalId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="font-semibold">Is this part of a goal?</FormLabel>
+                                    <select name="goalId" className="w-full rounded-xl h-11 border border-input bg-background px-3 py-2">
+                                        <option value="" className="text-gray-500">Select a goal</option>
+                                        {goals.map((goal) => (
+                                            <option key={getIdString(goal._id)} value={getIdString(goal._id)}>
+                                                {goal.goalName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+
                         {/* <PrioritySelector /> */}
                         <FormField
                             control={form.control}
