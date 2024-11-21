@@ -1,30 +1,18 @@
-import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import axios from 'axios';
-import { useAuth } from "../../pages/AuthContext";
+import { Types } from 'mongoose';
+import { getIdString } from "@/utils/formatUtils";
+import { Task, Priority, Status } from "@/types/task"
 
-type Priority = 'High' | 'Medium' | 'Low';
-type Status = "Not Started" | "In Progress" | "Completed";
-
-export interface Todo {
-    _id: number;
-    taskName: string;
-    status: Status;
-    priority: Priority;
-    emoji: string;
-    dueDate: string;
-    isCompleted: boolean;
-}
 
 interface TodoCardProps {
-    todo: Todo;
+    todo: Task;
     activeTab: string;
-    onStatusChange: (id: number, newStatus: Status) => void;
-    onCompletionToggle: (id: number, isCompleted: boolean) => void;
-    onPriorityChange: (id: number, newPriority: Priority) => void;
+    onStatusChange: (id: Types.ObjectId | string, newStatus: Status) => void;
+    onCompletionToggle: (id: Types.ObjectId | string, isCompleted: boolean) => void;
+    onPriorityChange: (id: Types.ObjectId | string, newPriority: Priority) => void;
 }
 
 const priorityMap: Record<Priority, number> = {
@@ -40,68 +28,24 @@ const statusMap: Record<Status, number> = {
 };
 
 interface TodoTabsProps {
-    todos: Todo[];
-    handleUpdateTodo: (updatedTodos: Todo[]) => Promise<void>;
-    isLoading?: boolean;
+    tasks: Task[];
+    updateTask: (taskId: Types.ObjectId | string, updates: Partial<Task>) => Promise<void>;
 }
 
-const TodoTabs = () => {
-    const [tasks, setTasks] = useState<Todo[]>([]);
-    const [isLoading, setLoading] = useState(true)
-    const { userId } = useAuth();
+const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
 
-
-    const fetchTasks = async (userId: string) => {
-        try {
-            setLoading(true);
-            const response = await axios.get(`/api/tasks/getTasks`, {
-                params: { userId }
-            });
-
-            setTasks(response.data as Todo[]);
-        } catch (error) {
-            console.error(error, "error fetching the todo");
-        } finally {
-            setLoading(false);
-        }
-    };
-    console.log(tasks)
-
-    useEffect(() => {
-        fetchTasks(userId);
-    }, [userId]);
-
-    const updateTask = async (taskId: number, updates: Partial<Todo>) => {
-        try {
-            const response = await axios.put("/api/tasks/updateTask", {
-                id: taskId,
-                ...updates
-            });
-
-            setTasks(currentTasks =>
-                currentTasks.map(task =>
-                    task._id === taskId ? { ...task, ...updates } : task
-                )
-            );
-
-            return response.data;
-        } catch (error) {
-            console.error("Error updating task:", error);
-            throw error;
-        }
-    };
-
-    if (isLoading || !tasks) {
-        return <div className="w-full h-32 flex items-center justify-center">Loading...</div>;
+    if (!tasks) {
+        return <div className="w-full h-32 flex items-center justify-center">No tasks available</div>;
     }
 
+    console.log("tasks:", tasks)
 
 
-    const handleStatusChange = async (id: number, newStatus: Status) => {
+    const handleStatusChange = async (id: Types.ObjectId | string, newStatus: Status) => {
         await updateTask(id, { status: newStatus });
     };
 
-    const handleCompletionToggle = async (id: number) => {
+    const handleCompletionToggle = async (id: Types.ObjectId | string) => {
         const task = tasks.find(t => t._id === id);
         if (!task) return;
 
@@ -113,11 +57,11 @@ const TodoTabs = () => {
         await updateTask(id, updates);
     };
 
-    const handlePriorityChange = async (id: number, newPriority: Priority) => {
+    const handlePriorityChange = async (id: Types.ObjectId | string, newPriority: Priority) => {
         await updateTask(id, { priority: newPriority });
     };
 
-    const sortByCompletion = (todosToSort: Todo[]): Todo[] => {
+    const sortByCompletion = (todosToSort: Task[]): Task[] => {
         return [...todosToSort].sort((a, b) => {
             if (a.isCompleted && !b.isCompleted) return 1;
             if (!a.isCompleted && b.isCompleted) return -1;
@@ -125,15 +69,15 @@ const TodoTabs = () => {
         });
     };
 
-    const sortByPriorityAndCompletion = (todosToSort: Todo[]): Todo[] => {
+    const sortByPriorityAndCompletion = (todosToSort: Task[]): Task[] => {
         return sortByDateAndCompletion([...todosToSort].sort((a, b) => priorityMap[b.priority] - priorityMap[a.priority]));
     };
 
-    const sortByDateAndCompletion = (todosToSort: Todo[]): Todo[] => {
+    const sortByDateAndCompletion = (todosToSort: Task[]): Task[] => {
         return sortByCompletion([...todosToSort].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()));
     };
 
-    const sortByDateAndStatus = (todosToSort: Todo[]): Todo[] => {
+    const sortByDateAndStatus = (todosToSort: Task[]): Task[] => {
         return sortByCompletion([...todosToSort].sort((a, b) => {
             const statusComparison = statusMap[a.status] - statusMap[b.status];
             if (statusComparison !== 0) return statusComparison;
@@ -225,7 +169,7 @@ const TodoTabs = () => {
                 ) : (
                     sortByDateAndCompletion(tasks).map(todo => (
                         <TodoCard
-                            key={todo._id}
+                            key={getIdString(todo._id)}
                             todo={todo}
                             activeTab="all"
                             onStatusChange={handleStatusChange}
@@ -241,7 +185,7 @@ const TodoTabs = () => {
                     ) :
                     sortByDateAndStatus(tasks).map(todo => (
                         <TodoCard
-                            key={todo._id}
+                            key={getIdString(todo._id)}
                             todo={todo}
                             activeTab="all"
                             onStatusChange={handleStatusChange}
@@ -257,7 +201,7 @@ const TodoTabs = () => {
                     :
                     sortByPriorityAndCompletion(tasks).map(todo => (
                         <TodoCard
-                            key={todo._id}
+                            key={getIdString(todo._id)}
                             todo={todo}
                             activeTab="priority"
                             onStatusChange={handleStatusChange}
