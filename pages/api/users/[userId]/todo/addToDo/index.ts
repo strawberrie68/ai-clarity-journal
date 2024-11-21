@@ -16,7 +16,7 @@ async function postToDo(req: NextApiRequest, res: NextApiResponse) {
 
         const newTask: Partial<ITask> = {
             taskName: task.taskName,
-            dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+            dueDate: task.dueDate,
             isCompleted: task.isCompleted || false,
             emoji: task.emoji,
             repeat: task.repeat || "none",

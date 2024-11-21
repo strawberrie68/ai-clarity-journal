@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Task } from "../../../../models/Task"; // Adjust path to Task model
-import connectDB from "../../../../lib/connectDB"; // Import your database connection
+import { Task } from "../../../../models/Task";
+import connectDB from "../../../../lib/connectDB";
 
 async function getTasks(req: NextApiRequest, res: NextApiResponse) {
     const userId = req.query.userId as string;

@@ -4,12 +4,11 @@ import { Task } from "../../../../models/Task"
 
 async function updateToDo(req: NextApiRequest, res: NextApiResponse) {
 
-    const { id: taskId, ...updates } = req.body;
+    const { taskId, ...updates } = req.body;
 
     if (!taskId) {
         return res.status(400).json({ error: "Missing task ID" });
     }
-
 
     try {
         await connectDB();
