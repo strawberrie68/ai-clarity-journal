@@ -1,4 +1,4 @@
-
+import { Types } from 'mongoose';
 
 export const PRIORITIES = {
     HIGH: 'High',
@@ -9,14 +9,14 @@ export const PRIORITIES = {
 export const STATUSES = {
     NOT_STARTED: 'Not Started',
     IN_PROGRESS: 'In Progress',
-    COMPLETE: 'Complete'
+    COMPLETED: 'Completed'
 } as const;
 
 export type Priority = typeof PRIORITIES[keyof typeof PRIORITIES];
 export type Status = typeof STATUSES[keyof typeof STATUSES];
 
 export interface TaskProps {
-    id?: string,
+    _id?: Types.ObjectId | string,
     emoji: string,
     color: string,
     taskName: string,
@@ -24,7 +24,9 @@ export interface TaskProps {
     dueDate?: string,
     status: Status,
     isCompleted: boolean,
+    goalId?: Types.ObjectId | string
 }
+
 
 
 export interface ToDo {
@@ -72,3 +74,21 @@ export const priorityColors = {
     [PRIORITIES.MEDIUM]: "bg-amber-100",
     [PRIORITIES.LOW]: "bg-blue-100"
 } as const;
+
+
+export interface Task {
+    _id: Types.ObjectId | string;
+    taskName: string;
+    status: Status;
+    priority: Priority;
+    emoji: string;
+    dueDate: Date;
+    isCompleted: boolean;
+    color: string;
+    goalId?: Types.ObjectId | string;
+}
+
+export interface TaskInput {
+    taskName: string;
+}
+

@@ -8,10 +8,14 @@ export interface IGoal extends Document {
     priority?: "Low" | "Medium" | "High";
     tasks: ITask[];
     isCompleted: boolean;
+    userId: mongoose.Types.ObjectId;
+    emoji: string;
 }
+
 
 const goalSchema = new Schema<IGoal>({
     goalName: { type: String, required: true },
+    emoji: { type: String },
     description: { type: String },
     dueDate: { type: Date },
     priority: { type: String, enum: ["Low", "Medium", "High"] },
@@ -22,6 +26,7 @@ const goalSchema = new Schema<IGoal>({
         },
     ],
     isCompleted: { type: Boolean, default: false },
+    userId: mongoose.Types.ObjectId
 });
 
 goalSchema.virtual("progress").get(function () {
