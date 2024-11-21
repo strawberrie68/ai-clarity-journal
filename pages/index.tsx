@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Link from "next/link";
-import { formatQuote } from "@/utils/formatUtils";
 import { useAuth } from "./AuthContext";
+import { useRouter } from "next/navigation";
 import { SunIcon } from "@radix-ui/react-icons"
 import BottomNav from "@/components/common/BottomNav";
-import Card from "@/components/common/Card";
 import NavBar from "@/components/common/NavBar";
-import Inbox2, { Todo } from "../components/common/Inbox2"
 import ProfileNav from "@/components/common/ProfileNav";
-import { PlusCircleIcon } from "lucide-react";
-import { Broom } from "@phosphor-icons/react";
-
 import "../styles/global.css";
-import { useRouter } from "next/navigation";
+
 
 interface User {
   name: string;
@@ -21,10 +15,9 @@ interface User {
   email: string;
   journals: string[];
   habits?: string[];
-  todo: Todo[];
 }
 
-interface Journal {
+export interface Journal {
   keyInsight?: string;
   quote?: string;
   aiSummary?: string;
@@ -114,71 +107,11 @@ export default function Home() {
           <ProfileNav />
         </section>
       </header>
-      <section className="lg:max-w-screen-lg lg:mx-auto">
-        <NavBar />
-      </section>
-      <section className="flex flex-col lg:flex-row lg:justify-between lg:max-w-screen-lg lg:mx-auto lg:gap-8 pb-24">
-        <section className="flex lg:flex-col gap-4 overflow-scroll lg:overflow-x-auto lg:basis-3/5">
-          <div className="mt-10 flex gap-4 ">
-            <Link href="/journal/add">
-              <Card
-                text="Enter Your Daily Journal"
-                icon="/book-white.svg"
-                secondaryBackground="bg-[#D3AC1E]"
-                background="bg-[#F0E2AE]"
-                textBackground="bg-white/50"
-              />
-            </Link>
-            <Card
-              text="Tips: Everyday is a good day to start"
-              icon="/lightbulb.svg"
-              secondaryBackground="bg-[#D3AC1E]"
-              background="bg-gradient-to-br from-lime-200 to-pink-400"
-              textBackground="bg-white/70"
-            />
-            <Card
-              text={
-                !journal
-                  ? "Tips: Everyday is a good day to start"
-                  : journal.keyInsight || "Tips: Everyday is a good day to start"
-              }
-              icon="/lightbulb.svg"
-              secondaryBackground="bg-[#D3AC1E]"
-              background="bg-lime-100"
-              textBackground="bg-[#f0f0f0]"
-            />
-          </div>
-          <article className="mt-10 text-gray-400 lg:mt-0 h-44 min-w-40 max-w-lg rounded-2xl relative bg-gray-100 px-4 py-4 flexCenter">
-            {!journal && (
-              <p>Excitement is a better motivator than discipline.</p>
-            )}
-            {journal && journal.quote && (
-              <p className="line-clamp-4">{formatQuote(journal.quote)}</p>
-            )}
-          </article>
-        </section>
-        <section className="mt-8 lg:mt-0 lg:basis-2/5">
-          <div className="flex justify-between pt-5 pb-3">
-            <h3 className="text-xl font-bold">Inbox</h3>
-            <div className="flex gap-4 pr-3">
-              <button className="group flex items-center gap-1 text-gray-400 min-h-11" onClick={handleAddTask}>
-                <PlusCircleIcon width={14} height={14} className="text-gray-400 group-hover:text-black" />
-                <p className="text-sm text-gray-400 font-bold group-hover:text-black">Add</p>
-              </button>
-              <button className="group flex items-center gap-1 text-gray-400 min-h-11">
-                <span className="text-gray-400 group-hover:text-black">
-                  <Broom size={15} weight="light" />
-                </span>
-                <p className="text-sm text-gray-400 font-bold group-hover:text-black">Clean up Tasks</p>
-              </button>
+
+      <NavBar journal={journal} />
 
 
-            </div>
-          </div>
-          <Inbox2 />
-        </section>
-      </section>
-      <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+      <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:bottom-6">
         <BottomNav />
       </nav>
     </main>
