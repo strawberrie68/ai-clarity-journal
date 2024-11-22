@@ -50,9 +50,9 @@
 
 ### Mockups
 
-|                                                             Dashboard                                                             |                                                               Start                                                               |                                                            Conversion                                                             |                                                              Summary                                                              |                                                              Archive                                                              |
+|                                                             Dashboard                                                             |                                                               Explore                                                              |                                                            Conversation                                                            |                                                              Summary                                                              |                                                              Archive                                                              |
 | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/bc99cb71-a7ee-419f-8458-e8193fe7fdba" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/bb501feb-a4ad-42f3-925f-fc34a809629d" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/f8fc89a3-cd66-4a8a-883d-118ab185586c" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/a79fc2db-8296-4c88-b4eb-19dc84f6764a" width="200"/> | <img src="https://github.com/strawberrie68/Clarity-AI-Journal/assets/42231000/0da06e06-8065-4a72-9d7c-1badf8ec4860" width="200"/> |
+| <img src="https://github.com/strawberrie68/ai-clarity-journal/blob/develop/mockups/dashboard.svg" width="200"/> | <img src="https://github.com/strawberrie68/ai-clarity-journal/blob/develop/mockups/explore.png" width="200"/> | <img src="https://github.com/strawberrie68/ai-clarity-journal/blob/develop/mockups/chat.svg" width="200"/> | <img src="https://github.com/strawberrie68/ai-clarity-journal/blob/develop/mockups/summary.png" width="200"/> | <img src="https://github.com/strawberrie68/ai-clarity-journal/blob/develop/mockups/pastEntry.svg" width="200"/> |
 
 ## 📮 Will implement soon
 
@@ -68,8 +68,8 @@
 Install clarity with npm
 
 ```bash
-  npm install i
   cd clarity
+  npm install i
 ```
 
 ### 🏃‍♀️ Run Locally
