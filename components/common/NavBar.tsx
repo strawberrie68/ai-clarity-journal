@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TodayTab from "./TodayTab";
 import { Task, TaskInput } from '../../types/task';
 import { PopulatedGoals, GoalInput } from "../../types/goal";
-import { Journal } from "../../pages/index";
+import { Journal } from "@/types/journals";
 import GoalTab from "./GoalTab";
 import TaskTab from "./TaskTab";
 import "../../styles/global.css";

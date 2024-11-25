@@ -15,7 +15,7 @@ const userSchema = new Schema({
       ref: "Journal",
     },
   ],
-  password: { type: String, required: true },
+  password: { type: String, required: true }
 });
 
 export const User = mongoose.models.User || mongoose.model("User", userSchema);

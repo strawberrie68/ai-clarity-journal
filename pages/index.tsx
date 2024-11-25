@@ -6,6 +6,7 @@ import { SunIcon } from "@radix-ui/react-icons"
 import BottomNav from "../components/common/BottomNav";
 import NavBar from "../components/common/NavBar";
 import ProfileNav from "../components/common/ProfileNav";
+import { Journal } from "@/types/journals"
 import "../styles/global.css";
 
 
@@ -17,22 +18,7 @@ interface User {
   habits?: string[];
 }
 
-export interface Journal {
-  keyInsight?: string;
-  quote?: string;
-  aiSummary?: string;
-  color?: string;
-  conversationSummary?: string;
-  emoji?: string;
-  haiku?: string;
-  highlight?: string;
-  mood?: string;
-  sentiment?: string;
-  title?: string;
-  user: string;
-  entries: string[];
-  date: string;
-}
+
 
 export default function Home() {
   const flexCenter = "flex justify-center items-center";
