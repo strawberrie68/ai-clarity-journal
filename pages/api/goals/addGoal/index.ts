@@ -13,24 +13,40 @@ async function postGoal(req: NextApiRequest, res: NextApiResponse) {
     if (!priority) missingFields.push('priority');
     if (!tasks) missingFields.push('tasks');
     if (!userId) missingFields.push('userId')
+
     console.log("Missing fields:", missingFields);
 
-    if (!goalName) {
+    if (missingFields.length > 0) {
         return res.status(400).json({
-            error: "a field in your add to do is missing",
+            error: "Required fields are missing",
             missingFields: missingFields
         });
     }
 
     try {
         await connectDB();
+
+        let parsedDueDate: Date;
+        try {
+            parsedDueDate = new Date(dueDate);
+
+            if (isNaN(parsedDueDate.getTime())) {
+                throw new Error('Invalid date format');
+            }
+        } catch (error) {
+            return res.status(400).json({
+                error: "Invalid date format for dueDate",
+                details: "Please provide a valid date string"
+            });
+        }
+
         const newGoal: Partial<IGoal> = {
-            emoji: emoji,
-            goalName: goalName,
-            description: description,
-            dueDate: dueDate,
+            emoji,
+            goalName,
+            description,
+            dueDate: parsedDueDate, // Use the parsed date
             priority: priority || "Low",
-            tasks: [],
+            tasks: tasks || [],
             isCompleted: false,
         };
 
