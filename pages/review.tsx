@@ -46,7 +46,7 @@ export default function Review() {
         <h1 className="text-5xl font-bold">Review</h1>
       </div>
       <div className='pb-10'>
-        {journals.length == 0 ? "No journals yet" : <JournalTrends journals={journals} />}
+        <JournalTrends journals={journals} />
       </div>
       {/* <div className="p-6 flex flex-col gap-4 ">
         <h2 className="text-lg font-semibold">Weekly Review</h2>
