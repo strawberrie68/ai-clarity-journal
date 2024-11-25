@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState, useMemo, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -136,6 +137,11 @@ const JournalTrends: React.FC<JournalTrendsProps> = ({ journals }) => {
                 <p className="text-xl font-semibold mb-4">Welcome to Your Journal Insights!</p>
                 <p>This is a preview of how your journal trends will look.</p>
                 <p>Start journaling to track your emotional journey and gain insights.</p>
+                <button className="rounded-full bg-black text-white min-h-11 px-6 mt-8 border hover:bg-white hover:text-black font-bold">
+                  <Link href="/explore">
+                    📝  Add a journal
+                  </Link>
+                </button>
               </div>
               <div className=''>
                 <div className='flex gap-4'>
