@@ -6,7 +6,6 @@ import { Broom } from "@phosphor-icons/react";
 import { Checkbox } from "@/components/ui/checkbox"
 import { useAuth } from "../../pages/AuthContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { getIdString } from "@/utils/formatUtils";
 import { Goal } from "@/types/goal"
 
@@ -123,6 +122,7 @@ const GoalInbox = () => {
             <hr className="w-full h-1 bg-gray-200" />
             <form>
                 <ul className="space-y-2">
+                    {goals.length === 0 && "No Goals yet"}
                     {goals.map((goal) => (
                         <li key={getIdString(goal._id)} className="py-4">
                             <div className="flex justify-between items-center">
