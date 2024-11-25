@@ -27,7 +27,7 @@ const NavBar: React.FC<NavBarProps> = ({ journal, onTabChange }) => {
 
   const { userId } = useAuth();
 
-  const tabStyle = "border max-w-36 text-black data-[state=active]:shadow-none rounded-full h-11 px-12 data-[state=active]:bg-black data-[state=active]:text-white";
+  const tabStyle = "border max-w-36 text-black data-[state=active]:shadow-none rounded-full h-11 px-4 md:px-12 data-[state=active]:bg-black data-[state=active]:text-white";
 
   useEffect(() => {
     const lastActiveTab = localStorage.getItem('lastActiveTab') || 'today';
@@ -188,7 +188,7 @@ const NavBar: React.FC<NavBarProps> = ({ journal, onTabChange }) => {
       className="w-full mt-6 pb-12"
       onValueChange={handleTabChange}
     >
-      <TabsList className="h-12 grid w-full max-w-screen-lg mx-auto gap-2 bg-white grid-cols-4">
+      <TabsList className="h-12 grid min-w-16 w-full max-w-screen-lg mx-auto gap-2 bg-white grid-cols-3 md:grid-cols-5">
         <TabsTrigger className={tabStyle} value="today">Today</TabsTrigger>
         <TabsTrigger className={tabStyle} value="tasks">Tasks</TabsTrigger>
         <TabsTrigger className={tabStyle} value="goals">Goals</TabsTrigger>
