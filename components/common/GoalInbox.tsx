@@ -122,48 +122,52 @@ const GoalInbox = () => {
             <hr className="w-full h-1 bg-gray-200" />
             <form>
                 <ul className="space-y-2">
-                    {goals.length === 0 && "No Goals yet"}
-                    {goals.map((goal) => (
-                        <li key={getIdString(goal._id)} className="py-4">
-                            <div className="flex justify-between items-center">
-                                <div className="gap-2 flex items-center">
-                                    <Checkbox
-                                        className="rounded-full"
-                                        id={`goal-${goal._id}`}
-                                        checked={goal.isCompleted}
-                                        onCheckedChange={(checked) =>
-                                            updateGoal(getIdString(goal._id), { isCompleted: checked as boolean })
+                    {goals.length === 0 ? (
+                        <li className="py-4">No Goals yet</li>
+                    ) : (
+                        goals.map((goal) => (
+                            <li key={getIdString(goal._id)} className="py-4">
+                                <div className="flex justify-between items-center">
+                                    <div className="gap-2 flex items-center">
+                                        <Checkbox
+                                            className="rounded-full"
+                                            id={`goal-${goal._id}`}
+                                            checked={goal.isCompleted}
+                                            onCheckedChange={(checked) =>
+                                                updateGoal(getIdString(goal._id), { isCompleted: checked as boolean })
+                                            }
+                                        />
+                                        <span className="text-2xl">{goal.emoji || '🎯'}</span>
+                                        <label
+                                            htmlFor={`goal-${goal._id}`}
+                                            className={`font-bold ${goal.isCompleted ? 'line-through text-gray-400' : ''}`}
+                                        >
+                                            {goal.goalName}
+                                        </label>
+                                    </div>
+                                    <Select
+                                        onValueChange={(value: string) =>
+                                            updateGoal(getIdString(goal._id), { priority: value as Priority })
                                         }
-                                    />
-                                    <span className="text-2xl">{goal.emoji || '🎯'}</span>
-                                    <label
-                                        htmlFor={`goal-${goal._id}`}
-                                        className={`font-bold ${goal.isCompleted ? 'line-through text-gray-400' : ''}`}
+                                        value={goal.priority as Priority}
                                     >
-                                        {goal.goalName}
-                                    </label>
+                                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${goal.priority === "Low" ? "bg-green-200 text-green-700" :
+                                            goal.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
+                                                "bg-rose-200 text-rose-950"
+                                            }`}>
+                                            <SelectValue placeholder="Priority" />
+                                        </SelectTrigger>
+                                        <SelectContent className="rounded-xl">
+                                            <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
+                                            <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
+                                            <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
-                                <Select
-                                    onValueChange={(value: string) =>
-                                        updateGoal(getIdString(goal._id), { priority: value as Priority })
-                                    }
-                                    value={goal.priority as Priority}
-                                >
-                                    <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${goal.priority === "Low" ? "bg-green-200 text-green-700" :
-                                        goal.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
-                                            "bg-rose-200 text-rose-950"
-                                        }`}>
-                                        <SelectValue placeholder="Priority" />
-                                    </SelectTrigger>
-                                    <SelectContent className="rounded-xl">
-                                        <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
-                                        <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
-                                        <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </li>
-                    ))}
+                            </li>
+                        ))
+                    )}
+
                 </ul>
             </form>
         </section>
