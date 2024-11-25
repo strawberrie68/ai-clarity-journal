@@ -3,9 +3,9 @@ import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { useRouter } from "next/navigation";
 import { SunIcon } from "@radix-ui/react-icons"
-import BottomNav from "@/components/common/BottomNav";
-import NavBar from "@/components/common/NavBar";
-import ProfileNav from "@/components/common/ProfileNav";
+import BottomNav from "../components/common/BottomNav";
+import NavBar from "../components/common/NavBar";
+import ProfileNav from "../components/common/ProfileNav";
 import "../styles/global.css";
 
 
@@ -38,6 +38,7 @@ export default function Home() {
   const flexCenter = "flex justify-center items-center";
   const [journal, setJournal] = useState<Journal | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [headerText, setHeaderText] = useState("Hello,");
   const { userId, token } = useAuth() as { userId: string; token: string };
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
@@ -84,6 +85,21 @@ export default function Home() {
     router.push(`/journal/addTask`)
   }
 
+  const handleTabChange = (tab: string) => {
+    switch (tab) {
+      case 'today':
+        setHeaderText("Hello,");
+        break;
+      case 'tasks':
+        setHeaderText("Tasks");
+        break;
+      case 'goals':
+        setHeaderText("Goals");
+        break;
+      default:
+        setHeaderText("Hello,");
+    }
+  };
 
   if (isLoading) {
     return <div>Loading</div>
@@ -99,8 +115,10 @@ export default function Home() {
             <SunIcon width={18} height={18} />
           </button>
           <div className="mt-10">
-            <p className="text-5xl font-bold">Hello,</p>
-            <p className="text-5xl font-bold">{user ? user.name : "Loading..."}</p>
+            <p className="text-5xl font-bold">{headerText}</p>
+            {headerText === "Hello," && (
+              <p className="text-5xl font-bold">{user ? user.name : "Loading..."}</p>
+            )}
           </div>
         </section>
         <section>
@@ -108,8 +126,7 @@ export default function Home() {
         </section>
       </header>
 
-      <NavBar journal={journal} />
-
+      <NavBar journal={journal} onTabChange={handleTabChange} />
 
       <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:bottom-6">
         <BottomNav />

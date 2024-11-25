@@ -1,23 +1,24 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Types } from 'mongoose';
-import { useAuth } from "@/pages/AuthContext";
-import { getIdString } from "@/utils/formatUtils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import TodayTab from "@/components/common/TodayTab"
-import { Task, TaskInput } from '@/types/task';
-import { PopulatedGoals, GoalInput } from "@/types/goal"
-import { Journal } from "@/pages/index"
+import { useAuth } from "../../pages/AuthContext";
+import { getIdString } from "../../utils/formatUtils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TodayTab from "./TodayTab";
+import { Task, TaskInput } from '../../types/task';
+import { PopulatedGoals, GoalInput } from "../../types/goal";
+import { Journal } from "../../pages/index";
 import GoalTab from "./GoalTab";
-import TaskTab from "./TaskTab"
+import TaskTab from "./TaskTab";
 import "../../styles/global.css";
 
 
 type NavBarProps = {
   journal: Journal | null;
+  onTabChange: (tab: string) => void;
 };
 
-const NavBar: React.FC<NavBarProps> = ({ journal }) => {
+const NavBar: React.FC<NavBarProps> = ({ journal, onTabChange }) => {
   const [goals, setGoals] = useState<PopulatedGoals[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +28,11 @@ const NavBar: React.FC<NavBarProps> = ({ journal }) => {
   const { userId } = useAuth();
 
   const tabStyle = "border max-w-36 text-black data-[state=active]:shadow-none rounded-full h-11 px-12 data-[state=active]:bg-black data-[state=active]:text-white";
+
+  useEffect(() => {
+    const lastActiveTab = localStorage.getItem('lastActiveTab') || 'today';
+    onTabChange(lastActiveTab);
+  }, [onTabChange]);
 
   const fetchGoals = async (userId: Types.ObjectId | string) => {
     if (!userId) return;
@@ -77,7 +83,6 @@ const NavBar: React.FC<NavBarProps> = ({ journal }) => {
     );
   }
 
-
   const handleUpdateTask = async (taskId: Types.ObjectId | string, updates: Partial<Task>) => {
     setIsUpdating(true);
     try {
@@ -119,7 +124,6 @@ const NavBar: React.FC<NavBarProps> = ({ journal }) => {
         dueDate: new Date(),
         isCompleted: false,
         color: '#fff'
-
       };
 
       const response = await axios.post('/api/tasks/addTask', formattedTodo);
@@ -171,12 +175,19 @@ const NavBar: React.FC<NavBarProps> = ({ journal }) => {
     } finally {
       setIsLoading(false);
     }
-
   }
 
-  return (
+  const handleTabChange = (value: string) => {
+    localStorage.setItem('lastActiveTab', value);
+    onTabChange(value);
+  };
 
-    <Tabs defaultValue="today" className="w-full mt-6 pb-12">
+  return (
+    <Tabs
+      defaultValue={localStorage.getItem('lastActiveTab') || 'today'}
+      className="w-full mt-6 pb-12"
+      onValueChange={handleTabChange}
+    >
       <TabsList className="h-12 grid w-full max-w-screen-lg mx-auto gap-2 bg-white grid-cols-4">
         <TabsTrigger className={tabStyle} value="today">Today</TabsTrigger>
         <TabsTrigger className={tabStyle} value="tasks">Tasks</TabsTrigger>

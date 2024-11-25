@@ -63,7 +63,6 @@ const GoalInbox = () => {
             await axios.delete(`/api/goals/cleanupCompleted`, {
                 params: { userId }
             });
-            // Remove completed goals from local state
             setGoals(goals.filter(goal => !goal.isCompleted));
         } catch (error) {
             console.error("Error cleaning up completed goals", error);
@@ -106,7 +105,9 @@ const GoalInbox = () => {
                             Add
                         </p>
                     </button>
-                    <button
+                    {/* TODO: need to push tasks to review when completed */}
+
+                    {/* <button
                         className="group flex items-center gap-1 text-gray-400 min-h-11"
                         disabled={isLoading}
                     >
@@ -116,7 +117,7 @@ const GoalInbox = () => {
                         <p className="text-sm text-gray-400 font-bold group-hover:text-black">
                             Clean up Tasks
                         </p>
-                    </button>
+                    </button> */}
                 </div>
             </div>
             <hr className="w-full h-1 bg-gray-200" />

@@ -93,9 +93,9 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
                         checked={todo.isCompleted}
                         onCheckedChange={() => {
                             console.log("Checkbox toggled:", todo._id);
-                            handleCompletionToggle(todo._id);  // Remove the second parameter
+                            handleCompletionToggle(todo._id);
                         }}
-                        className="rounded-full w-6 h-6 bg-white"
+                        className="rounded-full bg-white"
                     />
                     <div className="flex gap-2">
                         <span className="text-xl">{todo.emoji}</span>

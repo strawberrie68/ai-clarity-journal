@@ -71,19 +71,20 @@ const TodayTab: React.FC<NavBarProps> = ({ journal, tasks, handleUpdateTask }) =
             <div className="flex flex-col gap-8 mt-8 lg:mt-10 lg:basis-2/5">
                 <GoalInbox />
                 <section className="">
-                    <div className="flex justify-between pt-5 pb-3">
+                    <div className="flex justify-between items-center">
                         <h3 className="text-xl font-bold">Inbox</h3>
                         <div className="flex gap-4 pr-3">
                             <button className="group flex items-center gap-1 text-gray-400 min-h-11" onClick={handleAddTask}>
                                 <PlusCircleIcon width={14} height={14} className="text-gray-400 group-hover:text-black" />
                                 <p className="text-sm text-gray-400 font-bold group-hover:text-black">Add</p>
                             </button>
-                            <button className="group flex items-center gap-1 text-gray-400 min-h-11">
+                            {/* TODO: need to push tasks to review when completed */}
+                            {/* <button className="group flex items-center gap-1 text-gray-400 min-h-11">
                                 <span className="text-gray-400 group-hover:text-black">
                                     <Broom size={15} weight="light" />
                                 </span>
                                 <p className="text-sm text-gray-400 font-bold group-hover:text-black">Clean up Tasks</p>
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                     <Inbox2 tasks={tasks} updateTask={handleUpdateTask} />
