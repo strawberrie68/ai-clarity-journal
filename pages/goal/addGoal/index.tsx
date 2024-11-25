@@ -31,7 +31,7 @@ const AddGoal = () => {
             goalName: "",
             description: "",
             priority: "Medium",
-            dueDate: new Date(),
+            dueDate: new Date().toISOString(),
             isCompleted: false,
             tasks: [],
             emoji: ""
@@ -244,7 +244,7 @@ const AddGoal = () => {
                                                     )}
                                                 >
                                                     {field.value ? (
-                                                        format((field.value) || new Date(), "PPP")
+                                                        format(new Date(field.value), "PPP")
                                                     ) : (
                                                         <span>Pick a date</span>
                                                     )}
@@ -255,9 +255,9 @@ const AddGoal = () => {
                                         <PopoverContent className="w-auto p-0" align="start">
                                             <Calendar
                                                 mode="single"
-                                                selected={(field.value) || undefined}
+                                                selected={field.value ? new Date(field.value) : undefined}
                                                 onSelect={(date) => {
-                                                    field.onChange(date)
+                                                    field.onChange(date?.toISOString())
                                                 }}
                                                 disabled={(date) =>
                                                     date < new Date() || date < new Date("1900-01-01")

@@ -47,7 +47,7 @@ export interface GoalInput {
 export interface GoalProps {
     goalName: string;
     description?: string;
-    dueDate: Date;
+    dueDate: string;
     priority: "Low" | "Medium" | "High";
     tasks: Types.ObjectId[];
     isCompleted: boolean;
