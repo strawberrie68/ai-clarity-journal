@@ -65,10 +65,6 @@ const AddGoal = () => {
     const handleBack = () => { router.back(); }
 
     const onSubmit = async (values: z.infer<typeof goalFormSchema>) => {
-        if (isSubmitting) {
-            console.log("Form is already submitting, returning");
-            return;
-        }
 
         try {
             setIsSubmitting(true);

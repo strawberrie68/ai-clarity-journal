@@ -3,10 +3,7 @@ import connectDB from "../../../../lib/connectDB";
 import { Task, ITask } from "../../../../models/Task";
 
 async function postToDo(req: NextApiRequest, res: NextApiResponse) {
-    console.log("Received request body:", req.body); // Add this line
     const { userId, taskName, dueDate, emoji, priority, status, color, isCompleted, nextDueDate } = req.body;
-    console.log("status", status)
-    // Log which fields are missing
     const missingFields = [];
     if (!userId) missingFields.push('userId');
     if (!taskName) missingFields.push('taskName');
@@ -15,7 +12,6 @@ async function postToDo(req: NextApiRequest, res: NextApiResponse) {
     if (!status) missingFields.push('status');
     if (!color) missingFields.push('color');
 
-    console.log("Missing fields:", missingFields); // Add this line
 
     if (!userId || !taskName || !emoji || !priority || !status || !color) {
         return res.status(400).json({

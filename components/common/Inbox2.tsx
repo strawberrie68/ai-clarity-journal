@@ -38,9 +38,6 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
         return <div className="w-full h-32 flex items-center justify-center">No tasks available</div>;
     }
 
-    console.log("tasks:", tasks)
-
-
     const handleStatusChange = async (id: Types.ObjectId | string, newStatus: Status) => {
         await updateTask(id, { status: newStatus });
     };
@@ -92,7 +89,6 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
                     <Checkbox
                         checked={todo.isCompleted}
                         onCheckedChange={() => {
-                            console.log("Checkbox toggled:", todo._id);
                             handleCompletionToggle(todo._id);
                         }}
                         className="rounded-full bg-white"
@@ -132,7 +128,6 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
                 {activeTab === "all" && (
                     <Select
                         onValueChange={(value: string) => {
-                            console.log('New Status:', value);
                             onStatusChange(todo._id, value as Status);
                         }}
                         value={todo.status as Status}

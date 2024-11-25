@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Goal } from "../../../../models/Goal"; // Adjust path to Task model
-import connectDB from "../../../../lib/connectDB"; // Import your database connection
-import { TaskCore, PopulatedGoalProps } from "@/types/goal"
+import { Goal } from "../../../../models/Goal";
+import connectDB from "../../../../lib/connectDB";
+import { TaskCore } from "@/types/goal"
 
 async function getGoalsWithTasks(req: NextApiRequest, res: NextApiResponse) {
     const userId = req.query.userId as string;
-    console.log("get is being called")
     if (!userId) {
         return res.status(400).json({ error: "Missing or invalid userId" });
     }
@@ -20,7 +19,6 @@ async function getGoalsWithTasks(req: NextApiRequest, res: NextApiResponse) {
                 select: 'taskName dueDate priority isCompleted emoji status'
             });
 
-        // return goals as PopulatedGoalProps[];
         res.status(200).json(goals);
     } catch (error) {
         console.error("Error fetching goals:", error);

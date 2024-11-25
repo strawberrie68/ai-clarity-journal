@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectDB from "../../../../lib/connectDB";
-import { Goal, IGoal } from "../../../../models/Goal";
+import connectDB from "@/lib/connectDB";
+import { Goal, IGoal } from "@/models/Goal";
 
 async function postGoal(req: NextApiRequest, res: NextApiResponse) {
     const { userId, goalName, description, dueDate, tasks, priority, emoji } = req.body;
@@ -13,8 +13,6 @@ async function postGoal(req: NextApiRequest, res: NextApiResponse) {
     if (!priority) missingFields.push('priority');
     if (!tasks) missingFields.push('tasks');
     if (!userId) missingFields.push('userId')
-
-    console.log("Missing fields:", missingFields);
 
     if (missingFields.length > 0) {
         return res.status(400).json({
@@ -44,7 +42,7 @@ async function postGoal(req: NextApiRequest, res: NextApiResponse) {
             emoji,
             goalName,
             description,
-            dueDate: parsedDueDate, // Use the parsed date
+            dueDate: parsedDueDate,
             priority: priority || "Low",
             tasks: tasks || [],
             isCompleted: false,

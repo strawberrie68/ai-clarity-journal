@@ -76,7 +76,6 @@ const AddTask = () => {
         }
     }, []);
 
-    console.log("goals:", goals)
 
 
     const AddTaskToDoList = async (formValue: TaskProps) => {
@@ -105,11 +104,6 @@ const AddTask = () => {
 
 
     const onSubmit = async (values: z.infer<typeof taskFormSchema>) => {
-
-        if (isSubmitting) {
-            console.log("Form is already submitting, returning");
-            return;
-        }
 
         try {
             setIsSubmitting(true);

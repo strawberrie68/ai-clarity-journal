@@ -52,7 +52,6 @@ async function updateJournalEntry(journalId: string): Promise<JournalInterface |
     }
 
     const aiResponse = await analyze(journal.conversationSummary);
-    console.log(aiResponse);
 
     const updatedJournal = await Journal.findOneAndUpdate(
       { _id: journalId },

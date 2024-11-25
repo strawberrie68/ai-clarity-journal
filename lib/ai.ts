@@ -151,12 +151,11 @@ export async function analyze(entries: string) {
     apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
   });
   const result = await model.call(input);
-  console.log(result);
 
   try {
     return parser.parse(result);
   } catch (error) {
     console.error("Parsing error:", error);
-    throw error; // Re-throwing might be helpful for upstream error handling
+    throw error;
   }
 }

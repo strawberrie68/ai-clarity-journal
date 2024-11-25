@@ -158,7 +158,6 @@ const SpecificGoal = () => {
     };
 
     const handleRemoveTask = (taskId: string) => {
-        console.log("taskId", taskId)
         const currentTasks = form.getValues('tasks') || [];
         setValue('tasks', currentTasks.filter(task => task._id !== taskId));
     };

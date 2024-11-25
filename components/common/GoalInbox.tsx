@@ -30,7 +30,6 @@ const GoalInbox = () => {
             const response = await axios.get(`/api/goals/getGoals`, {
                 params: { userId }
             })
-            console.log("goals", response.data)
             setGoals(response.data)
         } catch (error) {
             console.error("error on fetching goals", error)

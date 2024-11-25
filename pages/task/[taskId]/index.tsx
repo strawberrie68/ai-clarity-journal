@@ -36,7 +36,6 @@ const SpecificTask = () => {
     const [goals, setGoals] = useState<Goal[]>([]);
     const [task, setTask] = useState<Task>()
     const { taskId } = router.query;
-    console.log("task:", task)
 
 
     const form = useForm<z.infer<typeof taskFormSchema>>({
@@ -107,7 +106,6 @@ const SpecificTask = () => {
         fetchGoals();
     }, [userId]);
 
-    console.log("goals:", goals)
 
 
 
@@ -371,7 +369,6 @@ const SpecificTask = () => {
                                             value={field.value || ''}
                                             onChange={(e) => {
                                                 const selectedGoalId = e.target.value;
-                                                console.log("Selected Goal ID:", selectedGoalId);
                                                 field.onChange(selectedGoalId);
                                             }}
                                             className="w-full rounded-xl h-11 border border-input bg-background px-3 py-2"

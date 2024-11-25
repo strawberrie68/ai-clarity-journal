@@ -2,7 +2,7 @@ import Card from "@/components/common/Card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatQuote } from "@/utils/formatUtils";
-import { Journal } from "../../pages/index"
+import { Journal } from "@/types/journals"
 import Inbox2 from "@/components/common/Inbox2"
 import { Task } from "@/types/task"
 import GoalInbox from "@/components/common/GoalInbox";
