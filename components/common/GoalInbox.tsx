@@ -122,7 +122,7 @@ const GoalInbox = () => {
             <form>
                 <ul className="space-y-2">
                     {goals.length === 0 ? (
-                        <li className="py-4">No Goals yet</li>
+                        <li className="py-4 text-gray-500">No Goals yet</li>
                     ) : (
                         goals.map((goal) => (
                             <li key={getIdString(goal._id)} className="py-4">
