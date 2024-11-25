@@ -181,7 +181,7 @@ const NavBar: React.FC<NavBarProps> = ({ journal }) => {
         <TabsTrigger className={tabStyle} value="today">Today</TabsTrigger>
         <TabsTrigger className={tabStyle} value="tasks">Tasks</TabsTrigger>
         <TabsTrigger className={tabStyle} value="goals">Goals</TabsTrigger>
-        <TabsTrigger className={tabStyle} value="areas">Areas</TabsTrigger>
+        {/* <TabsTrigger className={tabStyle} value="areas">Areas</TabsTrigger> */}
       </TabsList>
 
       <div className="mt-4">
@@ -198,9 +198,9 @@ const NavBar: React.FC<NavBarProps> = ({ journal }) => {
         <TabsContent value="goals">
           <GoalTab goals={goals} onAddGoal={handleAddGoal} />
         </TabsContent>
-        <TabsContent value="areas">
+        {/* <TabsContent value="areas">
           <div className="p-4">The list of areas.</div>
-        </TabsContent>
+        </TabsContent> */}
       </div>
     </Tabs>
   );

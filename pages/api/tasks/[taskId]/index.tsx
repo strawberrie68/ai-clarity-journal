@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Task } from "../../../../models/Task";
 import connectDB from "../../../../lib/connectDB";
-import { TaskCore, PopulatedGoalProps } from "@/types/goal";
 
 async function getTaskById(req: NextApiRequest, res: NextApiResponse) {
     const { taskId } = req.query;
