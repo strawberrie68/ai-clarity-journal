@@ -60,7 +60,7 @@ const GoalTab: React.FC<GoalTabProps> = ({ goals, onAddGoal }) => {
                                 <AccordionTrigger className="text-xl font-semibold w-full py-4 flex justify-between">
                                     <div className="flex w-full items-center gap-8 ">
                                         <div className="border rounded-full w-4 h-4 border-black"></div>
-                                        <h2 className="grow">🛠️ {goal.goalName}</h2>
+                                        <h2 className="grow"><span>{goal.emoji}</span> {goal.goalName}</h2>
                                         <Progress value={33} className="basis-24" />
                                     </div>
                                     <Link href={`/goal/${goal._id}`}>
