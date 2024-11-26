@@ -74,8 +74,8 @@ const Explore: React.FC = () => {
       label: "Daily",
       content: dailyTabContent,
     },
-    { key: "favorites", label: "Favorites", content: <div>Favorites</div> },
-    { key: "suggestion", label: "Suggestions", content: <div>Suggestion</div> },
+    // { key: "favorites", label: "Favorites", content: <div>Favorites</div> },
+    // { key: "suggestion", label: "Suggestions", content: <div>Suggestion</div> },
   ];
   const router = useRouter();
   return (
@@ -85,13 +85,18 @@ const Explore: React.FC = () => {
       <section className="mt-4 ">
         <section className="mt-2 px-5 py-6 rounded-lg bg-gradient-to-r from-lime-50 to-teal-50 flex flex-col">
           <h3 className="font-bold ">💭 Where to start?</h3>
-          <p className="pt-2 text-sm">
+          {/* TODO make an ai to pick the best prompt for user */}
+          {/* <p className="pt-2 text-sm">
             Try our ai that will match the prefect journal prompt for what your
             feeling
           </p>
           <div className="border w-24 px-2 border-black rounded-full mt-5 flexCenter">
             Try AI
-          </div>
+          </div> */}
+          <p className="pt-2 text-sm">
+            Not sure where to start? Why not try our daily prompts!
+          </p>
+
         </section>
         <div>
           <div className="mt-4 overflow-auto">
