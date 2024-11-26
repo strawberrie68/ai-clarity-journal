@@ -130,9 +130,9 @@ const JournalTrends: React.FC<JournalTrendsProps> = ({ journals }) => {
 
       {/* Tooltip rendered below the chart */}
       {activeTooltipData && (
-        <div className="w-full bg-white p-6 flex flex-col gap-6 rounded-lg shadow-lg border space-y-2 min-h-[450px]">
+        <div className="w-full bg-white p-6 flex flex-col gap-6 rounded-lg shadow-lg border">
           {journals.length === 0 ? (
-            <>
+            <div className=''>
               <div className="text-center text-gray-600 border rounded-lg p-4 bg-gray-100">
                 <p className="text-xl font-semibold mb-4">Welcome to Your Journal Insights!</p>
                 <p>This is a preview of how your journal trends will look.</p>
@@ -169,7 +169,7 @@ const JournalTrends: React.FC<JournalTrendsProps> = ({ journals }) => {
                   </div>
                 )}
               </div>
-            </>
+            </div>
           ) : (
             <>
               <div className=''>
