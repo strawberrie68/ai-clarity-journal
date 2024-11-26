@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation";
-import { PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon, X } from "lucide-react";
 import { Broom } from "@phosphor-icons/react";
 import { Checkbox } from "@/components/ui/checkbox"
 import { useAuth } from "../../pages/AuthContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getIdString } from "@/utils/formatUtils";
 import { Goal } from "@/types/goal"
+import { Types } from "mongoose";
 
 
 type GoalUpdate = Partial<Pick<Goal, 'isCompleted' | 'priority'>>;
@@ -56,17 +57,17 @@ const GoalInbox = () => {
         }
     };
 
-    const handleCleanup = async () => {
+    const handleDeleteGoal = async (goalId: string | Types.ObjectId) => {
         try {
-            await axios.delete(`/api/goals/cleanupCompleted`, {
-                params: { userId }
+            await axios.delete(`/api/goals/deleteGoal`, {
+                params: { userId },
+                data: { goalId }
             });
-            setGoals(goals.filter(goal => !goal.isCompleted));
+            setGoals(goals.filter(goal => goal._id !== goalId));
         } catch (error) {
             console.error("Error cleaning up completed goals", error);
         }
     };
-
 
 
 
@@ -144,24 +145,29 @@ const GoalInbox = () => {
                                             {goal.goalName}
                                         </label>
                                     </div>
-                                    <Select
-                                        onValueChange={(value: string) =>
-                                            updateGoal(getIdString(goal._id), { priority: value as Priority })
-                                        }
-                                        value={goal.priority as Priority}
-                                    >
-                                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${goal.priority === "Low" ? "bg-green-200 text-green-700" :
-                                            goal.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
-                                                "bg-rose-200 text-rose-950"
-                                            }`}>
-                                            <SelectValue placeholder="Priority" />
-                                        </SelectTrigger>
-                                        <SelectContent className="rounded-xl">
-                                            <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
-                                            <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
-                                            <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <div className="flex gap-2">
+                                        <Select
+                                            onValueChange={(value: string) =>
+                                                updateGoal(getIdString(goal._id), { priority: value as Priority })
+                                            }
+                                            value={goal.priority as Priority}
+                                        >
+                                            <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${goal.priority === "Low" ? "bg-green-200 text-green-700" :
+                                                goal.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
+                                                    "bg-rose-200 text-rose-950"
+                                                }`}>
+                                                <SelectValue placeholder="Priority" />
+                                            </SelectTrigger>
+                                            <SelectContent className="rounded-xl">
+                                                <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
+                                                <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
+                                                <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <button>
+                                            <X onClick={() => handleDeleteGoal(goal._id)} />
+                                        </button>
+                                    </div>
                                 </div>
                             </li>
                         ))
