@@ -7,6 +7,7 @@ import BottomNav from "../components/common/BottomNav";
 import NavBar from "../components/common/NavBar";
 import ProfileNav from "../components/common/ProfileNav";
 import { Journal } from "@/types/journals"
+import HomeSkeleton from "@/components/common/HomeSkeleton"
 import "../styles/global.css";
 
 
@@ -88,7 +89,7 @@ export default function Home() {
   };
 
   if (isLoading) {
-    return <div>Loading</div>
+    return <HomeSkeleton />
   }
 
   return (
