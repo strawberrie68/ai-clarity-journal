@@ -74,6 +74,7 @@ const Explore: React.FC = () => {
       label: "Daily",
       content: dailyTabContent,
     },
+    // TODO: ADD prompts for user favorites
     // { key: "favorites", label: "Favorites", content: <div>Favorites</div> },
     // { key: "suggestion", label: "Suggestions", content: <div>Suggestion</div> },
   ];
