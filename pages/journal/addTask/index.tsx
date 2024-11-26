@@ -129,7 +129,7 @@ const AddTask = () => {
 
             setAlert({ message: 'Task added successfully!', type: 'success', visible: true });
             setTimeout(() => {
-                router.back();
+                router.push("/");
             }, 3000);
 
         } catch (error) {

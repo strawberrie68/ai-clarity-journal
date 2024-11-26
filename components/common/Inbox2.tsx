@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Types } from 'mongoose';
 import { getIdString } from "@/utils/formatUtils";
 import { Task, Priority, Status } from "@/types/task"
+import { X } from "lucide-react";
 
 
 interface TodoCardProps {
@@ -30,9 +31,10 @@ const statusMap: Record<Status, number> = {
 interface TodoTabsProps {
     tasks: Task[];
     updateTask: (taskId: Types.ObjectId | string, updates: Partial<Task>) => Promise<void>;
+    onDeleteTask: (taskId: Types.ObjectId | string) => Promise<void>;
 }
 
-const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
+const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask, onDeleteTask }) => {
 
     if (!tasks) {
         return <div className="w-full h-32 flex items-center justify-center">No tasks available</div>;
@@ -53,6 +55,8 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
 
         await updateTask(id, updates);
     };
+
+
 
     const handlePriorityChange = async (id: Types.ObjectId | string, newPriority: Priority) => {
         await updateTask(id, { priority: newPriority });
@@ -105,46 +109,50 @@ const TodoTabs: React.FC<TodoTabsProps> = ({ tasks, updateTask }) => {
                         </div>
                     </div>
                 </CardHeader>
+                <div className="flex gap-2">
+                    {activeTab === "priority" && (
+                        <Select
+                            onValueChange={(value: string) => onPriorityChange(todo._id, value as Priority)}
+                            value={todo.priority as Priority}
+                        >
+                            <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.priority === "Low" ? "bg-green-200 text-green-700" :
+                                todo.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
+                                    "bg-rose-200 text-rose-950"
+                                }`}>
+                                <SelectValue placeholder="Priority" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                                <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
+                                <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
+                                <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    )}
 
-                {activeTab === "priority" && (
-                    <Select
-                        onValueChange={(value: string) => onPriorityChange(todo._id, value as Priority)}
-                        value={todo.priority as Priority}
-                    >
-                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.priority === "Low" ? "bg-green-200 text-green-700" :
-                            todo.priority === "Medium" ? "bg-amber-100 text-yellow-700" :
-                                "bg-rose-200 text-rose-950"
-                            }`}>
-                            <SelectValue placeholder="Priority" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                            <SelectItem className="text-sm rounded-full px-6" value="High">High</SelectItem>
-                            <SelectItem className="text-sm rounded-full px-6" value="Medium">Medium</SelectItem>
-                            <SelectItem className="text-sm rounded-full px-6" value="Low">Low</SelectItem>
-                        </SelectContent>
-                    </Select>
-                )}
+                    {activeTab === "all" && (
+                        <Select
+                            onValueChange={(value: string) => {
+                                onStatusChange(todo._id, value as Status);
+                            }}
+                            value={todo.status as Status}
+                        >
+                            <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.status === "Completed" ? "bg-green-200 text-green-700" :
+                                todo.status === "In Progress" ? "bg-amber-100 text-yellow-700" :
+                                    "bg-gray-200 text-gray-700"
+                                }`}>
+                                <SelectValue placeholder="Status" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                                <SelectItem className="rounded-full px-6" value="Not Started">Not Started</SelectItem>
+                                <SelectItem className="rounded-full px-6" value="In Progress">In Progress</SelectItem>
+                                <SelectItem className="rounded-full px-6" value="Completed">Completed</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    )}
+                    <button><X onClick={() => onDeleteTask(todo._id)} /></button>
 
-                {activeTab === "all" && (
-                    <Select
-                        onValueChange={(value: string) => {
-                            onStatusChange(todo._id, value as Status);
-                        }}
-                        value={todo.status as Status}
-                    >
-                        <SelectTrigger className={`rounded-full basis-28 px-4 py-2 ${todo.status === "Completed" ? "bg-green-200 text-green-700" :
-                            todo.status === "In Progress" ? "bg-amber-100 text-yellow-700" :
-                                "bg-gray-200 text-gray-700"
-                            }`}>
-                            <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                            <SelectItem className="rounded-full px-6" value="Not Started">Not Started</SelectItem>
-                            <SelectItem className="rounded-full px-6" value="In Progress">In Progress</SelectItem>
-                            <SelectItem className="rounded-full px-6" value="Completed">Completed</SelectItem>
-                        </SelectContent>
-                    </Select>
-                )}
+                </div>
+
             </Card>
         );
     };

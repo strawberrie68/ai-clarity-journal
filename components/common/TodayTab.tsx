@@ -10,18 +10,20 @@ import { PlusCircleIcon } from "lucide-react";
 import { Broom } from "@phosphor-icons/react";
 import { Types } from 'mongoose';
 
-
 type NavBarProps = {
     journal: Journal | null;
     tasks: Task[];
     handleUpdateTask: (taskId: Types.ObjectId | string, updates: Partial<Task>) => Promise<void>
+    onDeleteTask: (taskId: Types.ObjectId | string) => Promise<void>
 };
 
-const TodayTab: React.FC<NavBarProps> = ({ journal, tasks, handleUpdateTask }) => {
+const TodayTab: React.FC<NavBarProps> = ({ journal, tasks, handleUpdateTask, onDeleteTask }) => {
     const router = useRouter()
+
     const handleAddTask = () => {
         router.push(`/journal/addTask`)
     }
+
 
 
     return (
@@ -87,7 +89,7 @@ const TodayTab: React.FC<NavBarProps> = ({ journal, tasks, handleUpdateTask }) =
                             </button> */}
                         </div>
                     </div>
-                    <Inbox2 tasks={tasks} updateTask={handleUpdateTask} />
+                    <Inbox2 tasks={tasks} updateTask={handleUpdateTask} onDeleteTask={onDeleteTask} />
                 </section>
             </div>
 

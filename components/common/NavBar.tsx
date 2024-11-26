@@ -177,6 +177,18 @@ const NavBar: React.FC<NavBarProps> = ({ journal, onTabChange }) => {
     }
   }
 
+  const handleDeleteTask = async (taskId: string | Types.ObjectId) => {
+    try {
+      await axios.delete(`/api/tasks/deleteTask`, {
+        params: { userId },
+        data: { taskId }
+      });
+      setTasks(tasks.filter(task => task._id !== taskId));
+    } catch (error) {
+      console.error("Error deleting goal", error);
+    }
+  };
+
   const handleTabChange = (value: string) => {
     localStorage.setItem('lastActiveTab', value);
     onTabChange(value);
@@ -201,6 +213,7 @@ const NavBar: React.FC<NavBarProps> = ({ journal, onTabChange }) => {
             journal={journal}
             tasks={tasks}
             handleUpdateTask={handleUpdateTask}
+            onDeleteTask={handleDeleteTask}
           />
         </TabsContent>
         <TabsContent value="tasks">
