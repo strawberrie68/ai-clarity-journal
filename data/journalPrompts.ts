@@ -82,3 +82,33 @@ export const procrastination = [
 ];
 
 export const oneThing = ["What is one thing you want to accomplish today?"];
+
+
+//LIFE
+export const clarity = [
+  "What is currently taking up most of my mental energy?",
+  "What is one small thing I can do right now to feel more in control?",
+  "What would my ideal day look like, and what’s stopping me from creating it?",
+];
+
+export const selfReflection = [
+  "What is one thing I’ve done recently that I’m proud of?",
+  "What habits or beliefs are holding me back the most?",
+  "How would I describe myself to someone who has never met me?",
+];
+
+export const overcomingObstacles = [
+  "What’s the biggest challenge I’m facing, and what’s one small step I can take toward resolving it?",
+  "How can I reframe this problem as an opportunity to grow?",
+  "What would future me thank me for doing right now?",
+];
+
+
+export const mindfulness = [
+  "What am I feeling right now, and where in my body do I feel it?",
+  "What is one thing I can hear, see, or smell that brings me a sense of peace?",
+  "What would it feel like to let go of something I’ve been holding onto?",
+];
+
+export const avoiding = [
+  "Is there a task I’ve been avoiding ? What’s the smallest first step I can take to start it ?"]

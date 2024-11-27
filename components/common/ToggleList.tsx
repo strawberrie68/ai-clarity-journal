@@ -6,6 +6,8 @@ import {
   productivity,
   procrastination,
   oneThing,
+  clarity, selfReflection, overcomingObstacles, mindfulness,
+  avoiding
 } from "../../data/journalPrompts";
 import NavItem from "./NavItem";
 import "../../styles/global.css";
@@ -45,38 +47,113 @@ const ToggleList = () => {
       </nav>
       <div className="min-h-24">
         {activeItem === "All" && (
-          <section className="flex flex-col gap-2 mt-4">
-            <div
-              className="border rounded-lg px-2 py-3 hover:border-black"
-              onClick={() => handleCardClick(dreamLife)}
-            >
-              <p>❤️ Find your passion</p>
-            </div>
-            <div
-              className="border rounded-lg px-2 py-3 hover:border-black"
-              onClick={() => handleCardClick(productivity)}
-            >
-              <p>✨ Be Productive</p>
-            </div>
-            <div
-              className="border rounded-lg px-2 py-3 hover:border-black"
-              onClick={() => handleCardClick(procrastination)}
-            >
-              <p>⏰ Procrastination</p>
-            </div>
-            <div
-              className="border rounded-lg px-2 py-3 hover:border-black"
-              onClick={() => handleCardClick(oneThing)}
-            >
-              <p>⭐️ Highlight</p>
-            </div>
-          </section>
+          <div>
+            <p className="py-4 px-2 text-gray-300">All</p>
+            <section className="flex flex-col gap-2">
+
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(dreamLife)}
+              >
+                <p>❤️ Find your passion</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(productivity)}
+              >
+                <p>✨ Be Productive</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(procrastination)}
+              >
+                <p>⏰ Procrastination</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(oneThing)}
+              >
+                <p>⭐️ Highlight</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(clarity)}
+              >
+                <p>🧘‍♀️ Stressed and need clarity </p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(selfReflection)}
+              >
+                <p>☀️ Reflect and Review</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(overcomingObstacles)}
+              >
+                <p>🏃‍♀️ Get unstuck </p>
+              </div>
+            </section>
+
+          </div>
         )}
         {activeItem === "Life" && (
-          <p className="py-4 px-2 text-gray-300">Life</p>
+          <div>
+            <p className="py-4 px-2 text-gray-300">Life</p>
+            <section className="flex flex-col gap-2">
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(clarity)}
+              >
+                <p>🧘‍♀️ Stressed and need clarity </p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(selfReflection)}
+              >
+                <p>☀️ Reflect and Review</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(overcomingObstacles)}
+              >
+                <p>🏃‍♀️ Get unstuck </p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(mindfulness)}
+              >
+                <p>✨ Reset and be mindful</p>
+              </div>
+            </section>
+          </div>
+
         )}
         {activeItem === "Productivity" && (
-          <p className="py-4 px-2 text-gray-300">Productivity</p>
+          <div>
+            <p className="py-4 px-2 text-gray-300">Productivity</p>
+            <section className="flex flex-col gap-2">
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(clarity)}
+              >
+                <p>🧘‍♀️ Stressed and need clarity </p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(selfReflection)}
+              >
+                <p>☀️ Reflect and Review</p>
+              </div>
+              <div
+                className="border rounded-lg px-2 py-3 hover:border-black"
+                onClick={() => handleCardClick(avoiding)}
+              >
+                <p>🏃‍♀️ Just do it</p>
+              </div>
+
+            </section>
+          </div>
         )}
       </div>
     </>
