@@ -53,6 +53,7 @@ const GoalTab: React.FC<GoalTabProps> = ({ goals, onAddGoal }) => {
             </div>
 
             <section className="mt-10">
+                {goals.length == 0 && <p className="text-gray-500 pl-6">No goals added yet</p>}
                 {goals.map((goal) => {
                     return (
                         <Accordion type="single" collapsible>

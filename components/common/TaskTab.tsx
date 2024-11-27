@@ -97,6 +97,7 @@ const TaskTab: React.FC<TodoProps> = ({ tasks, onAddTask, onUpdateTask, isLoadin
                 </CardHeader>
                 <CardContent>
                     <ul className="space-y-4">
+                        {tasks.length == 0 && <p className='text-gray-500'>No tasks added yet</p>}
                         {tasks.map((task) => (
                             <Link
                                 href={`/task/${task._id}`}

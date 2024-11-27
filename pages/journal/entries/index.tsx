@@ -121,6 +121,7 @@ const Entries: React.FC = () => {
       </section>
       <section className="pb-24">
         <h2 className="font-semibold mt-8">Browse</h2>
+        {journals.length == 0 && <p className="text-gray-500 mt-4">No journals yet</p>}
         {Object.keys(groupedJournals).map((year) => (
           <div key={year}>
             <h3
