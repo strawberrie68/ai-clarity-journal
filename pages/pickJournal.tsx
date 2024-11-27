@@ -15,6 +15,7 @@ import {
   eveningDaily,
   productivity,
 } from "@/data/journalPrompts";
+import BottomNav from "@/components/common/BottomNav"
 
 const PickJournal = () => {
   const { setJournalPrompts } = useContext(JournalContext);
@@ -113,6 +114,9 @@ const PickJournal = () => {
           disabled={false}
         />
       </section>
+      <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:bottom-6">
+        <BottomNav />
+      </nav>
     </article>
   );
 };

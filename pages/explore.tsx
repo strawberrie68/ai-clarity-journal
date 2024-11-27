@@ -121,7 +121,7 @@ const Explore: React.FC = () => {
         <h2 className="text-xl font-bold">Explore</h2>
         <ToggleList />
       </section>
-      <nav className="fixed w-full px-6 bottom-4 left-0 lg:absolute lg:w-full lg:mx-auto lg:bottom-6">
+      <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:bottom-6">
         <BottomNav />
       </nav>
     </div>

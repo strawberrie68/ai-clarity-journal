@@ -143,7 +143,7 @@ const JournalTrends: React.FC<JournalTrendsProps> = ({ journals }) => {
                   </Link>
                 </button>
               </div>
-              <div className=''>
+              <div className='mt-8'>
                 <div className='flex gap-4'>
                   <span className='text-xl'>{activeTooltipData.emoji}</span>
                   <span className='font-bold'>{activeTooltipData.title}</span>
