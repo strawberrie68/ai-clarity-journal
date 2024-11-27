@@ -3,7 +3,7 @@ import { SunIcon } from "@radix-ui/react-icons";
 
 const HomeSkeleton = () => {
     return (
-        <main className="mx-6 mt-10 pb-8 animate-pulse">
+        <main className="mx-6 mt-10 pb-8 animate-pulse lg:max-w-screen-lg lg:mx-auto">
             <header className="flex justify-between lg:max-w-screen-lg lg:mx-auto">
                 <section>
                     {/* Sun Button Skeleton */}
@@ -34,7 +34,7 @@ const HomeSkeleton = () => {
             </div>
 
             {/* Bottom Nav Skeleton */}
-            <nav className="fixed w-full mx-auto px-4 bottom-4 left-0 lg:bottom-6">
+            <nav className="fixed inset-x-0 bottom-4 px-4 lg:bottom-6 lg:max-w-screen-lg lg:left-1/2 lg:-translate-x-1/2">
                 <div className="bg-zinc-200 h-14 rounded-full"></div>
             </nav>
         </main>
