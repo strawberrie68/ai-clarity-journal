@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
 
@@ -10,12 +10,15 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = sessionStorage.getItem("token");
-      const storedUserId = sessionStorage.getItem("userId");
+    if (typeof window !== 'undefined') {
+      const storedToken = sessionStorage.getItem('token');
+      const storedUserId = sessionStorage.getItem('userId');
 
-      if (!storedToken) {
-        router.push("/login");
+      const publicPages = ['/login', '/register'];
+      const isPublicPage = publicPages.includes(router.pathname);
+
+      if (!storedToken && !isPublicPage) {
+        router.push('/login');
       } else {
         setToken(storedToken);
         setUserId(storedUserId);

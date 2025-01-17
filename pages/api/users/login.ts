@@ -12,26 +12,24 @@ async function login(req: NextApiRequest, res: NextApiResponse) {
         .status(400)
         .json({ error: "Username and password  are required" });
     }
-    let user;
-    user = await User.findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Username not found" });
     }
-    if (user) {
-      const passwordMatch = bcrypt.compareSync(password, user.password);
-      if (passwordMatch) {
-        const token = jwt.sign(
-          { userId: user._id },
-          process.env.JWT_SECRET as string,
-          {
-            expiresIn: "7d",
-          }
-        );
-        return res.status(200).json({ token, userId: user._id });
+
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: "7d",
       }
-    } else {
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
+    );
+    return res.status(200).json({ token, userId: user._id });
   } catch (error) {
     res.status(500).json({ error: `Internal Server Error + ${error}` });
   }

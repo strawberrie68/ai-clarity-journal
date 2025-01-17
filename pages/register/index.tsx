@@ -28,6 +28,7 @@ const Register: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  console.log(errors)
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,11 +41,17 @@ const Register: React.FC = () => {
     }
     try {
       const response = await axios.post("/api/users", user);
-      if (response) {
-        await response.data;
+      if (response.status === 201) {
+        // Registration successful, redirect to login
+        router.push('/login');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      if (error.response?.data?.error) {
+        setErrors({ submit: error.response.data.error });
+      } else {
+        setErrors({ submit: "Failed to register. Please try again." });
+      }
     }
     setLoading(false);
   };
@@ -215,6 +222,9 @@ const Register: React.FC = () => {
                 )}
               </fieldset>
             </section>
+            {errors.submit && (
+              <p className="text-red-500 text-sm mt-2">{errors.submit}</p>
+            )}
             <div className="flex flex-col mt-12 w-full -left-6 lg:max-w-screen-md lg:bottom-4">
               <ButtonCopy
                 buttonText={loading ? "Loading.." : "Create a new account"}

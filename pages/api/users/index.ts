@@ -45,15 +45,15 @@ async function createUser(req: NextApiRequest, res: NextApiResponse) {
       user = await User.findOne({ email });
       if (user) {
         return res
-          .status(200)
-          .json({ exists: true, message: "Email already exists" });
+          .status(409)
+          .json({ error: "Email already exists" });
       }
     } else if (username) {
       user = await User.findOne({ username });
       if (user) {
         return res
-          .status(200)
-          .json({ exists: true, message: "Username already exists" });
+          .status(409)
+          .json({ error: "Username already exists" });
       }
     }
 
